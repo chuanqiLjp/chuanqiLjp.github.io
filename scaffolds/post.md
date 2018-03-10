@@ -2,11 +2,12 @@
 title: {{ title }}
 layout: post
 date: {{ date }}
+updated: {{ date }}
 comments: true
 categories: 
-  - Andrid开发
+  - Andrid
 tags: 
-  - Android
+  - Andrid
 keywords: Andrid
 description: 
 ---

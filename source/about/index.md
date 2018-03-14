@@ -1,10 +1,11 @@
 ---
 title: about
 date: 2018-03-08 17:11:26
+updated: 2018-03-13 11:13:58
 ---
 ## 关于我
 
-一个热爱分享的IT技术男
+勤于记录，善于总结，乐于分享
 
 [我的简书：https://www.jianshu.com/u/c91e642c4d90](https://www.jianshu.com/u/c91e642c4d90)
 

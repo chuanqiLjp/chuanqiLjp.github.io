@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="进程间通信,Binder,AIDL" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+<meta name="keywords" content="进程间通信,Binder,AIDL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 的进程间通信 Binder——AIDL的入门使用（三）">
+<meta property="og:url" content="http://yoursite.com/2017/12/02/Android 的进程间通信 Binder——AIDL的入门使用（三）/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 的进程间通信 Binder——AIDL的入门使用（三）">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/02/Android 的进程间通信 Binder——AIDL的入门使用（三）/"/>
+
+
+
+
+
+  <title>Android 的进程间通信 Binder——AIDL的入门使用（三） | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/02/Android 的进程间通信 Binder——AIDL的入门使用（三）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 的进程间通信 Binder——AIDL的入门使用（三）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T21:25:58+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/进程间通信/" itemprop="url" rel="index">
+                    <span itemprop="name">进程间通信</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><a href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。" class="headerlink" title="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"></a>版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</h1><p>###进程间通信系列</p>
+<h5 id="AIDL的入门使用-一"><a href="#AIDL的入门使用-一" class="headerlink" title="AIDL的入门使用(一)"></a><a href="http://www.jianshu.com/p/00cd607b5292" target="_blank" rel="noopener">AIDL的入门使用(一)</a></h5><h5 id="AIDL的入门使用-二"><a href="#AIDL的入门使用-二" class="headerlink" title="AIDL的入门使用(二)"></a><a href="http://www.jianshu.com/p/5f394bf22849" target="_blank" rel="noopener">AIDL的入门使用(二)</a></h5><h5 id="AIDL的入门使用-三"><a href="#AIDL的入门使用-三" class="headerlink" title="AIDL的入门使用(三)"></a><a href="http://www.jianshu.com/p/0ea8e4d42ee5" target="_blank" rel="noopener">AIDL的入门使用(三)</a></h5><h5 id="Messenger的入门使用"><a href="#Messenger的入门使用" class="headerlink" title="Messenger的入门使用"></a><a href="http://www.jianshu.com/p/f1dc06457047" target="_blank" rel="noopener">Messenger的入门使用</a></h5><h3 id="序言："><a href="#序言：" class="headerlink" title="序言："></a>序言：</h3><p>1、AIDL的大致使用流程：首先是创建一个AIDL接口文件声明需要在客户端调用的接口，再创建一个Service，接着创建一个类继承自AIDL接口中的Stub类并实现Stub中的抽象方法，在Service 的onBind方法中返回这个类的对象，然后在客户端就可以绑定服务端的Service，建立连接后就可以访问远程服务端的方法了；<br>2、思考：当有多个AIDL接口文件时怎么办呢？按照以前的思路，只有创建多个Service了，或者将多个AIDL接口的方法放在一个AIDL中了，这回造成代码耦合程度高，这篇我们主要就是解决这个问题的。解决思路：在服务端统一返回一个AIDL文件的binder，这个binder对象只有一个query方法，可以根据传入的值去创建其他对应的AIDL接口的Binder对象在进行返回，这样客户端就可以单独调用服务端的AIDL接口中的方法了，并且只需要一个Service。</p>
+<h1 id="多个AIDL接口通信服务端："><a href="#多个AIDL接口通信服务端：" class="headerlink" title="多个AIDL接口通信服务端："></a>多个AIDL接口通信服务端：</h1><h4 id="1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface-和IBinderInterface-，前两个提供给客户端具体的调用方法，IBinderInterface-提供给客户端查询调用的Binder对象。然后Make-Project。"><a href="#1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface-和IBinderInterface-，前两个提供给客户端具体的调用方法，IBinderInterface-提供给客户端查询调用的Binder对象。然后Make-Project。" class="headerlink" title="1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface 和IBinderInterface ，前两个提供给客户端具体的调用方法，IBinderInterface 提供给客户端查询调用的Binder对象。然后Make Project。"></a>1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface 和IBinderInterface ，前两个提供给客户端具体的调用方法，IBinderInterface 提供给客户端查询调用的Binder对象。然后Make Project。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// IStringComputface.aidl</span><br><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">//计算字符串的AIDL接口</span><br><span class="line">interface IStringComputInterface &#123;</span><br><span class="line">    String comput(String str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// IBinderInterface.aidl</span><br><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">interface IBinderInterface &#123;</span><br><span class="line">    IBinder quary(int binderCode);//根据binder码查询Binder对象</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// IBinderInterface.aidl</span><br><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">interface IBinderInterface &#123;</span><br><span class="line">    IBinder quary(int binderCode);//根据binder码查询Binder对象</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。"><a href="#2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。" class="headerlink" title="2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。"></a>2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">import android.text.TextUtils;</span><br><span class="line">public class StringComputImp extends IStringComputInterface.Stub &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String comput(String str) throws RemoteException &#123;</span><br><span class="line">        if (TextUtils.isEmpty(str)) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        char[] charArray = str.toCharArray();</span><br><span class="line">        for (int i = 0; i &lt; charArray.length; i++) &#123;</span><br><span class="line">            charArray[i] += 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return new String(charArray);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">public class IntComputImp extends IIntComputInterface.Stub &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public int addComput(int x, int y) throws RemoteException &#123;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">import android.os.IBinder;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">public class BinderImp extends IBinderInterface.Stub &#123;</span><br><span class="line">    public static final int ComputString = 0;</span><br><span class="line">    public static final int ComputInt = 1;</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder quary(int binderCode) throws RemoteException &#123;</span><br><span class="line">        IBinder binder = null;</span><br><span class="line">        switch (binderCode) &#123;</span><br><span class="line">            case ComputString:</span><br><span class="line">                binder = new StringComputImp();</span><br><span class="line">                break;</span><br><span class="line">            case ComputInt:</span><br><span class="line">                binder = new IntComputImp();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return binder;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。"><a href="#3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。" class="headerlink" title="3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。"></a>3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.moreaidl_server;</span><br><span class="line">import android.app.Service;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.os.IBinder;</span><br><span class="line">public class MyServerService extends Service &#123;</span><br><span class="line">    BinderImp mBinderImp = new BinderImp();</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        return mBinderImp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在AndroidMainfest文件中注册Service。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">    android:name=&quot;.MyServerService&quot;</span><br><span class="line">    android:enabled=&quot;true&quot;</span><br><span class="line">    android:exported=&quot;true&quot;&gt;</span><br><span class="line">    &lt;!-- 程序的包名：com.ljp.moreaidl_server 绑定服务端时使用服务端程序的包名。--&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.ljp.moreAidl.server.action&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="多个AIDL接口通信客户端："><a href="#多个AIDL接口通信客户端：" class="headerlink" title="多个AIDL接口通信客户端："></a>多个AIDL接口通信客户端：</h1><h4 id="1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient-binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，"><a href="#1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient-binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，" class="headerlink" title="1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient.binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，"></a>1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient.binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.moreaidl_client;</span><br><span class="line">import android.content.ComponentName;</span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.content.ServiceConnection;</span><br><span class="line">import android.os.IBinder;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import com.ljp.moreaidl_server.IBinderInterface;</span><br><span class="line">public class BinderPool &#123;</span><br><span class="line">    private static final String TAG = &quot;moreAidl&quot;;</span><br><span class="line">    public static final int ComputString = 0;</span><br><span class="line">    public static final int ComputInt = 1;</span><br><span class="line">    private static volatile BinderPool instance;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    private BinderPool(Context context) &#123;</span><br><span class="line">        mContext = context.getApplicationContext();</span><br><span class="line">        connectService();</span><br><span class="line">    &#125;</span><br><span class="line">    public static BinderPool getInstance(Context context) &#123;</span><br><span class="line">        if (instance == null) &#123;</span><br><span class="line">            synchronized (BinderPool.class) &#123;</span><br><span class="line">                if (instance == null) &#123;</span><br><span class="line">                    instance = new BinderPool(context);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">    IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void binderDied() &#123;</span><br><span class="line">            //当Binder死亡时，系统会回调该方法，在此移除之前绑定的Binder代理并重新绑定远程服务</span><br><span class="line">            Log.e(TAG, &quot;binderDied: 与服务端连接的Binder对象死亡。请求重连！&quot;);</span><br><span class="line">            mIBinderInterface.asBinder().unlinkToDeath(mDeathRecipient, 0);</span><br><span class="line">            mIBinderInterface = null;</span><br><span class="line">            connectService();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    IBinderInterface mIBinderInterface = null;</span><br><span class="line">    ServiceConnection mConnection = new ServiceConnection() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onServiceConnected(ComponentName name, IBinder service) &#123;</span><br><span class="line">            mIBinderInterface = IBinderInterface.Stub.asInterface(service);//返回一个可以查询其他AIDL接口的Binder。</span><br><span class="line">            try &#123;</span><br><span class="line">                //给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient.binderDied（）方法</span><br><span class="line">                mIBinderInterface.asBinder().linkToDeath(mDeathRecipient, 0);</span><br><span class="line">            &#125; catch (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            Log.e(TAG, &quot;onServiceConnected: 与服务端连接成功&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public void onServiceDisconnected(ComponentName name) &#123;</span><br><span class="line">            Log.e(TAG, &quot;onServiceDisconnected: 与服务端断开连接&quot;);</span><br><span class="line">            mDeathRecipient.binderDied();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    private synchronized void connectService() &#123;</span><br><span class="line">        Intent intent = new Intent();</span><br><span class="line">        intent.setPackage(&quot;com.ljp.moreaidl_server&quot;);</span><br><span class="line">        intent.setAction(&quot;com.ljp.moreAidl.server.action&quot;);</span><br><span class="line">        boolean success = mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);</span><br><span class="line">        Log.e(TAG, &quot;connectService: 绑定服务端＝&quot; + success);</span><br><span class="line">    &#125;</span><br><span class="line">    public synchronized void unConnect() &#123; //断开与服务端的连接</span><br><span class="line">        if (mIBinderInterface != null) &#123;</span><br><span class="line">            mContext.unbindService(mConnection);//不会回调onServiceDisconnected()</span><br><span class="line">            mIBinderInterface.asBinder().unlinkToDeath(mDeathRecipient, 0);</span><br><span class="line">        &#125;</span><br><span class="line">        mIBinderInterface = null;</span><br><span class="line">        instance = null;</span><br><span class="line">    &#125;</span><br><span class="line">    public IBinder quaryBinder( int binderCode) &#123; //AIDL的调用都是耗时操作，建议放在子线程中</span><br><span class="line">        IBinder binder = null;</span><br><span class="line">        if (mIBinderInterface != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                binder = mIBinderInterface.quary(binderCode); //调用服务端的查询</span><br><span class="line">            &#125; catch (RemoteException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return binder;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder-int-，然后在使用对应的AIDL接口-Stub-asInterface-binder-进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。"><a href="#2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder-int-，然后在使用对应的AIDL接口-Stub-asInterface-binder-进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。" class="headerlink" title="2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder( int )，然后在使用对应的AIDL接口.Stub.asInterface(binder)进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。"></a>2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder( int )，然后在使用对应的AIDL接口.Stub.asInterface(binder)进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public void StringComput(View view) &#123;</span><br><span class="line">    IBinder binder = BinderPool.getInstance(this).quaryBinder(BinderPool.ComputString);</span><br><span class="line">    if (binder == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    IStringComputInterface anInterface = IStringComputInterface.Stub.asInterface(binder);</span><br><span class="line">    try &#123;</span><br><span class="line">        String comput = anInterface.comput(&quot;abcdefg&quot;); //AIDL的调用都是耗时操作，建议放在子线程中</span><br><span class="line">        Log.e(TAG, &quot;StringComput: comput=&quot; + comput);</span><br><span class="line">    &#125; catch (RemoteException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public void IntComput(View view) &#123;</span><br><span class="line">    IBinder binder = BinderPool.getInstance(this).quaryBinder(BinderPool.ComputInt);</span><br><span class="line">    if (binder == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    IIntComputInterface anInterface = IIntComputInterface.Stub.asInterface(binder);</span><br><span class="line">    try &#123;</span><br><span class="line">        int addComput = anInterface.addComput(10, 20);//AIDL的调用都是耗时操作，建议放在子线程中</span><br><span class="line">        Log.e(TAG, &quot;StringComput: addComput=&quot; + addComput);</span><br><span class="line">    &#125; catch (RemoteException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">protected void onDestroy() &#123;</span><br><span class="line">    BinderPool.getInstance(this).unConnect();</span><br><span class="line">    super.onDestroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">12-02 21:16:04.176 27386-27386/com.ljp.moreaidl_client E/moreAidl: connectService: 绑定服务端＝true</span><br><span class="line">12-02 21:16:04.186 27386-27386/com.ljp.moreaidl_client E/moreAidl: onServiceConnected: 与服务端连接成功</span><br><span class="line">12-02 21:16:05.976 27386-27386/com.ljp.moreaidl_client E/moreAidl: StringComput: comput=bcdefgh</span><br><span class="line">12-02 21:16:07.536 27386-27386/com.ljp.moreaidl_client E/moreAidl: StringComput: addComput=30</span><br></pre></td></tr></table></figure></p>
+<p><strong>更多参考：</strong></p>
+<ul>
+<li><a href="http://blog.csdn.net/luoyanglizi/article/details/51586437" target="_blank" rel="noopener">Android中的Service：默默的奉献者 (1)</a></li>
+<li><a href="http://blog.csdn.net/luoyanglizi/article/details/51594016" target="_blank" rel="noopener">Android中的Service：Binder，Messenger，AIDL（2）</a></li>
+<li><a href="http://blog.csdn.net/luoyanglizi/article/details/51980630" target="_blank" rel="noopener">Android：学习AIDL，这一篇文章就够了(上)</a></li>
+<li><a href="http://blog.csdn.net/luoyanglizi/article/details/52029091" target="_blank" rel="noopener">Android：学习AIDL，这一篇文章就够了(下)</a></li>
+<li><a href="http://blog.csdn.net/luoyanglizi/article/details/51958091" target="_blank" rel="noopener">你真的理解AIDL中的in，out，inout么？</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/进程间通信/" rel="tag"># 进程间通信</a>
+          
+            <a href="/tags/Binder/" rel="tag"># Binder</a>
+          
+            <a href="/tags/AIDL/" rel="tag"># AIDL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/01/Android 的进程间通信 Binder——AIDL的入门使用（二）/" rel="next" title="Android 的进程间通信 Binder——AIDL的入门使用（二）">
+                <i class="fa fa-chevron-left"></i> Android 的进程间通信 Binder——AIDL的入门使用（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/06/《Android开发艺术探索》之Android中的线程和线程池/" rel="prev" title="《Android开发艺术探索》之Android中的线程和线程池">
+                《Android开发艺术探索》之Android中的线程和线程池 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><span class="nav-number">1.</span> <span class="nav-text">版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-一"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">AIDL的入门使用(一)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-二"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">AIDL的入门使用(二)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-三"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">AIDL的入门使用(三)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Messenger的入门使用"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">Messenger的入门使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序言："><span class="nav-number">1.0.1.</span> <span class="nav-text">序言：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多个AIDL接口通信服务端："><span class="nav-number">2.</span> <span class="nav-text">多个AIDL接口通信服务端：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface-和IBinderInterface-，前两个提供给客户端具体的调用方法，IBinderInterface-提供给客户端查询调用的Binder对象。然后Make-Project。"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1、新建三个AIDL接口文件，分别为：IStringComputface、IIntComputInterface 和IBinderInterface ，前两个提供给客户端具体的调用方法，IBinderInterface 提供给客户端查询调用的Binder对象。然后Make Project。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2、创建3个类分别继承对应AIDL接口的Stub类并实现未实现的方法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">3、创建一个Service，并在onBinder方法中返回IBinderInterface的实现类BinderImp的对象，并在注册Service。服务端的代码就完成了。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多个AIDL接口通信客户端："><span class="nav-number">3.</span> <span class="nav-text">多个AIDL接口通信客户端：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient-binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">1、这里写一个Binder连接池类，采用单例模式，在创建对象时就去绑定服务端，绑定成功后会回调ServiceConnection对象的onServiceConnected方法，在onServiceConnected方法中给binder设置死亡代理，当服务端的binder对象死亡时系统回调mDeathRecipient.binderDied（）方法从而进行重连。并暴露一个quaryBinder的方法，</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder-int-，然后在使用对应的AIDL接口-Stub-asInterface-binder-进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">2、在客户端中调用服务端的方法时，先调用BinderPool对象的quaryBinder( int )，然后在使用对应的AIDL接口.Stub.asInterface(binder)进行转换为相应的AIDL接口对象，这时就可以调用该AIDL接口服务端的方法了，由于AIDL的调用都是耗时操作，建议都放在子线程中处理。这里第一次绑定时并不会立即连接成功，需要等待一小段时间，因此建议在Application中获取一次BinderPool的对象进行绑定连接，后面就可以直接使用了。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

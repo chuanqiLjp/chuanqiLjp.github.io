@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MVP" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.定义MVP的全称为Mo">
+<meta name="keywords" content="MVP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android进阶——MVP从入门到进阶">
+<meta property="og:url" content="http://yoursite.com/2017/03/01/Android进阶——MVP从入门到进阶/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.定义MVP的全称为Mo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-5bae7da3ba3e6e44?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android进阶——MVP从入门到进阶">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.定义MVP的全称为Mo">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-5bae7da3ba3e6e44?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/01/Android进阶——MVP从入门到进阶/"/>
+
+
+
+
+
+  <title>Android进阶——MVP从入门到进阶 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/Android进阶——MVP从入门到进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android进阶——MVP从入门到进阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T15:10:58+08:00">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/开发架构/" itemprop="url" rel="index">
+                    <span itemprop="name">开发架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><a href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。" class="headerlink" title="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"></a>版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</h1><h1 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h1><p>MVP的全称为Model-View-Presenter，即模型-视图-协调器(主持者)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Model：处理数据和业务逻辑等，如：数据库的操作，数据的请求，数据运算，JavaBean；</span><br><span class="line">View：显示界面，展示结果等，一切与界面相关的，如：XML文件，Activity，Fragment，Dialog；</span><br><span class="line">Presenter：协调Model和View模块工作，处理交互；</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-5bae7da3ba3e6e44?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这里写图片描述"></p>
+<h1 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h1><p>下面通过一个列子做一个解说，这个列子很简单，就是在ListView上展示文字和图片，主界面的布局很简单，就是一个ListView，然后定义一个Girl 的Bean对象，再自定义一个普通的适配器GirlAdapter，在自定义一个ListView中的Item的一个布局文件item_v1.xml,以上由于代码简单，就不再这里给出代码了，文末有这个Demo的下载链接，各位可以自行查看。</p>
+<h2 id="2-1-Model层（加载数据）"><a href="#2-1-Model层（加载数据）" class="headerlink" title="2.1 Model层（加载数据）"></a>2.1 Model层（加载数据）</h2><p>既然是MVP，我们先来看一下Model层，Model层主要用来加载数据及运算，这里常是业务的核心，在实际开发中更改最多的就是Model和View，所以我们才需要把Model与VIew分离开来，使修改其中一个不至于影响另一个，根据业务需求我们可以先定义一个Model接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface IGirlModel &#123;</span><br><span class="line">	void loadGirl(onGirlListener listener);//加载数据</span><br><span class="line">	interface onGirlListener&#123;//数据加载完成后的监听回调</span><br><span class="line">		void onComplete(List&lt;Girl&gt; list);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在定义一个类去实现它<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class GirlModelImpl implements IGirlModel &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void loadGirl(onGirlListener listener) &#123;</span><br><span class="line">		//加载数据</span><br><span class="line">		List&lt;Girl&gt; list=new ArrayList&lt;Girl&gt;();</span><br><span class="line">		list.add(new Girl(R.drawable.image1, &quot;你是我的小苹果image1&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image2, &quot;你是我的小苹果image2&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image3, &quot;你是我的小苹果image3&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image4, &quot;你是我的小苹果image4&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image5, &quot;你是我的小苹果image5&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image6, &quot;你是我的小苹果image6&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image7, &quot;你是我的小苹果image7&quot;));</span><br><span class="line">		list.add(new Girl(R.drawable.image8, &quot;你是我的小苹果image8&quot;));</span><br><span class="line">		//返回数据</span><br><span class="line">		listener.onComplete(list);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样Model层就基本完成了，代码很少，逻辑也比较清晰（加载数据再返回）</p>
+<h2 id="2-2-View层（展示数据）"><a href="#2-2-View层（展示数据）" class="headerlink" title="2.2 View层（展示数据）"></a>2.2 View层（展示数据）</h2><p>在MVP中我们常把Activity、Fragment、Dialog等作为View层，这里也是先定义一个接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 视图层接口，定义与视图操作相关的接口</span><br><span class="line"> */</span><br><span class="line">public interface IGirlView &#123;</span><br><span class="line">	//加载的提示</span><br><span class="line">	void showDialog();</span><br><span class="line">	//显示加载后的数据</span><br><span class="line">	void showGirls(List&lt;Girl&gt;list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再让我们的MainActivity去实现它<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity implements IGirlView &#123;</span><br><span class="line">	ListView listView;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		initView();</span><br><span class="line">	&#125;</span><br><span class="line">	private void initView() &#123;</span><br><span class="line">		listView = (ListView) findViewById(R.id.listview);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void showDialog() &#123;</span><br><span class="line">		Toast.makeText(this, &quot;正在加载数据中。。。&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void showGirls(List&lt;Girl&gt; list) &#123;</span><br><span class="line">		listView.setAdapter(new GirlAdapter(this, list));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-3Persenter层（数据与视图的交互）"><a href="#2-3Persenter层（数据与视图的交互）" class="headerlink" title="2.3Persenter层（数据与视图的交互）"></a>2.3Persenter层（数据与视图的交互）</h2><p>Persenter层主要的工作就是控制当数据加载后呈现在View中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class GirlPresenter &#123;</span><br><span class="line">	// View 的引用</span><br><span class="line">	IGirlView iGirlView;</span><br><span class="line">	// Model的引用</span><br><span class="line">	IGirlModel iGirlModel=new GirlModelImpl();</span><br><span class="line">	public GirlPresenter(IGirlView iGirlView) &#123;</span><br><span class="line">		this.iGirlView = iGirlView;</span><br><span class="line">	&#125;</span><br><span class="line">	public void feach() &#123;</span><br><span class="line">		if (iGirlModel != null &amp;&amp; iGirlView != null) &#123;</span><br><span class="line">			// 显示进度条</span><br><span class="line">			iGirlView.showDialog();</span><br><span class="line">			// 加载数据</span><br><span class="line">			iGirlModel.loadGirl(new onGirlListener() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void onComplete(List&lt;Girl&gt; list) &#123;</span><br><span class="line">					// 返回数据，显示到View层</span><br><span class="line">					iGirlView.showGirls(list);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>好了，一个简单的MVP架构的Demo就写好了；老板明天叫我用GridView展示我就新增加一个IGirlView的实现类而Model层不用修改，后天叫我加载网络数据我就增加一个IGirlModel的实现类而View层不用更改，<a href="http://download.csdn.net/detail/wo_ha/9767302" target="_blank" rel="noopener">Demo点击下载</a>，这样做有以下好处：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.Model层与View层完全分离（在也不要担心改需求了）</span><br><span class="line">2.分工更加明确，逻辑更加清晰，易于维护代码</span><br><span class="line">3.便于单元测试</span><br></pre></td></tr></table></figure></p>
+<h1 id="3-进阶"><a href="#3-进阶" class="headerlink" title="3.进阶"></a>3.进阶</h1><p>有经验的同学可能会发现，上面有个巨大的问题：内存泄漏（有可能加载数据的耗时操作中界面关闭了，由于长期持有Activity的引用造成当onDestory时释放不了内存）；<br>下面就一步一步的解决这个问题</p>
+<h2 id="3-1使用弱引用（参考）解决内存泄漏的问题"><a href="#3-1使用弱引用（参考）解决内存泄漏的问题" class="headerlink" title="3.1使用弱引用（参考）解决内存泄漏的问题"></a>3.1使用弱引用（<a href="https://mp.weixin.qq.com/s/nIIzHv_sqZom_y2nblCjJQ" target="_blank" rel="noopener">参考</a>）解决内存泄漏的问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class GirlPresenter&lt;T extends IGirlView&gt; &#123;</span><br><span class="line">	//View 的引用</span><br><span class="line">	protected WeakReference&lt;T&gt;mReference;//使用弱引用,避免内存泄漏</span><br><span class="line">	//Model的引用</span><br><span class="line">	IGirlModel iGirlModel=new GirlModelImpl();</span><br><span class="line">	public GirlPresenter(T view) &#123;</span><br><span class="line">		this.mReference = new WeakReference&lt;T&gt;(view);</span><br><span class="line">	&#125;</span><br><span class="line">	public void feach()&#123;</span><br><span class="line">	        //显示进度条</span><br><span class="line">			if (mReference.get()!=null) &#123;</span><br><span class="line">				mReference.get().showDialog();</span><br><span class="line">			&#125;</span><br><span class="line">		     //加载数据</span><br><span class="line">			iGirlModel.loadGirl(new onGirlListener() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void onComplete(List&lt;Girl&gt; list) &#123;</span><br><span class="line">					//返回数据，显示到View层</span><br><span class="line">					if (mReference.get()!=null) &#123;</span><br><span class="line">						mReference.get().showGirls(list);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+<h2 id="3-2性能优化"><a href="#3-2性能优化" class="headerlink" title="3.2性能优化"></a>3.2性能优化</h2><p>以上代码炸已看，好像能解决内存泄漏的问题，但是弱引用是当GC触发时才被回收，当Activity的onDestory方法调用时我们的GC可能被触发也有可能不会，因此Activity的onDestory调用时的引用可能被回收也有可能没有被回收，试想一种情况：加载网络数据需要20s，界面在第5s的时候就关闭了，20s后GC没有被触发即mReference.get()!=null，下面我们拿着Activity的引用去操作，去界面展示，我们不是去鞭尸吗？这又如何解决呢？其实在Android系统中有一个类似的模型，那就是Activity与Fragment（Activity销毁了，而Fragment还在执行耗时操作），那Google又是怎么解决的呢？<br>还记得public void onAttach(Activity activity)和public void onDetach()这两个方法吗，在onAttach时将Activity的引用赋值，在onAttach主动将Activity的引用置为null，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">public class GirlPresenter&lt;T extends IGirlView&gt; &#123;</span><br><span class="line">	// View 的引用</span><br><span class="line">	// IGirlView iGirlView;</span><br><span class="line">	protected WeakReference&lt;T&gt; mReference;// 使用弱引用,避免内存泄漏</span><br><span class="line">	// Model的引用</span><br><span class="line">	IGirlModel iGirlModel = new GirlModelImpl();</span><br><span class="line">	public GirlPresenter() &#123;//不再构造方法里将activity的引用赋值</span><br><span class="line">		super();</span><br><span class="line">		//this.mReference = new WeakReference&lt;T&gt;(view);</span><br><span class="line">	&#125;</span><br><span class="line">	public void feach() &#123;</span><br><span class="line">		if (iGirlModel != null &amp;&amp; mReference.get() != null) &#123;</span><br><span class="line">			// 显示进度条</span><br><span class="line">			if (mReference.get() != null) &#123;</span><br><span class="line">				mReference.get().showDialog();</span><br><span class="line">			&#125;</span><br><span class="line">			SystemClock.sleep(2000);// Android的休眠，已忽略了中断的异常</span><br><span class="line">			// 加载数据</span><br><span class="line">			iGirlModel.loadGirl(new onGirlListener() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void onComplete(List&lt;Girl&gt; list) &#123;</span><br><span class="line">					// 返回数据</span><br><span class="line">					// 显示到View层</span><br><span class="line">					if (mReference.get() != null) &#123;</span><br><span class="line">						mReference.get().showGirls(list);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 连接上View模型，类型于Activity与Fragment的连接onAttach()</span><br><span class="line">	 */</span><br><span class="line">	public void attachView(T view) &#123;</span><br><span class="line">		mReference = new WeakReference&lt;T&gt;(view);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 断开与View模型的连接，类型于Activity与Fragment的断开onDetach() 防止后面做一些无用的事情</span><br><span class="line">	 */</span><br><span class="line">	public void detachView() &#123;</span><br><span class="line">		if (mReference != null) &#123;</span><br><span class="line">			mReference.clear();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时在MainActivity的onCreate中presenter.attachView(this);在onDestory中presenter.detachView();</p>
+<h2 id="3-3-代码优化"><a href="#3-3-代码优化" class="headerlink" title="3.3 代码优化"></a>3.3 代码优化</h2><p>上面虽然彻底解决了内存泄漏的问题，但是又引出了新问题，我们需要在每个Activity中都需要关联Activity与断开Activity，这样就显得代码很臃肿，为此我们还需要将代码再次抽层，这个很容易想到的就是让我们的Activity去继承我们自己的BaseActivity，让我们的Presenter继承BasePresenter，在BaseActivity去统一做关联，但是我们不可能每一个Activity关联的Presenter都一样吧，在此能想到 的时使用泛型，来看看代码中怎么使用吧<br><strong>3.3.1 在BaseActivity中</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 泛型V ：表示Activity本身，泛型P：表示需要关联的Presenter</span><br><span class="line">public abstract class BaseActivity&lt;V,P extends BasePresenter&lt;V&gt;&gt; extends Activity &#123;</span><br><span class="line">	protected P presenter;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		presenter = createPresenter();</span><br><span class="line">		presenter.attachView((V)this);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 创建一个与之关联的Presenter</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	protected abstract P  createPresenter();</span><br><span class="line">	@Override</span><br><span class="line">	protected void onDestroy() &#123;</span><br><span class="line">		super.onDestroy();</span><br><span class="line">		presenter.detachView();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.3.2 在BasePresenter中</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 泛型V:表示与之关联的Activity</span><br><span class="line">public class BasePresenter&lt;V&gt; &#123;</span><br><span class="line">	//View 的引用</span><br><span class="line">	protected WeakReference&lt;V&gt;mReference;//使用弱引用,避免内存泄漏</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 连接上View模型，类型于Activity与Fragment的连接onTachActivity()</span><br><span class="line">	 * @param view</span><br><span class="line">	 */</span><br><span class="line">	public void attachView(V view)&#123;</span><br><span class="line">		mReference=new WeakReference&lt;V&gt;(view);</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 断开与View模型的连接，类型于Activity与Fragment的断开ondeTachActivity()</span><br><span class="line">	 * 防止后面做一些无用的事情</span><br><span class="line">	 * @param view</span><br><span class="line">	 */</span><br><span class="line">	public void detachView()&#123;</span><br><span class="line">		if (mReference!=null) &#123;</span><br><span class="line">			mReference.clear();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	protected V getView()&#123;</span><br><span class="line">		return mReference.get();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.3.3 在MainActivity中</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends BaseActivity&lt;IGirlView,GirlPresenterV2&gt; implements IGirlView &#123;</span><br><span class="line">	ListView listView;</span><br><span class="line">	@Override</span><br><span class="line">	protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">		super.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		initView();</span><br><span class="line">		presenter.feach();</span><br><span class="line">	&#125;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.3.4 在GirlPresenter中</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class GirlPresenter extends BasePresenter&lt;IGirlView&gt; &#123;</span><br><span class="line">	//Model的引用</span><br><span class="line">	IGirlModel iGirlModel=new GirlModelImpl();</span><br><span class="line">	public void feach()&#123;</span><br><span class="line">		if (iGirlModel!=null&amp;&amp;getView()!=null) &#123;</span><br><span class="line">			//显示进度条</span><br><span class="line">			if (getView()!=null) &#123;</span><br><span class="line">				getView().showDialog();</span><br><span class="line">			&#125;</span><br><span class="line">			SystemClock.sleep(2000);// Android的休眠，已忽略了中断的异常</span><br><span class="line">			//加载数据</span><br><span class="line">			iGirlModel.loadGirl(new onGirlListener() &#123;</span><br><span class="line">				@Override</span><br><span class="line">				public void onComplete(List&lt;Girl&gt; list) &#123;</span><br><span class="line">					//返回数据</span><br><span class="line">					//显示到View层</span><br><span class="line">					if (getView()!=null) &#123;</span><br><span class="line">						getView().showGirls(list);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到此我们的优化就结束了，希望你有所收获！<a href="http://download.csdn.net/detail/wo_ha/9767308" target="_blank" rel="noopener">优化后的Demo点击下载</a><br>我的CSDN博客地址：<a href="http://blog.csdn.net/wo_ha/article/details/59108525" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/59108525</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVP/" rel="tag"># MVP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/15/Eclipse和Android-Studio使用 LeakCanary/" rel="next" title="Eclipse和Android-Studio使用 LeakCanary">
+                <i class="fa fa-chevron-left"></i> Eclipse和Android-Studio使用 LeakCanary
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/25/设计模式一：单例模式/" rel="prev" title="设计模式一：单例模式">
+                设计模式一：单例模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><span class="nav-number">1.</span> <span class="nav-text">版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-定义"><span class="nav-number">2.</span> <span class="nav-text">1.定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-使用"><span class="nav-number">3.</span> <span class="nav-text">2.使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Model层（加载数据）"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Model层（加载数据）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-View层（展示数据）"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 View层（展示数据）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3Persenter层（数据与视图的交互）"><span class="nav-number">3.3.</span> <span class="nav-text">2.3Persenter层（数据与视图的交互）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-进阶"><span class="nav-number">4.</span> <span class="nav-text">3.进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1使用弱引用（参考）解决内存泄漏的问题"><span class="nav-number">4.1.</span> <span class="nav-text">3.1使用弱引用（参考）解决内存泄漏的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2性能优化"><span class="nav-number">4.2.</span> <span class="nav-text">3.2性能优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-代码优化"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 代码优化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

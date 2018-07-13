@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android 自定义字体,自定义系统字体" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处序言上一篇Android 自定义字体，更换系统默认显示的字体使">
+<meta name="keywords" content="Android 自定义字体,自定义系统字体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android更换系统默认显示的字体使用自定义字体">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/Android更换系统默认显示的字体使用自定义字体/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处序言上一篇Android 自定义字体，更换系统默认显示的字体使">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-7f7813ef09a1a0b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android更换系统默认显示的字体使用自定义字体">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处序言上一篇Android 自定义字体，更换系统默认显示的字体使">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-7f7813ef09a1a0b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/Android更换系统默认显示的字体使用自定义字体/"/>
+
+
+
+
+
+  <title>Android更换系统默认显示的字体使用自定义字体 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/Android更换系统默认显示的字体使用自定义字体/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android更换系统默认显示的字体使用自定义字体</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T10:07:58+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/Android字体/" itemprop="url" rel="index">
+                    <span itemprop="name">Android字体</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：转载需要在醒目注明出处"><a href="#版权声明：转载需要在醒目注明出处" class="headerlink" title="版权声明：转载需要在醒目注明出处"></a>版权声明：转载需要在醒目注明出处</h1><h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><p>上一篇<a href="https://www.jianshu.com/p/282716d73c6a" target="_blank" rel="noopener">Android 自定义字体，更换系统默认显示的字体使用自定义字体</a>有讲到怎样指定控件显示指定字体，怎样整个软件显示指定字体，怎样WebView加载指定字体，但是还留下一个怎样修改整个系统的默认字体，由于内容较多，所以单独抽离出来讲，由于要操作系统文件，因此需要Root权限或系统签名，自己在操作前建议先备份下字体配置文件/system/etc/system_fonts.xml和/system/etc/fallback_fonts.xml，否则操作失败有可能开机后无法进入桌面，此时就需要将备份的system_fonts.xml推送到对应目录下并修改为对应的权限。</p>
+<h3 id="版权声明：本文可被转载，但需要在醒目位置注明原文出处：https-www-jianshu-com-p-b0b541b94427"><a href="#版权声明：本文可被转载，但需要在醒目位置注明原文出处：https-www-jianshu-com-p-b0b541b94427" class="headerlink" title="版权声明：本文可被转载，但需要在醒目位置注明原文出处：https://www.jianshu.com/p/b0b541b94427"></a>版权声明：本文可被转载，但需要在醒目位置注明原文出处：<a href="https://www.jianshu.com/p/b0b541b94427" target="_blank" rel="noopener">https://www.jianshu.com/p/b0b541b94427</a></h3><h1 id="1、字体加载原理"><a href="#1、字体加载原理" class="headerlink" title="1、字体加载原理"></a>1、字体加载原理</h1><ul>
+<li>①  Android 系统的字体文件：位于 /system/fonts/ 文件夹下，我们可以到对应的目录下进行查看，可以看出，Android的字体文件都是ttf文件，命令顺序：adb shell ——&gt;cd /system/fonts/ ——&gt;ll,查看结果如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/4143664-7f7813ef09a1a0b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>②  在/system/etc/目录下有两个字体配置文件，分别是system_fonts.xml 和 fallback_fonts.xml ，当系统需要加载字体时，会优先从 system_fonts.xml 文件开始查找，如果没有找到再进入 fallback_fonts.xml 查找。</li>
+</ul>
+<p><strong>system_fonts.xml示范文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!--    System Fonts    This file lists the font families that will be used by default for all supported glyphs.    Each entry consists of a family, various names that are supported by that family, and    up to four font files. The font files are listed in the order of the styles which they    support: regular, bold, italic and bold-italic. If less than four styles are listed, then    the styles with no associated font file will be supported by the other font files listed.    The first family is also the default font, which handles font request that have not specified    specific font names.    Any glyph that is not handled by the system fonts will cause a search of the fallback fonts.    The default fallback fonts are specified in the file /system/etc/fallback_fonts.xml, and there    is an optional file which may be supplied by vendors to specify other fallback fonts to use    in /vendor/etc/fallback_fonts.xml.--&gt;</span><br><span class="line">&lt;familyset&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;sans-serif&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;arial&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;helvetica&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;tahoma&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;verdana&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;Roboto-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Roboto-Bold.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Roboto-Italic.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Roboto-BoldItalic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;sans-serif-light&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;Roboto-Light.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Roboto-LightItalic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;sans-serif-thin&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;Roboto-Thin.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Roboto-ThinItalic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;sans-serif-condensed&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;RobotoCondensed-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;RobotoCondensed-Bold.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;RobotoCondensed-Italic.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;RobotoCondensed-BoldItalic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;serif&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;times&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;times new roman&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;palatino&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;georgia&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;baskerville&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;goudy&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;fantasy&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;cursive&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;ITC Stone Serif&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSerif-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;DroidSerif-Bold.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;DroidSerif-Italic.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;DroidSerif-BoldItalic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;Droid Sans&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSans.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;DroidSans-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;nameset&gt;</span><br><span class="line">            &lt;name&gt;monospace&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;courier&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;courier new&lt;/name&gt;</span><br><span class="line">            &lt;name&gt;monaco&lt;/name&gt;</span><br><span class="line">        &lt;/nameset&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansMono.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">&lt;/familyset&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>fallback_fonts.xml 示范文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;!--    Fallback Fonts    This file specifies the fonts, and the priority order, that will be searched for any    glyphs not handled by the default fonts specified in /system/etc/system_fonts.xml.    Each entry consists of a family tag and a list of files (file names) which support that    family. The fonts for each family are listed in the order of the styles that they    handle (the order is: regular, bold, italic, and bold-italic). The order in which the    families are listed in this file represents the order in which these fallback fonts    will be searched for glyphs that are not supported by the default system fonts (which are    found in /system/etc/system_fonts.xml).    Note that there is not nameset for fallback fonts, unlike the fonts specified in    system_fonts.xml. The ability to support specific names in fallback fonts may be supported    in the future. For now, the lack of files entries here is an indicator to the system that    these are fallback fonts, instead of default named system fonts.    There is another optional file in /vendor/etc/fallback_fonts.xml. That file can be used to    provide references to other font families that should be used in addition to the default    fallback fonts. That file can also specify the order in which the fallback fonts should be    searched, to ensure that a vendor-provided font will be used before another fallback font    which happens to handle the same glyph.    Han languages (Chinese, Japanese, and Korean) share a common range of unicode characters;    their ordering in the fallback or vendor files gives priority to the first in the list.    Language-specific ordering can be configured by adding a BCP 47-style &quot;lang&quot; attribute to    a &quot;file&quot; element; fonts matching the language of text being drawn will be prioritised over    all others.--&gt;</span><br><span class="line">&lt;familyset&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;DroidNaskh-Regular.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;DroidNaskhUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansEthiopic-Regular.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansHebrew-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;DroidSansHebrew-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansThai-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansThai-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansThaiUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansThaiUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansArmenian.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansGeorgian.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansDevanagari-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansDevanagari-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansDevanagariUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansDevanagariUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansTamil-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansTamil-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansTamilUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansTamilUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansMalayalam-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansMalayalam-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansMalayalamUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansMalayalamUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansBengali-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansBengali-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansBengaliUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansBengaliUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansTelugu-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansTelugu-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansTeluguUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansTeluguUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansKannada-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansKannada-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansKannadaUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansKannadaUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansKhmer-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansKhmer-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansKhmerUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansKhmerUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansLao-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;elegant&quot;&gt;NotoSansLao-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansLaoUI-Regular.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file variant=&quot;compact&quot;&gt;NotoSansLaoUI-Bold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;NanumGothic.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;Padauk-book.ttf&lt;/file&gt;</span><br><span class="line">            &lt;file&gt;Padauk-bookbold.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;NotoSansSymbols-Regular.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;AndroidEmoji.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;NotoColorEmoji.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file&gt;DroidSansFallback.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;</span><br><span class="line">    &lt;family&gt;</span><br><span class="line">        &lt;fileset&gt;</span><br><span class="line">            &lt;file lang=&quot;ja&quot;&gt;MTLmr3m.ttf&lt;/file&gt;</span><br><span class="line">        &lt;/fileset&gt;</span><br><span class="line">    &lt;/family&gt;    &lt;!-- Note: complex scripts (i.e. those requiring shaping in Harfbuzz) have         a cumulative limit of 64k glyphs. Thus, if they are placed after the         large fonts such as DroidSansFallback, they are likely to render         incorrectly. Please use caution when putting fonts toward the end of         the list.    --&gt;</span><br><span class="line">&lt;/familyset&gt;</span><br></pre></td></tr></table></figure></p>
+<h1 id="2、为系统添加一个默认字体"><a href="#2、为系统添加一个默认字体" class="headerlink" title="2、为系统添加一个默认字体"></a>2、为系统添加一个默认字体</h1><p>修改系统默认字体的原理：根据系统字体加载原理可知，我们只需要在路径 /system/fonts/ 下添加我们自定义的ttf字体文件，然后修改 /system/etc/system_fonts.xml  字体配置文件，按照响应的格式添加一个节点，由于需要系统默认使用该字体，因此该节点需要是根节点familyset下的第一个子节点，系统在system_fonts.xml中找到了该字体的配置，故不会去fallback_fonts.xml 寻找，因此也只需要修改这一个配置文件即可，文件修改成功后需要注意已修改文件的读写权限（否则会没有效果），为了方便，我们设置全部用户可读可写。</p>
+<h3 id="①-判断系统字体库是否已有需要添加的字体文件"><a href="#①-判断系统字体库是否已有需要添加的字体文件" class="headerlink" title="①  判断系统字体库是否已有需要添加的字体文件"></a>①  判断系统字体库是否已有需要添加的字体文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 检查字体文件是否存在系统目录中</span><br><span class="line"> * @param fontName 字体文件名称</span><br><span class="line"> * @return  ture：已存在</span><br><span class="line"> */</span><br><span class="line">private boolean checkFontTTFFile(String fontName) &#123;</span><br><span class="line">    File dir = new File(systemFontsDir);</span><br><span class="line">    File[] files = dir.listFiles();   //字库列表</span><br><span class="line">    if (files != null &amp;&amp; files.length &gt; 0) &#123;</span><br><span class="line">        for (int i = 0; i &lt; files.length; i++) &#123;</span><br><span class="line">            File file = files[i];</span><br><span class="line">            if (file.exists() &amp;&amp; file.getName().equals(fontName)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="②-若①判断后没有则需要拷贝字体文件到对应路径下"><a href="#②-若①判断后没有则需要拷贝字体文件到对应路径下" class="headerlink" title="② 若①判断后没有则需要拷贝字体文件到对应路径下"></a>② 若①判断后没有则需要拷贝字体文件到对应路径下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 拷贝字体文件</span><br><span class="line">  *</span><br><span class="line">  * @param fontName 字体文件名</span><br><span class="line">  * @param destDir  目标目录</span><br><span class="line">  */</span><br><span class="line"> private void copyFontTTF(String fontName, String destDir) &#123;</span><br><span class="line">     try &#123;</span><br><span class="line">         //将Assets文件夹中的字体文件读出来</span><br><span class="line">         InputStream inputStream = getAssets().open(&quot;fonts/&quot; + fontName);</span><br><span class="line">         //将字体文件写入到sd卡中 ,不能直接写入 /system/fonts/下，因为没有写文件的权限</span><br><span class="line">         File file = new File(getCacheDir(), fontName);</span><br><span class="line">         FileOutputStream fos = new FileOutputStream(file);</span><br><span class="line">         int leng = 0;</span><br><span class="line">         byte[] buffer = new byte[1024];</span><br><span class="line">         while (-1 != (leng = inputStream.read(buffer))) &#123;</span><br><span class="line">             fos.write(buffer, 0, leng);</span><br><span class="line">         &#125;</span><br><span class="line">         fos.flush();</span><br><span class="line">         fos.close();</span><br><span class="line">         inputStream.close();</span><br><span class="line">         runRootCommand(&quot;cp &quot; + file.getAbsolutePath() + &quot; &quot; + destDir); //使用命令进行文件拷贝</span><br><span class="line">         Log.e(TAG, &quot;copyFontTTF: 字体文件拷贝成功&quot;);</span><br><span class="line">     &#125; catch (Exception e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="③-判断字体配置文件-system-fonts-xml-是否已有该节点，若有则不进行操作，若无进行步骤④"><a href="#③-判断字体配置文件-system-fonts-xml-是否已有该节点，若有则不进行操作，若无进行步骤④" class="headerlink" title="③ 判断字体配置文件 system_fonts.xml 是否已有该节点，若有则不进行操作，若无进行步骤④"></a>③ 判断字体配置文件 system_fonts.xml 是否已有该节点，若有则不进行操作，若无进行步骤④</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 检查指定的XML文件中是否有节点名称为  refNodeName 的值为  compareNodeValue 的节点</span><br><span class="line"> *</span><br><span class="line"> * @param refNodeName      参考的节点名称</span><br><span class="line"> * @param compareNodeValue 被比较的节点名称下的值</span><br><span class="line"> * @param file             XML文件</span><br><span class="line"> * @return ture存在该节点</span><br><span class="line"> */</span><br><span class="line">private boolean checkXmlNode(String refNodeName, String compareNodeValue, File file) &#123;</span><br><span class="line">    boolean result = false;</span><br><span class="line">    try &#123;</span><br><span class="line">        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</span><br><span class="line">        DocumentBuilder builder = factory.newDocumentBuilder();</span><br><span class="line">        Document doc = builder.parse(file);   // 解析XML到内存中</span><br><span class="line">        NodeList nodeList = doc.getElementsByTagName(refNodeName);</span><br><span class="line">        for (int i = 0; i &lt; nodeList.getLength(); i++) &#123; //判断有没有该节点</span><br><span class="line">            Node item = nodeList.item(i);</span><br><span class="line">            String itemValue = item.getFirstChild().getNodeValue();</span><br><span class="line">            if (itemValue.equals(compareNodeValue)) &#123;</span><br><span class="line">                result = true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    Log.e(TAG, &quot;checkXmlNode: 检查是否存在该节点　refNodeName=&quot; + refNodeName + &quot;,compareNodeValue=&quot; + compareNodeValue + &quot;,result=&quot; + result);</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="④-若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存"><a href="#④-若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存" class="headerlink" title="④ 若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存"></a>④ 若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">    /**</span><br><span class="line">     * 向system_fonts.xml文件增加一个节点</span><br><span class="line">     *</span><br><span class="line">     * @param nodeValue 节点的值</span><br><span class="line">     */</span><br><span class="line">    private void addSystemFontNote(String nodeValue) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            File file = new File(system_fonts);</span><br><span class="line">            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</span><br><span class="line">            DocumentBuilder builder = factory.newDocumentBuilder();</span><br><span class="line">            Document doc = builder.parse(file);   // 解析XML到内存中</span><br><span class="line">            Node nodeFamilyset = doc.getElementsByTagName(&quot;familyset&quot;).item(0);</span><br><span class="line">            Element elementFamily = doc.createElement(&quot;family&quot;);</span><br><span class="line">            Element elementNameset = doc.createElement(&quot;nameset&quot;);</span><br><span class="line">            Element elementName = doc.createElement(&quot;name&quot;);</span><br><span class="line">            elementName.setTextContent(nodeValue);</span><br><span class="line">            elementNameset.appendChild(elementName);//将name节点设置为nameset的子节点</span><br><span class="line"></span><br><span class="line">            Element elementFileset = doc.createElement(&quot;fileset&quot;);</span><br><span class="line">            Element elementFile = doc.createElement(&quot;file&quot;);</span><br><span class="line">            elementFile.setTextContent(nodeValue + &quot;.ttf&quot;);</span><br><span class="line">            elementFileset.appendChild(elementFile);</span><br><span class="line"></span><br><span class="line">            elementFamily.appendChild(elementNameset);</span><br><span class="line">            elementFamily.appendChild(elementFileset);</span><br><span class="line">            Node nodeFamily = doc.getElementsByTagName(&quot;family&quot;).item(0);</span><br><span class="line">            nodeFamilyset.insertBefore(elementFamily, nodeFamily); //将节点elementFamily插入到节点nodeFamily之前</span><br><span class="line">            //　保存到文件中</span><br><span class="line">            saveXmlFile(doc, system_fonts);</span><br><span class="line">            Log.e(TAG, &quot;addSystemFontNote: 节点添加成功&quot;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 保存xml文件到指定路径</span><br><span class="line">     * @param doc      要保存的XML文档对象</span><br><span class="line">     * @param destFile 目标路径</span><br><span class="line">     * @throws TransformerException</span><br><span class="line">     */</span><br><span class="line">    private void saveXmlFile(Document doc, String destFile) throws TransformerException &#123;</span><br><span class="line">        Transformer transformer = TransformerFactory.newInstance().newTransformer();//创建一个用来转换DOM对象的工厂对象并获得转换器对象</span><br><span class="line">        DOMSource domSource = new DOMSource(doc); //定义要转换的源对象</span><br><span class="line">        File temFile = new File(getCacheDir(), &quot;tem.xml&quot;);</span><br><span class="line">        StreamResult streamResult = new StreamResult(temFile); //定义要转换到的目标文件</span><br><span class="line">        transformer.transform(domSource, streamResult);  //开始转换  ,</span><br><span class="line">//                runRootCommand(&quot;rm &quot; + system_fonts);</span><br><span class="line">        runRootCommand(&quot;cat &quot; + temFile.getAbsolutePath() + &quot; &gt; &quot; + destFile);//复制文件内容</span><br><span class="line">        Log.e(TAG, &quot;saveXmlFile: 保存文件成功，&quot; + destFile);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="⑤-完整的调用流程"><a href="#⑤-完整的调用流程" class="headerlink" title="⑤ 完整的调用流程"></a>⑤ 完整的调用流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private String system_fonts = &quot;/system/etc/system_fonts.xml&quot;;</span><br><span class="line">private String fallback_fonts = &quot;/system/etc/fallback_fonts.xml&quot;;</span><br><span class="line">private String systemFontsDir = &quot;/system/fonts/&quot;;//系统存放字体文件的路径</span><br><span class="line">public void ywsflsjtForSystem(View view) &#123;</span><br><span class="line">    String fontName = &quot;ywsflsjt.ttf&quot;;</span><br><span class="line">    runRootCommand(&quot;mount -o remount rw /system&quot;); //重新挂载该路径为可读写模式</span><br><span class="line">    //以下操作建议在线程中执行</span><br><span class="line">    if (!checkFontTTFFile(fontName)) &#123;</span><br><span class="line">        copyFontTTF(fontName, systemFontsDir);</span><br><span class="line">    &#125;</span><br><span class="line">    runRootCommand(&quot;chmod 777 &quot; + new File(systemFontsDir, fontName).getAbsolutePath());//修改字体文件的权限</span><br><span class="line">    String compareNodeValue = fontName.split(&quot;\\.&quot;)[0];</span><br><span class="line">    boolean node = checkXmlNode(&quot;name&quot;, compareNodeValue, new File(system_fonts));</span><br><span class="line">    if (node == false) &#123; //没有该节点，在头部插入该节点</span><br><span class="line">        addSystemFontNote(compareNodeValue);</span><br><span class="line">        runRootCommand(&quot;chmod 777 &quot; + system_fonts);</span><br><span class="line">    &#125;</span><br><span class="line">    runRootCommand(&quot;reboot&quot;); //要使修改后的字体生效需要重启系统</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="⑥-运行Root指令的方法"><a href="#⑥-运行Root指令的方法" class="headerlink" title="⑥ 运行Root指令的方法"></a>⑥ 运行Root指令的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 请求ROOT权限后执行命令（最好开启一个线程）</span><br><span class="line"> *</span><br><span class="line"> * @param cmd (pm install -r *.apk)</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public boolean runRootCommand(String cmd) &#123;</span><br><span class="line">    Process process = null;</span><br><span class="line">    DataOutputStream os = null;</span><br><span class="line">    BufferedReader br = null;</span><br><span class="line">    StringBuilder sb = null;</span><br><span class="line">    try &#123;</span><br><span class="line">        process = Runtime.getRuntime().exec(&quot;su&quot;);</span><br><span class="line">        os = new DataOutputStream(process.getOutputStream());</span><br><span class="line">        os.writeBytes(cmd + &quot;\n&quot;);</span><br><span class="line">        os.writeBytes(&quot;exit\n&quot;);</span><br><span class="line">        br = new BufferedReader(new InputStreamReader(</span><br><span class="line">                process.getInputStream()));</span><br><span class="line"></span><br><span class="line">        sb = new StringBuilder();</span><br><span class="line">        String temp = null;</span><br><span class="line">        while ((temp = br.readLine()) != null) &#123;</span><br><span class="line">            sb.append(temp + &quot;\n&quot;);</span><br><span class="line">            if (&quot;Success&quot;.equalsIgnoreCase(temp)) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        process.waitFor();</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        Log.e(TAG, &quot;异常：&quot; + e.getMessage());</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            if (os != null) &#123;</span><br><span class="line">                os.flush();</span><br><span class="line">                os.close();</span><br><span class="line">            &#125;</span><br><span class="line">            if (br != null) &#123;</span><br><span class="line">                br.close();</span><br><span class="line">            &#125;</span><br><span class="line">            process.destroy();</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="3、删除已添加的系统默认字体"><a href="#3、删除已添加的系统默认字体" class="headerlink" title="3、删除已添加的系统默认字体"></a>3、删除已添加的系统默认字体</h1><p>和添加字体相对应，需要先删除字体文件，然后再删除 system_fonts.xml和fallback_fonts.xml两文件中的对应节点，由于我们没有修改过fallback_fonts.xml文件因此不需要做删除操作</p>
+<h3 id="①-删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据"><a href="#①-删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据" class="headerlink" title="① 删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据"></a>① 删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 删除 system_fonts.xml文件中的节点名称name值为 nodeValue的节点</span><br><span class="line"> *</span><br><span class="line"> * @param nodeValue</span><br><span class="line"> */</span><br><span class="line">private void deleteSystemFontNote(String nodeValue) &#123;</span><br><span class="line">    Log.e(TAG, &quot;deleteSystemFontNote: 删除文件&quot; + system_fonts + &quot;中的节点：&quot; + nodeValue);</span><br><span class="line">    try &#123;</span><br><span class="line">        File file = new File(system_fonts);</span><br><span class="line">        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();</span><br><span class="line">        DocumentBuilder builder = factory.newDocumentBuilder();</span><br><span class="line">        Document doc = builder.parse(file);   // 解析XML到内存中</span><br><span class="line">        NodeList nodeListName = doc.getElementsByTagName(&quot;name&quot;);</span><br><span class="line">        for (int i = 0; i &lt; nodeListName.getLength(); i++) &#123;</span><br><span class="line">            Node item = nodeListName.item(i);</span><br><span class="line">            String value = item.getFirstChild().getNodeValue();</span><br><span class="line">            if (value != null &amp;&amp; nodeValue.equals(value)) &#123;</span><br><span class="line">                Node nodenameset = item.getParentNode();</span><br><span class="line">                Node nodefamily = nodenameset.getParentNode();</span><br><span class="line">                Node nodefamilyset = nodefamily.getParentNode();</span><br><span class="line">                nodefamilyset.removeChild(nodefamily);</span><br><span class="line">                saveXmlFile(doc, system_fonts);</span><br><span class="line">                Log.e(TAG, &quot;删除节点成功，nodeValue＝&quot; + nodeValue);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="②-完整的删除流程"><a href="#②-完整的删除流程" class="headerlink" title="② 完整的删除流程"></a>② 完整的删除流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void deleteYwsflsjtForSystem(View view) &#123;</span><br><span class="line">    String fontName = &quot;ywsflsjt.ttf&quot;;</span><br><span class="line">    String nodeName = fontName.split(&quot;\\.&quot;)[0];</span><br><span class="line">    runRootCommand(&quot;mount -o remount rw /system&quot;); //重新挂载该路径为可读写模式</span><br><span class="line">    runRootCommand(&quot;rm &quot; + systemFontsDir + fontName); //删除字体文件</span><br><span class="line">    if (checkXmlNode(&quot;name&quot;, nodeName, new File(system_fonts))) &#123;</span><br><span class="line">        deleteSystemFontNote(nodeName);</span><br><span class="line">        runRootCommand(&quot;chmod 777 &quot; + system_fonts);</span><br><span class="line">    &#125;</span><br><span class="line">    runRootCommand(&quot;reboot&quot;); //要使修改后的字体生效需要重启系统</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我的CSDN博客：<a href="http://blog.csdn.net/wo_ha/article/details/79202632" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/79202632</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-自定义字体/" rel="tag"># Android 自定义字体</a>
+          
+            <a href="/tags/自定义系统字体/" rel="tag"># 自定义系统字体</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/29/Android 自定义字体，更换系统默认显示的字体使用自定义字体/" rel="next" title="Android 自定义字体，更换系统默认显示的字体使用自定义字体">
+                <i class="fa fa-chevron-left"></i> Android 自定义字体，更换系统默认显示的字体使用自定义字体
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/08/项目中的Html和JS使用的随便总结/" rel="prev" title="项目中的Html和JS使用的随便总结">
+                项目中的Html和JS使用的随便总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：转载需要在醒目注明出处"><span class="nav-number">1.</span> <span class="nav-text">版权声明：转载需要在醒目注明出处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序言"><span class="nav-number">1.0.1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版权声明：本文可被转载，但需要在醒目位置注明原文出处：https-www-jianshu-com-p-b0b541b94427"><span class="nav-number">1.0.2.</span> <span class="nav-text">版权声明：本文可被转载，但需要在醒目位置注明原文出处：https://www.jianshu.com/p/b0b541b94427</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1、字体加载原理"><span class="nav-number">2.</span> <span class="nav-text">1、字体加载原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、为系统添加一个默认字体"><span class="nav-number">3.</span> <span class="nav-text">2、为系统添加一个默认字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#①-判断系统字体库是否已有需要添加的字体文件"><span class="nav-number">3.0.1.</span> <span class="nav-text">①  判断系统字体库是否已有需要添加的字体文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#②-若①判断后没有则需要拷贝字体文件到对应路径下"><span class="nav-number">3.0.2.</span> <span class="nav-text">② 若①判断后没有则需要拷贝字体文件到对应路径下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#③-判断字体配置文件-system-fonts-xml-是否已有该节点，若有则不进行操作，若无进行步骤④"><span class="nav-number">3.0.3.</span> <span class="nav-text">③ 判断字体配置文件 system_fonts.xml 是否已有该节点，若有则不进行操作，若无进行步骤④</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#④-若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存"><span class="nav-number">3.0.4.</span> <span class="nav-text">④ 若③中没有该节点，则在根节点familyset下的第一位置添加该节点并保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#⑤-完整的调用流程"><span class="nav-number">3.0.5.</span> <span class="nav-text">⑤ 完整的调用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#⑥-运行Root指令的方法"><span class="nav-number">3.0.6.</span> <span class="nav-text">⑥ 运行Root指令的方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、删除已添加的系统默认字体"><span class="nav-number">4.</span> <span class="nav-text">3、删除已添加的系统默认字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#①-删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据"><span class="nav-number">4.0.1.</span> <span class="nav-text">① 删除节点是需要调用checkXmlNode方法坚持节点是否存在，若存在则删除数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#②-完整的删除流程"><span class="nav-number">4.0.2.</span> <span class="nav-text">② 完整的删除流程</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

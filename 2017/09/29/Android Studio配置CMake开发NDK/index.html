@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="AndroidStudio配置,CMake,NDK,JNI" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.eclipse中的Jn">
+<meta name="keywords" content="AndroidStudio配置,CMake,NDK,JNI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio配置CMake开发NDK">
+<meta property="og:url" content="http://yoursite.com/2017/09/29/Android Studio配置CMake开发NDK/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.eclipse中的Jn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-e9531961f5c65186.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-5a1438d28dbe723c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-2a6c6bcc5c069069.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-15b2ce962dd442aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-f57aac9b51c62945.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-630ad87d7a0c9440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-82edca6bbcdda37c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-be6f2c0e939d8996.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-431666dd67d04c1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-72bdd9f8f072b8d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-652ac51a570a032d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Studio配置CMake开发NDK">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。1.eclipse中的Jn">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-e9531961f5c65186.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/29/Android Studio配置CMake开发NDK/"/>
+
+
+
+
+
+  <title>Android Studio配置CMake开发NDK | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/Android Studio配置CMake开发NDK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Studio配置CMake开发NDK</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-29T10:40:58+08:00">
+                2017-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/NDK、JNI/" itemprop="url" rel="index">
+                    <span itemprop="name">NDK、JNI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><a href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。" class="headerlink" title="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"></a>版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</h1><p><a href="http://blog.csdn.net/wo_ha/article/details/53687903" target="_blank" rel="noopener">1.eclipse中的Jni开发流程（一）</a><br><a href="http://blog.csdn.net/wo_ha/article/details/53715936" target="_blank" rel="noopener">2.eclipse中的Jni开发流程（二）</a><br><a href="http://blog.csdn.net/wo_ha/article/details/78131635" target="_blank" rel="noopener">3.Android Studio配置CMake开发NDK</a></p>
+<h1 id="1-在SDK-Tools中勾选安装CMake、LLDB、NDK"><a href="#1-在SDK-Tools中勾选安装CMake、LLDB、NDK" class="headerlink" title="1.在SDK Tools中勾选安装CMake、LLDB、NDK"></a>1.在SDK Tools中勾选安装CMake、LLDB、NDK</h1><p><img src="http://upload-images.jianshu.io/upload_images/4143664-e9531961f5c65186.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h1 id="2-配置一些快捷方式"><a href="#2-配置一些快捷方式" class="headerlink" title="2.配置一些快捷方式"></a>2.配置一些快捷方式</h1><p>###参数讲解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">javah   用于生成头文件</span><br><span class="line">Program：$JDKPath$/bin/javah</span><br><span class="line">Parameters：-d ../jni -jni $FileClass$</span><br><span class="line">Working directory：$SourcepathEntry$\..\java</span><br><span class="line">ndk-build   用于构建so包</span><br><span class="line">注意：MAC/Linux用ndk-build，没有.cmd后缀</span><br><span class="line">Program：D:\adt\sdk\ndk-bundle\ndk-build.cmd</span><br><span class="line">Parameters：什么都不用填</span><br><span class="line">Working directory：$ModuleFileDir$\src\main</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-5a1438d28dbe723c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-2a6c6bcc5c069069.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h1 id="3-在工程的local-properties文件中配置NDK的目录"><a href="#3-在工程的local-properties文件中配置NDK的目录" class="headerlink" title="3.在工程的local.properties文件中配置NDK的目录"></a>3.在工程的local.properties文件中配置NDK的目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sdk.dir=C\:\\Users\\yuxue\\AppData\\Local\\Android\\sdk</span><br><span class="line">ndk.dir=C\:\\Users\\yuxue\\AppData\\Local\\Android\\sdk\\ndk-bundle</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-15b2ce962dd442aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p>也可以使用图形界面，单击模块选择Open Moude Setting，选择好NDK的路径</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-f57aac9b51c62945.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h1 id="4-编译时如果检查NDK过时了可以在gradle-properties文件中增加“android-useDeprecatedNdk-true”使它可以使用过时的NDK"><a href="#4-编译时如果检查NDK过时了可以在gradle-properties文件中增加“android-useDeprecatedNdk-true”使它可以使用过时的NDK" class="headerlink" title="4.编译时如果检查NDK过时了可以在gradle.properties文件中增加“android.useDeprecatedNdk=true”使它可以使用过时的NDK"></a>4.编译时如果检查NDK过时了可以在gradle.properties文件中增加“android.useDeprecatedNdk=true”使它可以使用过时的NDK</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.useDeprecatedNdk=true</span><br></pre></td></tr></table></figure>
+<h1 id="5-创建CMakeLists-txt文件并放在模块的的根目录"><a href="#5-创建CMakeLists-txt文件并放在模块的的根目录" class="headerlink" title="5.创建CMakeLists.txt文件并放在模块的的根目录"></a>5.创建CMakeLists.txt文件并放在模块的的根目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 设置构建本地库所需的最小版本的cbuild。</span><br><span class="line">cmake_minimum_required(VERSION 3.4.1)</span><br><span class="line"># 创建并命名一个库，将其设置为静态</span><br><span class="line">#  或者共享，并提供其源代码的相对路径。</span><br><span class="line"># 您可以定义多个库，而cbuild为您构建它们。</span><br><span class="line">#  Gradle自动将共享库与你的APK打包。</span><br><span class="line">add_library( hello-lib  #设置库的名称。即SO文件的名称，生产的so文件为“libhello-lib.so”,在加载的时候“System.loadLibrary(&quot;hello-lib&quot;);”</span><br><span class="line">                SHARED  # 将库设置为共享库。</span><br><span class="line">                src/main/jni/hello.cpp    # 提供一个源文件的相对路径</span><br><span class="line">                src/main/jni/helloJni.cpp    # 提供同一个SO文件中的另一个源文件的相对路径</span><br><span class="line">              )</span><br><span class="line">#搜索指定的预构建库，并将该路径存储为一个变量。因为cbuild默认包含了搜索路径中的系统库，所以您只需要指定您想要添加的公共NDK库的名称。cbuild在完成构建之前验证这个库是否存在。</span><br><span class="line">find_library(log-lib  # 设置path变量的名称。</span><br><span class="line">              log   #  指定NDK库的名称 你想让CMake来定位。</span><br><span class="line">               )</span><br><span class="line">#指定库的库应该链接到你的目标库。您可以链接多个库，比如在这个构建脚本中定义的库、预构建的第三方库或系统库。</span><br><span class="line">target_link_libraries( hello-lib     #指定目标库中。与 add_library的库名称一定要相同</span><br><span class="line">                       $&#123;log-lib&#125;    # 将目标库链接到日志库包含在NDK。</span><br><span class="line">                        )</span><br><span class="line">#如果需要生产多个SO文件的话，写法如下</span><br><span class="line">add_library( natave-lib  #设置库的名称。另一个so文件的名称</span><br><span class="line">                SHARED  # 将库设置为共享库。</span><br><span class="line">                src/main/jni/nataveJni.cpp    # 提供一个源文件的相对路径</span><br><span class="line">              )</span><br><span class="line">target_link_libraries( natave-lib     #指定目标库中。与 add_library的库名称一定要相同</span><br><span class="line">                       $&#123;log-lib&#125;    # 将目标库链接到日志库包含在NDK。</span><br><span class="line">                        )</span><br></pre></td></tr></table></figure>
+<h1 id="6-在模块的build-gradle文件中添加"><a href="#6-在模块的build-gradle文件中添加" class="headerlink" title="6.在模块的build.gradle文件中添加"></a>6.在模块的build.gradle文件中添加</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion 26</span><br><span class="line">    buildToolsVersion &quot;26.0.0&quot;</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        externalNativeBuild &#123;</span><br><span class="line">            cmake &#123;</span><br><span class="line">                cppFlags &quot;&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    externalNativeBuild &#123;</span><br><span class="line">        cmake &#123;</span><br><span class="line">            path &quot;CMakeLists.txt&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-630ad87d7a0c9440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h1 id="7-编写Java中的Native方法"><a href="#7-编写Java中的Native方法" class="headerlink" title="7.编写Java中的Native方法"></a>7.编写Java中的Native方法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public native  String getStr();</span><br><span class="line">public native  String gethelloJniStr();</span><br></pre></td></tr></table></figure>
+<h1 id="8-生成C的头文件"><a href="#8-生成C的头文件" class="headerlink" title="8.生成C的头文件"></a>8.生成C的头文件</h1><p><img src="http://upload-images.jianshu.io/upload_images/4143664-82edca6bbcdda37c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br> 生成后</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-be6f2c0e939d8996.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h1 id="9-编写C函数"><a href="#9-编写C函数" class="headerlink" title="9.编写C函数"></a>9.编写C函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;jni.h&quot;</span><br><span class="line">#include &quot;string&quot;</span><br><span class="line">extern  &quot;C&quot;</span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_ljp_learnandroidadvanced_MainActivity_getStr</span><br><span class="line">        (JNIEnv *env,</span><br><span class="line">jobject jobject1)&#123;</span><br><span class="line">    return env-&gt;NewStringUTF(&quot;hello world from cpp&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-431666dd67d04c1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<p> 至此，这个项目就可以运行了</p>
+<h1 id="更多的学习"><a href="#更多的学习" class="headerlink" title="更多的学习"></a>更多的学习</h1><p><img src="http://upload-images.jianshu.io/upload_images/4143664-72bdd9f8f072b8d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(1) .externalNativeBuild文件夹：用于存放cmake编译好的文件，包括支持的各种硬件等信息，有点类似于build.gradle文件明确Gradle如何编译APP；</span><br><span class="line">(2) cpp文件夹：存放C/C++代码文件，native-lib.cpp文件默认生成的；</span><br><span class="line">(3) CMakeLists.txt：cmake脚本配置文件，cmake会根据该脚本文件中的指令去编译相关的C/C++源文件，并将编译后产物生成共享库或静态块，然后Gradle将其打包到APK中。</span><br></pre></td></tr></table></figure></p>
+<p>CMakeLists.txt文件解析如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 指定cmke版本</span><br><span class="line">cmake_minimum_required(VERSION3.4.1)</span><br><span class="line"># add_library()命令用于向CMake添加依赖源文件或库</span><br><span class="line"># 指令需传入三个参数（函数库名称、库类型、依赖源文件相对路径）</span><br><span class="line">add_library(  # 生成函数库的名称，即libnative-lib.so或libnative-lib.a(lib和.so/.a默认缺省)</span><br><span class="line">             native-lib</span><br><span class="line">             # 生成库类型：动态库为SHARED，静态库为STATIC</span><br><span class="line">             SHARED</span><br><span class="line">             # 依赖的c/cpp文件(相对路径)</span><br><span class="line">             src/main/cpp/native-lib.cpp )</span><br><span class="line"># find_library()命令用于定位NDK中的库</span><br><span class="line"># 需传入两个参数(path变量、ndk库名称)</span><br><span class="line">find_library(  # 设置path变量的名称，这里为NDK中的日志库</span><br><span class="line">              log-lib</span><br><span class="line">                            #指定cmake查询库的名称</span><br><span class="line">                            #即在ndk开发包中查询liblog.so函数库，将其路径赋值给log-lib</span><br><span class="line">              log )</span><br><span class="line">#target_link_libraries()命令用于指定要关联到的原生库的库</span><br><span class="line">target_link_libraries(# 指定目标库，与上面指定的函数库名一致</span><br><span class="line">                  native-lib</span><br><span class="line">                  # 链接的库，根据log-lib变量对应liblog.so函数库</span><br><span class="line">                  $&#123;log-lib&#125; )</span><br></pre></td></tr></table></figure></p>
+<h6 id="通过查看native-lib-cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib-cpp文件中添加新的方法，必须添加在extern”C”-中，或者在每个方法前加extern”C”-否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern-“C”的作用就是告诉编译器以C方式编译。"><a href="#通过查看native-lib-cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib-cpp文件中添加新的方法，必须添加在extern”C”-中，或者在每个方法前加extern”C”-否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern-“C”的作用就是告诉编译器以C方式编译。" class="headerlink" title="通过查看native-lib.cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib.cpp文件中添加新的方法，必须添加在extern”C” { } 中，或者在每个方法前加extern”C”, 否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern “C”的作用就是告诉编译器以C方式编译。"></a>通过查看native-lib.cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib.cpp文件中添加新的方法，必须添加在extern”C” { } 中，或者在每个方法前加extern”C”, 否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern “C”的作用就是告诉编译器以C方式编译。</h6><h3 id="JNI开发打印日志"><a href="#JNI开发打印日志" class="headerlink" title="JNI开发打印日志"></a>JNI开发打印日志</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;android/log.h&gt;</span><br><span class="line">#define LOG_TAG &quot;System.out.c&quot;</span><br><span class="line">#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)</span><br><span class="line">#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)</span><br><span class="line">#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)</span><br><span class="line">#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)</span><br><span class="line"></span><br><span class="line">LOG的使用</span><br><span class="line">    LOGD(&quot;TAGD,a=%d,b=%d&quot;,a,b);</span><br><span class="line">    LOGI(&quot;TAGI,a=%d,b=%d&quot;,a,b);</span><br><span class="line">    LOGW(&quot;TAGW,a=%d,b=%d&quot;,a,b);</span><br><span class="line">    LOGE(&quot;TAGE,a=%d,b=%d&quot;,a,b);</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-652ac51a570a032d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
+<h3 id="Android系统目前支持的CPU架构"><a href="#Android系统目前支持的CPU架构" class="headerlink" title="Android系统目前支持的CPU架构"></a>Android系统目前支持的CPU架构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">ARMv5，ARMv7 (从2010年起)</span><br><span class="line">x86 (从2011年起)</span><br><span class="line">MIPS (从2012年起)</span><br><span class="line">ARMv8，MIPS64和x86_64 (从2014年起)</span><br><span class="line">每一个CPU架构对应一个ABI</span><br><span class="line">CPU架构           ABI</span><br><span class="line">ARMv5   ---&gt;    armeabi</span><br><span class="line">ARMv7   ---&gt;    armeabi-v7a</span><br><span class="line">x86     ---&gt;    x86</span><br><span class="line">MIPS    ---&gt;    mips</span><br><span class="line">ARMv8   ---&gt;    arm64-v8a</span><br><span class="line">MIPS64  ---&gt;    mips64</span><br><span class="line">x86_64  ---&gt;    x86_64</span><br><span class="line">armeabi：默认选项，将创建以基于ARM* v5TE 的设备为目标的库。 具有这种目标</span><br><span class="line">的浮点运算使用软件浮点运算。 使用此ABI（二进制接口）创建的二进制代码将可以</span><br><span class="line">在所有 ARM*设备上运行。所以armeabi通用性很强。但是速度慢</span><br><span class="line">armeabi-v7a：创建支持基于ARM* v7 的设备的库，并将使用硬件FPU指令。</span><br><span class="line">armeabi-v7a是针对有浮点运算或高级扩展功能的arm v7 cpu。</span><br><span class="line">mips：MIPS是世界上很流行的一种RISC处理器。MIPS的意思是“无内部互锁流水级</span><br><span class="line">的微处理器”(Microprocessor without interlocked piped stages)，其机</span><br><span class="line">制是尽量利用软件办法避免流水线中的数据相关问题。</span><br><span class="line">x86：支持基于硬件的浮点运算的IA-32 指令集。x86是可以兼容armeabi平台运行</span><br><span class="line">的，无论是armeabi-v7a还是armeabi，同时带来的也是性能上的损耗，另外需要</span><br><span class="line">指出的是，打包出的x86的so，总会比armeabi平台的体积更小。</span><br><span class="line">总结</span><br><span class="line">如果项目只包含了 armeabi，那么在所有Android设备都可以运行；</span><br><span class="line">如果项目只包含了 armeabi-v7a，除armeabi架构的设备外都可以运行；</span><br><span class="line">如果项目只包含了 x86，那么armeabi架构和armeabi-v7a的Android设备是无法</span><br><span class="line">运行的；</span><br><span class="line">如果同时包含了 armeabi，armeabi-v7a和x86，所有设备都可以运行，程序在运</span><br><span class="line">行的时候去加载不同平台对应的so，这是较为完美的一种解决方案，同时也会导致</span><br><span class="line">包变大。</span><br></pre></td></tr></table></figure>
+<p>我的CSDN博客地址：<a href="http://blog.csdn.net/wo_ha/article/details/78131635" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/78131635</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AndroidStudio配置/" rel="tag"># AndroidStudio配置</a>
+          
+            <a href="/tags/CMake/" rel="tag"># CMake</a>
+          
+            <a href="/tags/NDK/" rel="tag"># NDK</a>
+          
+            <a href="/tags/JNI/" rel="tag"># JNI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/30/设计模式二：观察者模式（发布订阅模式）/" rel="next" title="设计模式二：观察者模式（发布订阅模式）">
+                <i class="fa fa-chevron-left"></i> 设计模式二：观察者模式（发布订阅模式）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/28/Android 的进程间通信 Binder——AIDL的入门使用（一）/" rel="prev" title="Android 的进程间通信 Binder——AIDL的入门使用（一）">
+                Android 的进程间通信 Binder——AIDL的入门使用（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><span class="nav-number">1.</span> <span class="nav-text">版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-在SDK-Tools中勾选安装CMake、LLDB、NDK"><span class="nav-number">2.</span> <span class="nav-text">1.在SDK Tools中勾选安装CMake、LLDB、NDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-配置一些快捷方式"><span class="nav-number">3.</span> <span class="nav-text">2.配置一些快捷方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-在工程的local-properties文件中配置NDK的目录"><span class="nav-number">4.</span> <span class="nav-text">3.在工程的local.properties文件中配置NDK的目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-编译时如果检查NDK过时了可以在gradle-properties文件中增加“android-useDeprecatedNdk-true”使它可以使用过时的NDK"><span class="nav-number">5.</span> <span class="nav-text">4.编译时如果检查NDK过时了可以在gradle.properties文件中增加“android.useDeprecatedNdk=true”使它可以使用过时的NDK</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-创建CMakeLists-txt文件并放在模块的的根目录"><span class="nav-number">6.</span> <span class="nav-text">5.创建CMakeLists.txt文件并放在模块的的根目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-在模块的build-gradle文件中添加"><span class="nav-number">7.</span> <span class="nav-text">6.在模块的build.gradle文件中添加</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-编写Java中的Native方法"><span class="nav-number">8.</span> <span class="nav-text">7.编写Java中的Native方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-生成C的头文件"><span class="nav-number">9.</span> <span class="nav-text">8.生成C的头文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-编写C函数"><span class="nav-number">10.</span> <span class="nav-text">9.编写C函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更多的学习"><span class="nav-number">11.</span> <span class="nav-text">更多的学习</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#通过查看native-lib-cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib-cpp文件中添加新的方法，必须添加在extern”C”-中，或者在每个方法前加extern”C”-否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern-“C”的作用就是告诉编译器以C方式编译。"><span class="nav-number">11.0.0.0.0.1.</span> <span class="nav-text">通过查看native-lib.cpp方法，stringFromJNI目的是向Java层返回一个字符串。如果要在native-lib.cpp文件中添加新的方法，必须添加在extern”C” { } 中，或者在每个方法前加extern”C”, 否则会报找不到方法。如果源文件为C，则须将extern“C”部分去掉，因为extern “C”的作用就是告诉编译器以C方式编译。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI开发打印日志"><span class="nav-number">11.0.1.</span> <span class="nav-text">JNI开发打印日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android系统目前支持的CPU架构"><span class="nav-number">11.0.2.</span> <span class="nav-text">Android系统目前支持的CPU架构</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式,观察者模式,发布订阅模式" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###版权声明，转载请著名">
+<meta name="keywords" content="设计模式,观察者模式,发布订阅模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式二：观察者模式（发布订阅模式）">
+<meta property="og:url" content="http://yoursite.com/2017/08/30/设计模式二：观察者模式（发布订阅模式）/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###版权声明，转载请著名">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式二：观察者模式（发布订阅模式）">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###版权声明，转载请著名">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/30/设计模式二：观察者模式（发布订阅模式）/"/>
+
+
+
+
+
+  <title>设计模式二：观察者模式（发布订阅模式） | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/30/设计模式二：观察者模式（发布订阅模式）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式二：观察者模式（发布订阅模式）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T16:09:58+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><a href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。" class="headerlink" title="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"></a>版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</h1><p>###版权声明，转载请著名出处：<a href="http://www.jianshu.com/p/f88dca81c56b" target="_blank" rel="noopener">http://www.jianshu.com/p/f88dca81c56b</a></p>
+<p>#设计模式系列</p>
+<p><a href="http://www.jianshu.com/p/fb3e4ea5be06" target="_blank" rel="noopener">1. 设计模式一：单例模式</a></p>
+<p><a href="http://www.jianshu.com/p/f88dca81c56b" target="_blank" rel="noopener">2. 设计模式二：观察者模式（发布订阅模式）</a></p>
+<p>#定义<br>观察者模式定义了一个一对多的依赖关系，能让一个或者多个观察者对象监督一个主题对象，这样一个主题对象在状态上的变化能够通知所有的依赖于此对象的那些观察者对象，使这些观察者对象能够自动更新，<strong>其本质是触发联动</strong>，别名：发布-订阅(Publish/Subscribe)模式、模型-视图(Model/View)模式、源-监听器(Source/Listener)模式或从属者(Dependents)模式。</p>
+<p>#观察者模式的四个角色<br><strong>1.抽象主题(Subject)角色：</strong>抽象主题角色把所有对观察者对象的引用保存在一个聚集（比如ArrayList对象）里，每个主题都可以有任何数量的观察者。抽象主题提供一个接口，可以增加和删除观察者对象，抽象主题角色又叫做抽象被观察者(Observable)角色。一般是一个抽象类或者一个接口来实现，常见的方法attatch()，detach()，notifyObserver();java提供java.util.Observable类支持，<br><strong>2.具体主题(ConcreteSubject)角色：</strong>将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色又叫做具体被观察者(Concrete Observable)角色。<br><strong>3.抽象观察者(Observer)角色：</strong> 为所有的具体观察者定义一个接口，在得到主题的通知时更新自己，这个接口叫做更新接口。定义的方法有update()，Java提供了java.util.Observer接口支持，<br><strong>4.具体观察者(ConcreteObserver)角色：</strong> 存储与主题的状态自恰的状态。具体观察者角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态 像协调。如果需要，具体观察者角色可以保持一个指向具体主题对象的引用。</p>
+<p>#观察者模式的分类<br>观察者模式分为推模型和拉模型，其中区别为：<br>推模型：假定目标对象知道观察者需要的数据，会推送指定的数据，会使观察者对象难以复用；<br>拉模型：目标对象不知道观察者具体需要什么数据，因此把自身的引用传给观察者，由观察者来取值；</p>
+<p>#观察者模式的使用步骤<br>1.创建目标对象<br>2.创建观察者对象<br>3.观察者对象订阅目标对象<br>4.目标对象更新数据通知订阅者对象</p>
+<p>#何时使用观察者模式<br>1.当一个抽象模型，其中一个方面的操作依赖于另一个方面的状态变化<br>2.如果在更改一个对象的时候，需要同时连带改变其他的对象，而且不知道究竟应该有多少对象需要被连带改变时<br>3.当一个对象必须通知其他的对象，但是你又希望这个对象和其他被他通知的对象是松散耦合的</p>
+<p>#观察者模式的代码示例</p>
+<p>###一：观察者模式的标准代码模版<br>抽象主题(Subject)角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Subject &#123;</span><br><span class="line">	private List&lt;Observer&gt; observers=new ArrayList&lt;Observer&gt;();//用于保存已订阅的目标的观察者</span><br><span class="line">	public void attach(Observer observer)&#123;//订阅目标对象</span><br><span class="line">		observers.add(observer);</span><br><span class="line">	&#125;</span><br><span class="line">	public void detach(Observer observer)&#123;//解除订阅关系</span><br><span class="line">		observers.remove(observer);</span><br><span class="line">	&#125;</span><br><span class="line">	protected void notifyObserver()&#123;//通知已订阅的观察者</span><br><span class="line">		for (Observer observer : observers) &#123;</span><br><span class="line">			observer.updata(this);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体主题(ConcreteSubject)角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteSubject extends Subject &#123;</span><br><span class="line">	private String subjectState;</span><br><span class="line">	public String getSubjectState() &#123;</span><br><span class="line">		return subjectState;</span><br><span class="line">	&#125;</span><br><span class="line">	public void updateChange(String subjectState) &#123;//目标状态改变，通知订阅者</span><br><span class="line">		this.subjectState = subjectState;</span><br><span class="line">		notifyObserver();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>抽象观察者(Observer)角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Observer &#123;</span><br><span class="line">	public void updata(Subject subject); //目标对象发生改变时调用</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体观察者(ConcreteObserver)角色<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteObserver implements Observer&#123;</span><br><span class="line">	private String subjectState;</span><br><span class="line">	public void updata(Subject subject) &#123;</span><br><span class="line">		subjectState=((ConcreteSubject)subject).getSubjectState();//记录目标对象改变的状态值</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>###二：观察者模式的标准代码模版的情景使用<br><strong>背景：</strong>老王在气象局上班，老王需要在天气良好的时候发一条消息给女朋友提醒约会，发一条消息给老妈提醒扫货（注：未书写的类均为模版代码不变的）<br>具体的天气被观察者，这里指代老王或气象局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteSubject extends Subject &#123;</span><br><span class="line">	private String subjectWeatherState;//天气状态</span><br><span class="line">	public String getSubjectWeatherState() &#123;</span><br><span class="line">		return subjectWeatherState;</span><br><span class="line">	&#125;</span><br><span class="line">	public void updateChangeWeatherState(String subjectWeatherState) &#123;</span><br><span class="line">		this.subjectWeatherState = subjectWeatherState;</span><br><span class="line">		notifyObserver();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体的观察者，这里指代女朋友和老妈<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteObserver implements Observer&#123;</span><br><span class="line">	private String subjectWeatherState;//天气状态</span><br><span class="line">	private String subjectName;//订阅者的名字，get、set方法省略</span><br><span class="line">	private String redim;//需要提示的消息	，get、set方法省略</span><br><span class="line">	public ConcreteObserver(String subjectName, String redim) &#123;</span><br><span class="line">		this.subjectName = subjectName;</span><br><span class="line">		this.redim = redim;</span><br><span class="line">	&#125;</span><br><span class="line">	public void updata(Subject subject) &#123;</span><br><span class="line">		subjectWeatherState=((ConcreteSubject)subject).getSubjectWeatherState();</span><br><span class="line">		System.out.println(subjectName+&quot;收到了消息，内容：&quot;+subjectWeatherState+&quot;,&quot;+redim);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试使用类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class ClientTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// 1.创建目标对象</span><br><span class="line">		ConcreteSubject subject=new ConcreteSubject();</span><br><span class="line">		// 2.创建观察者对象</span><br><span class="line">		ConcreteObserver observerGirl=new ConcreteObserver(&quot;女朋友&quot;, &quot;第一次约会，地点欢乐谷，不见不散&quot;);</span><br><span class="line">		ConcreteObserver observerMum=new ConcreteObserver(&quot;老妈&quot;, &quot;沃尔玛超市打折，扫货&quot;);</span><br><span class="line">		// 3.观察者对象订阅目标对象</span><br><span class="line">		subject.attach(observerGirl);</span><br><span class="line">		subject.attach(observerMum);</span><br><span class="line">		// 4.目标对象更新数据通知订阅者对象</span><br><span class="line">		subject.updateChangeWeatherState(&quot;天气晴朗，蓝天白云，气温23度&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">女朋友收到了消息，内容：天气晴朗，蓝天白云，气温23度,第一次约会，地点欢乐谷，不见不散</span><br><span class="line">老妈收到了消息，内容：天气晴朗，蓝天白云，气温23度,沃尔玛超市打折，扫货</span><br></pre></td></tr></table></figure></p>
+<p>###三：Java提供支持的观察者的情景使用<br><strong>背景：</strong>一个商品价格变化需要通知已经订阅的VIP顾客<br>具体的目标对象（被观察者），指代商品<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Observable;</span><br><span class="line">public class ProductSubject extends Observable&#123;</span><br><span class="line">	private String name;//商品名字</span><br><span class="line">	private float price;//商品价格</span><br><span class="line">	public ProductSubject(String name)&#123;</span><br><span class="line">		this.name=name;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getName() &#123;</span><br><span class="line">		return name;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setName(String name) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	public float getPrice() &#123;</span><br><span class="line">		return price;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setPrice(float price) &#123;</span><br><span class="line">		this.price = price;</span><br><span class="line">		setChanged();//设置变化点，必须在通知之前调用</span><br><span class="line">		notifyObservers();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体的观察者，指代VIP顾客<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Observable;</span><br><span class="line">import java.util.Observer;</span><br><span class="line">public class VipObserver  implements Observer&#123;</span><br><span class="line">	private String customerName;//顾客姓名</span><br><span class="line">	public VipObserver(String customerName)&#123;</span><br><span class="line">		this.customerName=customerName;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * @param observable</span><br><span class="line">	 *            拉模式的情况，目标对象</span><br><span class="line">	 * @param obj</span><br><span class="line">	 *            推模式的情况，指定的内容</span><br><span class="line">	 */</span><br><span class="line">	public void update(Observable observable, Object obj) &#123;</span><br><span class="line">		String name = ((ProductSubject)observable).getName();</span><br><span class="line">		float price = ((ProductSubject)observable).getPrice();</span><br><span class="line">		System.out.println(customerName+&quot;收到商品：&quot;+name+&quot; 的价格变化通知,现在的价格为：&quot;+price+&quot; 元&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试使用类，用于测试商品价格发生变化会通知Vip客户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class ClientTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//1.创建被观察对象即目标对象</span><br><span class="line">		ProductSubject subject=new ProductSubject(&quot;苹果&quot;);</span><br><span class="line">		//2.创建观察者</span><br><span class="line">		VipObserver observerM=new VipObserver(&quot;老马哥&quot;);</span><br><span class="line">		VipObserver observerW=new VipObserver(&quot;隔壁老王&quot;);</span><br><span class="line">		//3.观察者订阅目标对象</span><br><span class="line">		subject.addObserver(observerM);</span><br><span class="line">		subject.addObserver(observerW);</span><br><span class="line">		//4.目标对象发生改变</span><br><span class="line">		subject.setPrice(10.5f);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">隔壁老王收到商品：苹果 的价格变化通知,现在的价格为：10.5元</span><br><span class="line">老马哥收到商品：苹果 的价格变化通知,现在的价格为：10.5元</span><br></pre></td></tr></table></figure></p>
+<p>#观察者模式的总结</p>
+<p>###观察者的优点<br>1.实现了观察者和目标之间的抽象耦合<br>2.实现了动态的联动<br>3.支持广播通信</p>
+<p>###观察者的缺点<br>1.可能会引起无谓的操作，有些订阅者不需要响应（区别对待观察者）<br>2.在Java中消息的通知一般是顺序执行，那么一个观察者卡顿，会影响整体的执行效率，在这种情况下，一般会采用异步实现。</p>
+<p>###Android中常见的观察者模式<br>OnClickListener、ContentObserver、android.database.Observable等；还有组件通讯库RxJava、RxAndroid、EventBus；Adapter的notifyDataSetChanged()</p>
+<p>我的CSDN博客地址：<a href="http://blog.csdn.net/wo_ha/article/details/77717887" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/77717887</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/观察者模式/" rel="tag"># 观察者模式</a>
+          
+            <a href="/tags/发布订阅模式/" rel="tag"># 发布订阅模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/25/设计模式一：单例模式/" rel="next" title="设计模式一：单例模式">
+                <i class="fa fa-chevron-left"></i> 设计模式一：单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/29/Android Studio配置CMake开发NDK/" rel="prev" title="Android Studio配置CMake开发NDK">
+                Android Studio配置CMake开发NDK <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><span class="nav-number">1.</span> <span class="nav-text">版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

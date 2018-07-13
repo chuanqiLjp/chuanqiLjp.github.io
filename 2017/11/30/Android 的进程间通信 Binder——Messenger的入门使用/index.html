@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="进程间通信,Binder,AIDL,Messenger" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+<meta name="keywords" content="进程间通信,Binder,AIDL,Messenger">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 的进程间通信 Binder——Messenger的入门使用">
+<meta property="og:url" content="http://yoursite.com/2017/11/30/Android 的进程间通信 Binder——Messenger的入门使用/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-f839a320595c757f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-d7933a0a80dc9793.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.028Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 的进程间通信 Binder——Messenger的入门使用">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。###进程间通信系列 AI">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-f839a320595c757f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/30/Android 的进程间通信 Binder——Messenger的入门使用/"/>
+
+
+
+
+
+  <title>Android 的进程间通信 Binder——Messenger的入门使用 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/30/Android 的进程间通信 Binder——Messenger的入门使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 的进程间通信 Binder——Messenger的入门使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-30T11:32:58+08:00">
+                2017-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/进程间通信/" itemprop="url" rel="index">
+                    <span itemprop="name">进程间通信</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><a href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。" class="headerlink" title="版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"></a>版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</h1><p>###进程间通信系列</p>
+<h5 id="AIDL的入门使用-一"><a href="#AIDL的入门使用-一" class="headerlink" title="AIDL的入门使用(一)"></a><a href="http://www.jianshu.com/p/00cd607b5292" target="_blank" rel="noopener">AIDL的入门使用(一)</a></h5><h5 id="AIDL的入门使用-二"><a href="#AIDL的入门使用-二" class="headerlink" title="AIDL的入门使用(二)"></a><a href="http://www.jianshu.com/p/5f394bf22849" target="_blank" rel="noopener">AIDL的入门使用(二)</a></h5><h5 id="AIDL的入门使用-三"><a href="#AIDL的入门使用-三" class="headerlink" title="AIDL的入门使用(三)"></a><a href="http://www.jianshu.com/p/0ea8e4d42ee5" target="_blank" rel="noopener">AIDL的入门使用(三)</a></h5><h5 id="Messenger的入门使用"><a href="#Messenger的入门使用" class="headerlink" title="Messenger的入门使用"></a><a href="http://www.jianshu.com/p/f1dc06457047" target="_blank" rel="noopener">Messenger的入门使用</a></h5><h5 id="序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。"><a href="#序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。" class="headerlink" title="序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。"></a>序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。</h5><h1 id="Messenger进程间通信服务端"><a href="#Messenger进程间通信服务端" class="headerlink" title="Messenger进程间通信服务端"></a>Messenger进程间通信服务端</h1><h3 id="1、创建服务端Module-“messenger-server”，并创建Service文件：右键单击包名——-gt-New——-gt-Service——-gt-Service——-gt-命名为MyServerService——-gt-Finish；"><a href="#1、创建服务端Module-“messenger-server”，并创建Service文件：右键单击包名——-gt-New——-gt-Service——-gt-Service——-gt-命名为MyServerService——-gt-Finish；" class="headerlink" title="1、创建服务端Module “messenger_server”，并创建Service文件：右键单击包名——&gt;New——&gt;Service——&gt;Service——&gt;命名为MyServerService——&gt;Finish；"></a>1、创建服务端Module “messenger_server”，并创建Service文件：右键单击包名——&gt;New——&gt;Service——&gt;Service——&gt;命名为MyServerService——&gt;Finish；</h3><p><img src="http://upload-images.jianshu.io/upload_images/4143664-f839a320595c757f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-d7933a0a80dc9793.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger-getBinder"><a href="#2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger-getBinder" class="headerlink" title="2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger.getBinder()"></a>2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger.getBinder()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.messenger_server;</span><br><span class="line">import android.app.Service;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.os.Handler;</span><br><span class="line">import android.os.IBinder;</span><br><span class="line">import android.os.Message;</span><br><span class="line">import android.os.Messenger;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">import android.util.Log;</span><br><span class="line">public class MyServerService extends Service &#123;</span><br><span class="line">    private static final String TAG = &quot;messenger&quot;;</span><br><span class="line">    //1、用于接收客户端发送过来的消息</span><br><span class="line">    Handler mServerHandler = new Handler() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            switch (msg.what) &#123;</span><br><span class="line">                case 1:</span><br><span class="line">                    //获取来自客户端的消息</span><br><span class="line">                    Bundle data = msg.getData();</span><br><span class="line">                    String clientMsg = data.getString(&quot;clientMsg&quot;);</span><br><span class="line">                    Log.e(TAG, &quot;handleMessage: 收到来自客户端的消息：clientMsg=&quot; + clientMsg);</span><br><span class="line">                    // 向客户端回复消息</span><br><span class="line">                    Messenger clientMessenger = msg.replyTo; //获取到客户端的 Messenger，这里可以保存为全局变量，以后就不用每次都去获取了</span><br><span class="line">                    Message toClientMsg = Message.obtain();</span><br><span class="line">                    toClientMsg.what=1;</span><br><span class="line">                    Bundle bundle = new Bundle();</span><br><span class="line">                    bundle.putString(&quot;serverMsg&quot;, &quot;我是服务端，已经收到你的消息了&quot;);</span><br><span class="line">                    toClientMsg.setData(bundle);</span><br><span class="line">                    try &#123;</span><br><span class="line">                        clientMessenger.send(toClientMsg);//回复客户端</span><br><span class="line">                    &#125; catch (RemoteException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    super.handleMessage(msg);</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    //2、使用Handler创建Messenger。</span><br><span class="line">    Messenger mServerMessenger = new Messenger(mServerHandler);</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        return mServerMessenger.getBinder();//3、向客户端返回服务端的Binder</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        Log.e(TAG, &quot;onDestroy: MyServerService销毁&quot; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。"><a href="#3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。" class="headerlink" title="3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。"></a>3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--注：服务端的包名为：com.ljp.messenger_server，客户端绑定Service的时候是使用程序的包名，不是使用MyServerService类的包名--&gt;</span><br><span class="line">&lt;service</span><br><span class="line">    android:name=&quot;.MyServerService&quot;</span><br><span class="line">    android:enabled=&quot;true&quot;</span><br><span class="line">    android:exported=&quot;true&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.ljp.messenger_server.server.action&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
+<p>服务端的创建完成了,再来看看客户端。</p>
+<h1 id="Messenger进程间通信客户端"><a href="#Messenger进程间通信客户端" class="headerlink" title="Messenger进程间通信客户端"></a>Messenger进程间通信客户端</h1><h3 id="1、创建服务端Module-“messenger-client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。"><a href="#1、创建服务端Module-“messenger-client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。" class="headerlink" title="1、创建服务端Module “messenger_client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。"></a>1、创建服务端Module “messenger_client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">package com.ljp.messenger_client;</span><br><span class="line">import android.content.ComponentName;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.content.ServiceConnection;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.os.Handler;</span><br><span class="line">import android.os.IBinder;</span><br><span class="line">import android.os.Message;</span><br><span class="line">import android.os.Messenger;</span><br><span class="line">import android.os.RemoteException;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.view.View;</span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">    Messenger mServerMessenger = null;</span><br><span class="line">    ServiceConnection mConnection = new ServiceConnection() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onServiceConnected(ComponentName name, IBinder service) &#123;</span><br><span class="line">            mServerMessenger = new Messenger(service);</span><br><span class="line">            Log.e(TAG, &quot;onServiceConnected: 绑定服务端成功&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public void onServiceDisconnected(ComponentName name) &#123;//注：unbindService不会调用此方法</span><br><span class="line">            mServerMessenger = null;</span><br><span class="line">            Log.e(TAG, &quot;onServiceDisconnected: 与服务端断开联系&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    //3、绑定服务端并在回调方法onServiceConnected中保存下服务端的Messenger</span><br><span class="line">    public void bind(View view) &#123;</span><br><span class="line">        Intent intent = new Intent();</span><br><span class="line">        intent.setPackage(&quot;com.ljp.messenger_server&quot;);</span><br><span class="line">        intent.setAction(&quot;com.ljp.messenger_server.server.action&quot;);</span><br><span class="line">        boolean bindService = bindService(intent, mConnection, BIND_AUTO_CREATE);</span><br><span class="line">        Log.e(TAG, &quot;bind: bindService=&quot; + bindService);</span><br><span class="line">    &#125;</span><br><span class="line">    private static final String TAG = &quot;messenger&quot;;</span><br><span class="line">    //1、创建一个Handler用于接收服务端发送过来的消息</span><br><span class="line">    Handler mClientHandler = new Handler() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            switch (msg.what) &#123;</span><br><span class="line">                case 1:</span><br><span class="line">                    //获取来自服务端的消息</span><br><span class="line">                    Bundle data = msg.getData();</span><br><span class="line">                    String serverMsg = data.getString(&quot;serverMsg&quot;);</span><br><span class="line">                    Log.e(TAG, &quot;handleMessage: 收到来自服务端的消息：serverMsg=&quot; + serverMsg);</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                    super.handleMessage(msg);</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    //2、构建一个客户端的Messenger，方便服务端使用</span><br><span class="line">    Messenger mClientMessenger = new Messenger(mClientHandler);</span><br><span class="line">    //4、使用服务端的Messenger发送消息给服务端，并携带上客户端的Messenger。</span><br><span class="line">    public void sendMessageToServer(View view) &#123;</span><br><span class="line">        if (mServerMessenger == null) return;</span><br><span class="line">        // 向服务端发送消息</span><br><span class="line">        Message toServerMsg = Message.obtain();</span><br><span class="line">        toServerMsg.what = 1;</span><br><span class="line">        toServerMsg.replyTo = mClientMessenger;//将客户端的Messenger携带上，服务端可以用来回复客户端的消息</span><br><span class="line">        Bundle bundle = new Bundle();</span><br><span class="line">        bundle.putString(&quot;clientMsg&quot;, &quot;你好，服务端*~*&quot;);</span><br><span class="line">        toServerMsg.setData(bundle);</span><br><span class="line">        try &#123;</span><br><span class="line">            mServerMessenger.send(toServerMsg);//使用服务端的Messenger发送消息给服务端</span><br><span class="line">            Log.e(TAG, &quot;sendMessageToServer: &quot;);</span><br><span class="line">        &#125; catch (RemoteException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void unBind(View view) &#123;</span><br><span class="line">        if (mServerMessenger != null) &#123;</span><br><span class="line">            unbindService(mConnection);</span><br><span class="line">            mServerMessenger = null;</span><br><span class="line">        &#125;</span><br><span class="line">        Log.e(TAG, &quot;unBind: &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        unBind(null);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">11-30 10:38:33.543 27094-27094/com.ljp.messenger_client E/messenger: bind: bindService=true</span><br><span class="line">11-30 10:38:33.553 27094-27094/com.ljp.messenger_client E/messenger: onServiceConnected: 绑定服务端成功</span><br><span class="line">11-30 10:38:35.313 26811-26811/com.ljp.messenger_server E/messenger: handleMessage: 收到来自客户端的消息：clientMsg=你好，服务端*~*</span><br><span class="line">11-30 10:38:35.323 27094-27094/com.ljp.messenger_client E/messenger: sendMessageToServer:</span><br><span class="line">11-30 10:38:35.323 27094-27094/com.ljp.messenger_client E/messenger: handleMessage: 收到来自服务端的消息：serverMsg=我是服务端，已经收到你的消息了</span><br><span class="line">11-30 10:38:37.113 27094-27094/com.ljp.messenger_client E/messenger: unBind:</span><br><span class="line">11-30 10:38:37.113 26811-26811/com.ljp.messenger_server E/messenger: onDestroy: MyServerService销毁</span><br></pre></td></tr></table></figure></p>
+<h1 id="Messenger的总结"><a href="#Messenger的总结" class="headerlink" title="Messenger的总结"></a>Messenger的总结</h1><h5 id="1、客户端报错：java-lang-RuntimeException-Can’t-marshal-non-Parcelable-objects-across-processes-；是因为发送消息时使用了msg-obj字段赋值了一个字符串，可以采用不实用msg-obj，使用Bundle传递数据，msg-setData-bundle-bundle-msg-getData"><a href="#1、客户端报错：java-lang-RuntimeException-Can’t-marshal-non-Parcelable-objects-across-processes-；是因为发送消息时使用了msg-obj字段赋值了一个字符串，可以采用不实用msg-obj，使用Bundle传递数据，msg-setData-bundle-bundle-msg-getData" class="headerlink" title="1、客户端报错：java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes.；是因为发送消息时使用了msg.obj字段赋值了一个字符串，可以采用不实用msg.obj，使用Bundle传递数据，msg.setData(bundle),bundle=msg.getData();"></a>1、客户端报错：java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes.；是因为发送消息时使用了msg.obj字段赋值了一个字符串，可以采用不实用msg.obj，使用Bundle传递数据，msg.setData(bundle),bundle=msg.getData();</h5><h5 id="2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用-obj-字段；"><a href="#2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用-obj-字段；" class="headerlink" title="2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用 obj 字段；"></a>2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用 obj 字段；</h5><h5 id="3、Android-5-0以后不支持隐式intent启动Service（未验证）-需要将隐式的intent转换为显式的intent，转换方法为："><a href="#3、Android-5-0以后不支持隐式intent启动Service（未验证）-需要将隐式的intent转换为显式的intent，转换方法为：" class="headerlink" title="3、Android 5.0以后不支持隐式intent启动Service（未验证）,需要将隐式的intent转换为显式的intent，转换方法为："></a>3、Android 5.0以后不支持隐式intent启动Service（未验证）,需要将隐式的intent转换为显式的intent，转换方法为：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setPackage(&quot;com.ljp.messenger_server&quot;);</span><br><span class="line">intent.setAction(&quot;com.ljp.messenger_server.server.action&quot;);//以上构成了隐式的intent</span><br><span class="line">PackageManager packageManager = getPackageManager();</span><br><span class="line">ResolveInfo resolveInfo = packageManager.resolveService(intent, 0); //我们先通过一个隐式的Intent获取可能会被启动的Service的信息，</span><br><span class="line">if (resolveInfo!=null)&#123;//系统中有这个意图，说明我们能通过上面隐式的Intent找到对应的Service</span><br><span class="line">    String packageName = resolveInfo.serviceInfo.packageName;//得到的Service的包名</span><br><span class="line">    String name = resolveInfo.serviceInfo.name;//得到的Service的类名</span><br><span class="line">    ComponentName componentName=new ComponentName(packageName,name);</span><br><span class="line">    intent.setComponent(componentName);//已经转为了显式的intent了</span><br><span class="line">    Log.e(TAG, &quot;bind: 已经转为了显式的intent了&quot; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="4、Messenger的构造方法的使用"><a href="#4、Messenger的构造方法的使用" class="headerlink" title="4、Messenger的构造方法的使用"></a>4、Messenger的构造方法的使用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public Messenger(Handler target) &#123;//一般用于需要接受消息的一端。</span><br><span class="line">    mTarget = target.getIMessenger();</span><br><span class="line">&#125;</span><br><span class="line">public Messenger(IBinder target) &#123;//一般使用在客户端。</span><br><span class="line">    mTarget = IMessenger.Stub.asInterface(target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg-what进行间接调用并返回调用结果）。"><a href="#5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg-what进行间接调用并返回调用结果）。" class="headerlink" title="5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg.what进行间接调用并返回调用结果）。"></a>5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg.what进行间接调用并返回调用结果）。</h5><p> 我的CSDN博客地址：<a href="http://blog.csdn.net/wo_ha/article/details/78674323" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/78674323</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/进程间通信/" rel="tag"># 进程间通信</a>
+          
+            <a href="/tags/Binder/" rel="tag"># Binder</a>
+          
+            <a href="/tags/AIDL/" rel="tag"># AIDL</a>
+          
+            <a href="/tags/Messenger/" rel="tag"># Messenger</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/28/Android 的进程间通信 Binder——AIDL的入门使用（一）/" rel="next" title="Android 的进程间通信 Binder——AIDL的入门使用（一）">
+                <i class="fa fa-chevron-left"></i> Android 的进程间通信 Binder——AIDL的入门使用（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/01/Android 的进程间通信 Binder——AIDL的入门使用（二）/" rel="prev" title="Android 的进程间通信 Binder——AIDL的入门使用（二）">
+                Android 的进程间通信 Binder——AIDL的入门使用（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。"><span class="nav-number">1.</span> <span class="nav-text">版权声明：商业转载请联系我获得授权，非商业转载请在醒目位置注明出处。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-一"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">AIDL的入门使用(一)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-二"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">AIDL的入门使用(二)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIDL的入门使用-三"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">AIDL的入门使用(三)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Messenger的入门使用"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">Messenger的入门使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。"><span class="nav-number">1.0.0.0.5.</span> <span class="nav-text">序言：Messenger是Google为我们封装好的简洁版的AIDL，当面对少量的并发进程间通信更适用。而且不用考虑线程同步问题。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Messenger进程间通信服务端"><span class="nav-number">2.</span> <span class="nav-text">Messenger进程间通信服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、创建服务端Module-“messenger-server”，并创建Service文件：右键单击包名——-gt-New——-gt-Service——-gt-Service——-gt-命名为MyServerService——-gt-Finish；"><span class="nav-number">2.0.1.</span> <span class="nav-text">1、创建服务端Module “messenger_server”，并创建Service文件：右键单击包名——&gt;New——&gt;Service——&gt;Service——&gt;命名为MyServerService——&gt;Finish；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger-getBinder"><span class="nav-number">2.0.2.</span> <span class="nav-text">2、在服务端的Service中创建一个Handler对象用于接收客户端发送过来的消息，使用handler对象创建一个服务端的Messenger，并在onBind方法中返回messenger.getBinder()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。"><span class="nav-number">2.0.3.</span> <span class="nav-text">3、在AndroidMainfest文件中注册Service并添加对应的Action并对外暴露使用。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Messenger进程间通信客户端"><span class="nav-number">3.</span> <span class="nav-text">Messenger进程间通信客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、创建服务端Module-“messenger-client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。"><span class="nav-number">3.0.1.</span> <span class="nav-text">1、创建服务端Module “messenger_client”，创建一个客户端Handler对象用于接收服务端发送过来的消息，使用handler对象创建一个客户端的Messenger，在bindService成功后保存服务端的Messenger并用此向服务端发送消息，代码中有详细的步骤。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Messenger的总结"><span class="nav-number">4.</span> <span class="nav-text">Messenger的总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、客户端报错：java-lang-RuntimeException-Can’t-marshal-non-Parcelable-objects-across-processes-；是因为发送消息时使用了msg-obj字段赋值了一个字符串，可以采用不实用msg-obj，使用Bundle传递数据，msg-setData-bundle-bundle-msg-getData"><span class="nav-number">4.0.0.0.1.</span> <span class="nav-text">1、客户端报错：java.lang.RuntimeException: Can’t marshal non-Parcelable objects across processes.；是因为发送消息时使用了msg.obj字段赋值了一个字符串，可以采用不实用msg.obj，使用Bundle传递数据，msg.setData(bundle),bundle=msg.getData();</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用-obj-字段；"><span class="nav-number">4.0.0.0.2.</span> <span class="nav-text">2、Message中能使用的载体只有what、arg1、arg2、replyTo、Bundle；不要使用 obj 字段；</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、Android-5-0以后不支持隐式intent启动Service（未验证）-需要将隐式的intent转换为显式的intent，转换方法为："><span class="nav-number">4.0.0.0.3.</span> <span class="nav-text">3、Android 5.0以后不支持隐式intent启动Service（未验证）,需要将隐式的intent转换为显式的intent，转换方法为：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、Messenger的构造方法的使用"><span class="nav-number">4.0.0.0.4.</span> <span class="nav-text">4、Messenger的构造方法的使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg-what进行间接调用并返回调用结果）。"><span class="nav-number">4.0.0.0.5.</span> <span class="nav-text">5、使用场景：少量的一对多的串行进程间通信，支持实时通信，使用比较简单，不支持直接调用服务端的方法（可以通过msg.what进行间接调用并返回调用结果）。</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

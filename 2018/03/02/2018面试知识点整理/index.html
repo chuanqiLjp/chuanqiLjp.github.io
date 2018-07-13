@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="2018面试" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  目录   ListView优化方案  android中的动画有哪几类，它们的特点和区别是什么">
+<meta name="keywords" content="2018面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018面试知识点整理">
+<meta property="og:url" content="http://yoursite.com/2018/03/02/2018面试知识点整理/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  目录   ListView优化方案  android中的动画有哪几类，它们的特点和区别是什么">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-52195a6c5378e50a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-51aedd04cd5ab89b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-d3b2d957285081da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-6e1d2a11ae24320e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-4d309d8e66189fef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-db1a4ebe6460dbe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-35ad6771977585e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-5e5d85fe37f8571f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-e2d84bb835c90205.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-5c261017b760ee4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-77da9ca8a0784b14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-ef2fa558dea89459.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-1cc5887a85ec0902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-25d050169cc47b9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-96245925d6a7f74a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-30c0909c09a9e66b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-28afde61566ded9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-26b87b7548a39bfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-3b7d2c3b782f8645.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-00f75a0764ed6282.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-badb8423ded73944.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-5c1a75aaead4bae9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-99a8f18c1cc572da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-03f10a3be4e9fcc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-0eb3b50ec14f27b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-c549f10128eeedb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-663e10e0f1425df3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018面试知识点整理">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  目录   ListView优化方案  android中的动画有哪几类，它们的特点和区别是什么">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-52195a6c5378e50a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/02/2018面试知识点整理/"/>
+
+
+
+
+
+  <title>2018面试知识点整理 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/2018面试知识点整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2018面试知识点整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T14:32:58+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="目录">目录<br></h1>
+
+<ul>
+<li><p><a href="#ListView优化方案">ListView优化方案</a></p>
+</li>
+<li><p><a href="#android中的动画有哪几类，它们的特点和区别是什么">android中的动画有哪几类，它们的特点和区别是什么</a></p>
+</li>
+<li><p><a href="#android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别">android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别</a></p>
+</li>
+<li><p><a href="#Android的数据存储方式">Android的数据存储方式</a></p>
+</li>
+<li><p><a href="#activity的启动模式有哪些？是什么含义？">activity的启动模式有哪些？是什么含义？</a></p>
+</li>
+<li><p><a href="#Activity的生命周期">Activity的生命周期</a></p>
+</li>
+<li><p><a href="#activity在屏幕旋转时的生命周期">activity在屏幕旋转时的生命周期</a></p>
+</li>
+<li><p><a href="#Service的介绍">Service的介绍</a></p>
+</li>
+<li><p><a href="#注册广播有几种方式，这些方式有何优缺点？">注册广播有几种方式，这些方式有何优缺点？</a></p>
+</li>
+<li><p><a href="#请解释下在单线程模型中Message、Handler、MessageQueue、Looper之间的关系">请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系</a></p>
+</li>
+<li><p><a href="#Handler的原理">Handler的原理</a></p>
+</li>
+<li><p><a href="#Handler的总结归纳">Handler的总结归纳</a></p>
+</li>
+<li><p><a href="#Android中为什么主线程不会因为Looper.loop(">Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</a>里的死循环卡死？)</p>
+</li>
+<li><p><a href="#说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？">说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？</a></p>
+</li>
+<li><p><a href="#什么是ANR，如何避免它？">什么是ANR，如何避免它？</a></p>
+</li>
+<li><p><a href="#什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？">什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？</a></p>
+</li>
+<li><p><a href="#描述一下android的系统架构">描述一下android的系统架构</a></p>
+</li>
+<li><p><a href="#AIDL的全称是什么？如何工作？能处理哪些类型的数据？">AIDL的全称是什么？如何工作？能处理哪些类型的数据？</a></p>
+</li>
+<li><p><a href="#请解释下Android程序运行时权限与文件系统权限的区别。">请解释下Android程序运行时权限与文件系统权限的区别。</a></p>
+</li>
+<li><p><a href="#Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念">Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念</a></p>
+</li>
+<li><p><a href="#谈谈Android的IPC（进程间通信）机制">谈谈Android的IPC（进程间通信）机制</a></p>
+</li>
+<li><p><a href="#Binder机制">Binder机制</a></p>
+</li>
+<li><p><a href="#NDK是什么">NDK是什么</a></p>
+</li>
+<li><p><a href="#StringBuilder与StringBuffer的区别">StringBuilder与StringBuffer的区别</a></p>
+</li>
+<li><p><a href="#如何理解Activity，View，Window三者之间的关系？">如何理解Activity，View，Window三者之间的关系？</a></p>
+</li>
+<li><p><a href="#View的绘制流程">View的绘制流程</a></p>
+</li>
+<li><p><a href="#Touch事件的传递机制">Touch事件的传递机制</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="ListView优化方案"><br>ListView优化方案<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/fenghai22/article/details/44173057" target="_blank" rel="noopener">ListView优化方案</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、复用convertView</span><br><span class="line">2、缓存item条目的引用，减少findViewbyId—&gt;ViewHolder</span><br><span class="line">3、数据的 分页/分批 加载：对大量的数据进行分页展示，对不同的滚动状态进行分别处理，在快速滑动状态不加载数据</span><br><span class="line">4、图片的缓存，需要解决图片错位问题—&gt;推荐使用成熟框架Glide或Picasso</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="android中的动画有哪几类，它们的特点和区别是什么"><br>android中的动画有哪几类，它们的特点和区别是什么<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/yanbober/article/details/46481171" target="_blank" rel="noopener">Android应用开发之所有动画使用详解</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图"><a href="#1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图" class="headerlink" title="1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图"></a>1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      //在res/drawable/文件夹下定义好XML文件</span><br><span class="line">      imageView.setBackgroundResource(R.drawable.frame);// 设置图片控件的背景资源</span><br><span class="line">Drawable drawable = imageView.getBackground();// 获取图片控件的静态背景资源得到一个drawable对象</span><br><span class="line">AnimationDrawable animationDrawable = (AnimationDrawable) drawable;// 强制转变成动态图</span><br><span class="line">animationDrawable.start();// 启动动态图片</span><br></pre></td></tr></table></figure>
+<h5 id="2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。"><a href="#2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。" class="headerlink" title="2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。"></a>2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。</h5><p>使用XML：在res/anim/xxx.xml书写好动画，在代码中使用 AnimationUtils.loadAnimation()(动画集使用AnimationSet),设置动画时间，在让控件启动动画就可以了;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animation animation = AnimationUtils.loadAnimation(this, R.anim.mytranslate);//把一个动画的资源文件加载成一个动画类( Animation是所有动画的超类  )</span><br><span class="line">TranslateAnimation animation2=(TranslateAnimation) animation;</span><br><span class="line">imageView.startAnimation(animation);//让控件启动动画（每一个控件都有）</span><br></pre></td></tr></table></figure></p>
+<p>使用代码创建：直接使用对应的动画类创建动画对象构造传参，设置好动画的相关属性，使用控件启动动画即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation animation=new TranslateAnimation(0, 100, 0, 0);</span><br><span class="line">animation.setDuration(2000);//设置动画时间</span><br><span class="line">animation.setFillAfter(true);//保持动画的最后效果</span><br><span class="line">animation.setRepeatCount(Animation.INFINITE);//重复的次数</span><br><span class="line">animation.setRepeatMode(Animation.REVERSE);//重复的模式</span><br><span class="line">imageView.startAnimation(animation);</span><br><span class="line">//使用动画集</span><br><span class="line">AnimationSet set=new AnimationSet(false);//ture为使用每个动画各自的效果</span><br><span class="line">      set.addAnimation(a);//添加一个已经创建好的动画，可以添加多个动画</span><br><span class="line">      set.addAnimation(b);//添加一个已经创建好的动画，可以添加多个动画</span><br><span class="line">      imageView.startAnimation(set);</span><br></pre></td></tr></table></figure></p>
+<p>视图动画监听器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">      //绑定补间动画的监听器</span><br><span class="line">animation.setAnimationListener(new AnimationListener() &#123;</span><br><span class="line">	public void onAnimationStart(Animation animation) &#123;//动画开始的时候调用   animation为事件源</span><br><span class="line">	&#125;</span><br><span class="line">	public void onAnimationRepeat(Animation animation) &#123;//动画重复的时候调用   animation为事件源</span><br><span class="line">	&#125;</span><br><span class="line">	public void onAnimationEnd(Animation animation) &#123;//动画结束的时候调用   animation为事件源</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h5 id="3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android-3-0（API-11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。"><a href="#3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android-3-0（API-11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。" class="headerlink" title="3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android 3.0（API 11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。"></a>3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android 3.0（API 11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">      /*ObjectAnimator.ofFloat(target,	:动画的执行者</span><br><span class="line"> * 				propertyName,	：动画的名字：scaleX/scaleY、alpha、rotation、translationX/translationY</span><br><span class="line"> * 				 values)	：执行动画的可变参数(中间可以有多个参数)*/</span><br><span class="line">ObjectAnimator animator=ObjectAnimator.ofFloat(imageView, &quot;translationX&quot;, 0,100,0,100);</span><br><span class="line">animator.setDuration(2000);</span><br><span class="line">animator.setRepeatCount(2);</span><br><span class="line">animator.setRepeatMode(Animation.REVERSE);</span><br><span class="line">animator.start();</span><br><span class="line">//属性动画的动画集</span><br><span class="line">AnimatorSet set=new AnimatorSet();</span><br><span class="line">//set.playTogether(animator1,animator2);//  让多个动画一起执行</span><br><span class="line">set.playSequentially(animator1,animator2);//让多个动画按顺序执行</span><br><span class="line">set.start();</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别"><br>android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>XML解析主要有三种方式，PULL、SAX、DOM。Pull解析是基于事件常量的方式，SAX解析是基于事件通知的方式，DOM解析是基于DOM树结构的方式，通常来说：在PC开发中使用DOM解析快速方便，在性能低的设备上采用Pull解析，如果已知XML文件不大还是可以使用DOM解析的</p>
+<table>
+<thead>
+<tr>
+<th>XML解析方式</th>
+<th style="text-align:center">原理</th>
+<th style="text-align:right">优点</th>
+<th style="text-align:right">缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PULL</td>
+<td style="text-align:center">基于事件常量</td>
+<td style="text-align:right">解析完成之后,内存中只会保留我们想要的数据.资源占用极低</td>
+<td style="text-align:right">没有保存完整的文档结构.所以只能进行查询,不能增删改,比sax要灵活. 可以自己控制是否需要继续向下解析</td>
+</tr>
+<tr>
+<td>Sax</td>
+<td style="text-align:center">基于事件通知</td>
+<td style="text-align:right">解析完成之后,内存中只会保留我们想要的数据.资源占用极低</td>
+<td style="text-align:right">没有保存完整的文档结构.所以只能进行查询,不能增删改，一旦开始一定要从头解析到尾</td>
+</tr>
+<tr>
+<td>DOM</td>
+<td style="text-align:center">基于DOM树结构</td>
+<td style="text-align:right">操作方便,可以完成增删该查操作</td>
+<td style="text-align:right">因为所有内容都会被封装成对象保存在内存中,所以资源占用较大</td>
+</tr>
+</tbody>
+</table>
+<p>1.Pull解析 (以事件常量的方式解析)（游标一个一个事件的往下移）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">XmlPullParserFactory factory=XmlPullParserFactory.newInstance();  // 创建解析工厂</span><br><span class="line">XmlPullParser xmlParser=factory.newPullParser();   // 生成解析对象</span><br><span class="line">xmlParser.setInput(new StringReader(content));   // 设置要读取的内容</span><br><span class="line">int type=xmlParser.getEventType();  // 获取当前解析的事件类型常量</span><br><span class="line">String tagName=xmlParser.getName();    // 获取当前的标签名称</span><br><span class="line">xmlParser.next();    // 将游标下移，获取下一个事件常量</span><br><span class="line">String userName=xmlParser.getText();  // 获取文本</span><br></pre></td></tr></table></figure></p>
+<p>2.SAX解析 (Simple Api for Xml) 针对XML的简单解析API，SAX以事件通知的方式解析XML，自定义一个继承自DefaultHandler的类，复写其中的相关方法。（处理类：复写三个方法，当遇到开始标签、结束标签、文本内容的时候分别做什么），优点:不占内存空间、解析属性方便，但缺点就是对于套嵌多个分支来说处理不是很方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SAXParserFactory factory=SAXParserFactory.newInstance();   // 创建解析工厂</span><br><span class="line">SAXParser parser=factory.newSAXParser();    // 创建解析对象</span><br><span class="line">File f=new File(&quot;xxx&quot;);</span><br><span class="line">实例化DefaultHandler对象handler</span><br><span class="line">parser.parse(f,handler);    // 解析XML</span><br></pre></td></tr></table></figure></p>
+<p>3.DOM解析（了解）(Document Object Model)，将XML结构以DOM树结构解析到内存中，DOM解析可以随机访问DOM树中的节点。内存开销大<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();</span><br><span class="line">DocumentBuilder builder=factory.newDocumentBuilder();</span><br><span class="line">Document doc = builder.parse(&quot;file对象&quot;);   // 解析XML到内存中</span><br><span class="line">NodeList nodeList=doc.getElementsByTagName(&quot;标签名&quot;);</span><br><span class="line">Node node = nodeList.item(index);</span><br><span class="line">String nodeValue=node.getFirstChild().getNodeValue();</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="Android的数据存储方式"><br>Android的数据存储方式<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>1.SharedPreferences：采用XML文件的方式进行存储，以键值对的方式存储，可以很方便的读写，常用于存储设置和登录信息</p>
+<p>2.文件存储：分为内部存储和外部存储（SD卡），其操作与 Java中实现I/O的程序是完全一样的，另Context提供了openFileInput()和openFileOutput()读写文件</p>
+<p>3.SQLite数据库存储：集成了SQLite数据库，提供了很多操作的API，它具有以下优点： a. 效率出众， b. 十分适合存储结构化数据 c. 方便在不同的Activity，甚至不同的应用之间传递数据。</p>
+<p>4.ContentProvider 存储：能实现所有应用程序共享的一种数据存储方式，由于数据通常在各应用间的是互相私密的，所以此存储方式较少使用，但是其又是必不可少的一种存储方式。例如音频，视频，图片和通讯录，一般都可以采用此种方式进行存储。每个ContentProvider都会对外提供一个公共的URI（包装成Uri对象），如果应用程序有数据需要共享时，就需要使用ContentProvider为这些数据定义一个URI，然后其他的应用程序就通过Content Provider传入这个URI来对数据进行操作</p>
+<p>5.网络存储：网络存储方式，需要与Android 网络数据包打交道</p>
+<p><strong>总结：SharedPreferences适用于存储一些键值对，文件适用于存储一些简单的文本数据或者二进制数据，数据库则适用于那些复杂的关系型数据，ContentProvider使用于多个应用间的数据共享</strong></p>
+<hr>
+<h1 id="activity的启动模式有哪些？是什么含义？"><br>activity的启动模式有哪些？是什么含义？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>1、standard 模式:  这是默认模式，每次激活Activity时都会创建Activity实例，并放入任务栈中。使用场景：大多数Activity。</p>
+<p>2、singleTop 模式: 如果在任务的栈顶正好存在该Activity的实例，就重用该实例( 会调用实例的 onNewIntent() )，否则就会创建新的实例并放入栈顶，即使栈中已经存在该Activity的实例，只要不在栈顶，都会创建新的实例。使用场景如新闻类或者阅读类App的内容页面。</p>
+<p>3、singleTask 模式:  如果在栈中已经有该Activity的实例，就重用该实例(会调用实例的 onNewIntent() )。重用时，会让该实例回到栈顶，因此在它上面的实例将会被移出栈。如果栈中不存在该实例，将会创建新的实例放入栈中。使用场景如浏览器的主界面。不管从多少个应用启动浏览器，只会启动主界面一次，其余情况都会走onNewIntent，并且会清空主界面上面的其他页面。</p>
+<p>4、singleInstance 模式:  在一个新栈中创建该Activity的实例，并让多个应用共享该栈中的该Activity实例。一旦该模式的Activity实例已经存在于某个栈中，任何应用再激活该Activity时都会重用该栈中的实例( 会调用实例的 onNewIntent() )。其效果相当于多个应用共享一个应用，不管谁激活该 Activity 都会进入同一个应用中。使用场景如闹铃提醒，将闹铃提醒与闹铃设置分离。singleInstance不要用于中间页面，如果用于中间页面，跳转会有问题，比如：A -&gt; B (singleInstance) -&gt; C，完全退出后，在此启动，首先打开的是B。</p>
+<hr>
+<h1 id="Activity的生命周期"><br>Activity的生命周期<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>在Activity的生命周期中，如下的方法会被系统回调：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th style="text-align:center">方法备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>onCreate(Bundle savedInstanceState)</td>
+<td style="text-align:center">Activity被创建时调用。</td>
+</tr>
+<tr>
+<td>onStart()</td>
+<td style="text-align:center">Activity已经启动，未获取到焦点，还不可以与用户进行交互。</td>
+</tr>
+<tr>
+<td>onResume()</td>
+<td style="text-align:center">当Activity可见，已获取到焦点可以与用户交互。</td>
+</tr>
+<tr>
+<td>onPause()</td>
+<td style="text-align:center">暂停Activity时被调用，调用了该方法后，Activity变得不可交互即失去焦点但仍然可见，可恢复至onResume()。</td>
+</tr>
+<tr>
+<td>onStop()</td>
+<td style="text-align:center">停止Activity时被调用，Activity变得不可见,可恢复至onRestart()。</td>
+</tr>
+<tr>
+<td>onDestroy()</td>
+<td style="text-align:center">销毁Activity时被调用。</td>
+</tr>
+<tr>
+<td>onRestart()</td>
+<td style="text-align:center">重启Activity时被调用，当Activity从不可见重新变为可见时，就会调用该方法。</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-52195a6c5378e50a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-51aedd04cd5ab89b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<hr>
+<h1 id="activity在屏幕旋转时的生命周期"><br>activity在屏幕旋转时的生命周期<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次</li>
+<li>设置Activity的android:configChanges=”orientation”时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次</li>
+<li>设置Activity的android:configChanges=”orientation|keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged 方法。</li>
+</ul>
+<hr>
+<h1 id="Service的介绍"><br>Service的介绍<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>创建自定义Service需要重写父类的如下方法：</p>
+<ul>
+<li>void onCreate()：该方法在该Service第一次被创建时调用。</li>
+<li>int onStartCommand(Intent intent，int flags，intstartId)：当应用程序通过startService()的方式启动Service时，会调用该方法。</li>
+<li>IBinder onBind(Intent intent)：当Service通过绑定的方式启动时，会调用该onBind()方法，该方法返回一个IBinder对象，应用程序可以通过IBinder对象与Service通信。</li>
+<li>boolean onUnbind(Intent intent)：当该Service上绑定的所有客户端都断开连接时，会触发该方法。</li>
+<li>void onDestroy(Intent intent)：当Service被销毁时触发该方法。</li>
+</ul>
+<p>Service有两类：</p>
+<p><strong>1：本地服务</strong>： Local Service 用于应用程序内部。在Service可以调用Context.startService()启动，调用Context.stopService()结束。 在内部可以调用Service.stopSelf() 或 Service.stopSelfResult()来自己停止。无论调用了多少次startService()，都只需调用一次 stopService()来停止。</p>
+<p><strong>2：远程服务</strong>： Remote Service 用于android系统内部的应用程序之间。可以定义接口并把接口暴露出来，以便其他应用进行操作。客户端建立到服务对象的连接，并通过那个连接来调用服务。调用Context.bindService()方法建立连接，并启动，以调用 Context.unbindService()关闭连接。多个客户端可以绑定至同一个服务。如果服务此时还没有加载，bindService()会先加 载它。提供给可被其他应用复用，比如定义一个天气预报服务，提供与其他应用调用即可。使用远程服务需要借助AIDL来进行跨进程通讯。</p>
+<p>Service生命周期图一：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-d3b2d957285081da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li><p>通过start方式启动Service，则生命周期函数调用为：context.startService()   —&gt; onCreate() —&gt; onStartCommand() —&gt; Service running  —&gt;  调用context.stopService()   —&gt; onDestroy()，第一次 启动服务时，运行 onCreate –&gt;onStartCommand，后面在启动服务时，服务只执行onStartCommand，不再执行OnCreate</p>
+</li>
+<li><p>通过bind方式启动Service:context.bindService()  —&gt;  onCreate()  —&gt;  onBind()  —&gt;  Service running  —&gt; 所有客户端被销毁或客户端调用了unbindService()  —&gt;  onUnbind()   —&gt;  onDestroy()，第一次绑定时会调用onCreate-&gt;onBind()。随后无论哪个组件再绑定几次该Service。服务A的onCreate()和onBind()只调用一次。</p>
+</li>
+</ul>
+<p>Service生命周期图二：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-6e1d2a11ae24320e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>远程Service生命周期图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-4d309d8e66189fef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<hr>
+<h1 id="注册广播有几种方式，这些方式有何优缺点？"><br>注册广播有几种方式，这些方式有何优缺点？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://www.jianshu.com/p/00e2dd446e9e" target="_blank" rel="noopener">Android 之 BroadcastReceiver</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>第一种:在清单文件中声明:常驻型，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> &lt;receiver</span><br><span class="line">       android:name=&quot;.MyReceiver&quot;</span><br><span class="line">       android:enabled=&quot;true&quot;</span><br><span class="line">       android:exported=&quot;true&quot;&gt;</span><br><span class="line">       &lt;!-- 静态注册广播 --&gt;</span><br><span class="line">       &lt;!-- intent过滤器,指定可以匹配哪些intent, 一般需要定义action 可以是自定义的也可是系统的 --&gt;</span><br><span class="line">       &lt;intent-filter&gt;</span><br><span class="line">       &lt;!--action--&gt;</span><br><span class="line">           &lt;action android:name=&quot;com.broadcast.test&quot; /&gt;</span><br><span class="line">      &lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure></p>
+<p>第二种：使用代码进行注册:不是常驻型广播，也就是说广播跟随程序的生命周期。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IntentFilter filter =  new IntentFilter(&quot;android.provider.Telephony.SMS_RECEIVED&quot;);</span><br><span class="line">IncomingSMSReceiver receiver = new IncomgSMSReceiver();</span><br><span class="line">registerReceiver(receiver.filter);</span><br></pre></td></tr></table></figure></p>
+<p><strong>知识点</strong></p>
+<ul>
+<li>1、不在广播中做耗时操作，不在广播中创建子线程,</li>
+<li>2、广播是四大组件中唯一可以动态注册的组件;</li>
+<li>3、本地广播只在本应用程序内传播，只能由代码进行注册，有良好的安全性,可以使用EventBus来替代本地BroadcastReceiver,</li>
+<li>4、广播使用了观察者模式，基于消息的发布/订阅事件模型</li>
+</ul>
+<p><strong>使用场景</strong></p>
+<ul>
+<li>1.同一app内部的同一组件内的消息通信（单个或多个线程之间）；－－－－无意义 可以采用Handler 没必要</li>
+<li>2.同一app内部的不同组件之间的消息通信（单个进程）；————应用场景较少。</li>
+<li>3.同一app具有多个进程的不同组件之间的消息通信；</li>
+<li>4.不同app之间的组件之间消息通信；</li>
+<li>5.Android系统在特定情况下与App之间的消息通信。</li>
+</ul>
+<hr>
+<h1 id="请解释下在单线程模型中Message、Handler、MessageQueue、Looper之间的关系"><br>请解释下在单线程模型中Message、Handler、MessageQueue、Looper之间的关系<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/lmj623565791/article/details/38377229" target="_blank" rel="noopener">Android 异步消息处理机制 让你深入理解 Looper、Handler、Message三者关系</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/lmj623565791/article/details/38476887" target="_blank" rel="noopener"> Android Handler 异步消息处理机制的妙用 创建强大的图片加载类</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/lmj623565791/article/details/47079737/" target="_blank" rel="noopener">Android HandlerThread 完全解析</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">答：简单的说，Handler获取当前线程中的looper对象，looper用来从存放Message的MessageQueue中取出Message，再有Handler进行Message的分发和处理.</span><br><span class="line"></span><br><span class="line">Message Queue(消息队列)：用来存放通过Handler发布的消息，通常附属于某一个创建它的线程，可以通过Looper.myQueue()得到当前线程的消息队列</span><br><span class="line"></span><br><span class="line">Handler：可以发布或者处理一个消息或者操作一个Runnable，通过Handler发布消息，消息将只会发送到与它关联的消息队列，然也只能处理该消息队列中的消息</span><br><span class="line"></span><br><span class="line">Looper：是Handler和消息队列之间通讯桥梁，程序组件首先通过Handler把消息传递给Looper，Looper把消息放入队列。Looper也把消息队列里的消息广播给所有的</span><br><span class="line"></span><br><span class="line">Handler：Handler接受到消息后调用handleMessage进行处理</span><br><span class="line"></span><br><span class="line">Message：消息的类型，在Handler类中的handleMessage方法中得到单个的消息进行处理</span><br><span class="line"></span><br><span class="line">在单线程模型下，为了线程通信问题，Android设计了一个Message Queue(消息队列)， 线程间可以通过该Message Queue并结合Handler和Looper组件进行信息交换。下面将对它们进行分别介绍：</span><br><span class="line"></span><br><span class="line">1. Message</span><br><span class="line"></span><br><span class="line">    Message消息，理解为线程间交流的信息，处理数据后台线程需要更新UI，则发送Message内含一些数据给UI线程。</span><br><span class="line"></span><br><span class="line">2. Handler</span><br><span class="line"></span><br><span class="line">    Handler处理者，是Message的主要处理者，负责Message的发送，Message内容的执行处理。后台线程就是通过传进来的 Handler对象引用来sendMessage(Message)。而使用Handler，需要implement 该类的 handleMessage(Message)方法，它是处理这些Message的操作内容，例如Update UI。通常需要子类化Handler来实现handleMessage方法。</span><br><span class="line"></span><br><span class="line">3. Message Queue</span><br><span class="line"></span><br><span class="line">    Message Queue消息队列，用来存放通过Handler发布的消息，按照先进先出执行。</span><br><span class="line"></span><br><span class="line">    每个message queue都会有一个对应的Handler。Handler会向message queue通过两种方法发送消息：sendMessage或post。这两种消息都会插在message queue队尾并按先进先出执行。但通过这两种方法发送的消息执行的方式略有不同：通过sendMessage发送的是一个message对象,会被 Handler的handleMessage()函数处理；而通过post方法发送的是一个runnable对象，则会自己执行。</span><br><span class="line"></span><br><span class="line">4. Looper</span><br><span class="line"></span><br><span class="line">    Looper是每条线程里的Message Queue的管家。Android没有Global的Message Queue，而Android会自动替主线程(UI线程)建立Message Queue，但在子线程里并没有建立Message Queue。所以调用Looper.getMainLooper()得到的主线程的Looper不为NULL，但调用Looper.myLooper() 得到当前线程的Looper就有可能为NULL。对于子线程使用Looper，API Doc提供了正确的使用方法：这个Message机制的大概流程：</span><br><span class="line"></span><br><span class="line">    1. 在Looper.loop()方法运行开始后，循环地按照接收顺序取出Message Queue里面的非NULL的Message。</span><br><span class="line"></span><br><span class="line">    2. 一开始Message Queue里面的Message都是NULL的。当Handler.sendMessage(Message)到Message Queue，该函数里面设置了那个Message对象的target属性是当前的Handler对象。随后Looper取出了那个Message，则调用 该Message的target指向的Hander的dispatchMessage函数对Message进行处理。在dispatchMessage方法里，如何处理Message则由用户指定，三个判断，优先级从高到低：</span><br><span class="line"></span><br><span class="line">        1) Message里面的Callback，一个实现了Runnable接口的对象，其中run函数做处理工作；</span><br><span class="line"></span><br><span class="line">        2) Handler里面的mCallback指向的一个实现了Callback接口的对象，由其handleMessage进行处理；</span><br><span class="line"></span><br><span class="line">        3) 处理消息Handler对象对应的类继承并实现了其中handleMessage函数，通过这个实现的handleMessage函数处理消息。</span><br><span class="line"></span><br><span class="line">    由此可见，我们实现的handleMessage方法是优先级最低的！</span><br><span class="line"></span><br><span class="line">    3. Handler处理完该Message (update UI) 后，Looper则设置该Message为NULL，以便回收！</span><br><span class="line"></span><br><span class="line">    在网上有很多文章讲述主线程和其他子线程如何交互，传送信息，最终谁来执行处理信息之类的，个人理解是最简单的方法——判断Handler对象里面的Looper对象是属于哪条线程的，则由该线程来执行！</span><br><span class="line"></span><br><span class="line">    1. 当Handler对象的构造函数的参数为空，则为当前所在线程的Looper；</span><br><span class="line"></span><br><span class="line">    2. Looper.getMainLooper()得到的是主线程的Looper对象，Looper.myLooper()得到的是当前线程的Looper对象。</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Handler的总结归纳"><br>Handler的总结归纳<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://github.com/chuanqiLjp/TestHandler" target="_blank" rel="noopener">chuanqiLjp/TestHandler</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Handler的作用：将一个任务切换到某个指定的线程中去执行"><a href="#Handler的作用：将一个任务切换到某个指定的线程中去执行" class="headerlink" title="Handler的作用：将一个任务切换到某个指定的线程中去执行"></a>Handler的作用：将一个任务切换到某个指定的线程中去执行</h3><ol>
+<li><p>MessageQueue:存储消息，包含插入和读取消息的操作：</p>
+<p> 1) enqueueMessage():添加消息，实际上是单链表的操作，若消息队列满则添加消息的线程阻塞等待被唤醒；</p>
+<p> 2) next():读取消息伴随着消息的删除（相当于出队列），是一个无限循环，若无消息则一直阻塞等待，若有新消息到来则返回该消息并从链表中移除；</p>
+</li>
+<li><p>Looper: 一个线程只能创建一个Looper对象，一个Looper对象只有一个MessageQueue（在Looper的构造方法中实例化），创建Looper对象使用Looper.prepare()，使用Looper.loop()启动消息循环，不断的从MessageQueue中获取消息，在交给Message的target属性所对应的Handler去处理（由于通常Looper对象会在主线程中创建并调用Looper.loop()去轮询消息，因此该方法执行在主线程中），若取到空消息则loop()退出循环（调用了Looper的quit()或quitSafely()才会取到空消息）；</p>
+</li>
+<li><p>Handler：消息的发送和处理，</p>
+<p> 1)  发送消息：通过post()或sendMessage()，再调用MessageQueue的enqueueMessage()插入消息队列</p>
+<p> 2) 处理消息：当Looper的loop()方法中的循环调用MessageQueue的next()取到消息后，调用 msg.target.dispatchMessage(msg)进行分发，其Handler中事件处理的优先级顺序：Message.callback(Runnable) -&gt; mCallBack(CallBack接口的子类)  -&gt;Handler或子类的handleMessage()【平时使用的是优先级最低的】</p>
+</li>
+<li><p><strong>Handler的调用流程:</strong> Looper会调用prepare()和loop()方法，在当前执行的线程中保存一个Looper实例，这个实例会保存一个MessageQueue对象，然后当前线程进入一个无限循环中去，不断从MessageQueue中读取Handler发来的消息。然后再回调创建这个消息的handler中的dispathMessage方法</p>
+<p> 1) 首先Looper.prepare()在本线程中保存一个Looper实例，然后该实例中保存一个MessageQueue对象；因为Looper.prepare()在一个线程中只能调用一次，所以MessageQueue在一个线程中只会存在一个。</p>
+<p> 2) Looper.loop()会让当前线程进入一个无限循环，不端从MessageQueue的实例中读取消息，然后回调msg.target.dispatchMessage(msg)方法。</p>
+<p> 3) Handler的构造方法，会首先得到当前线程中保存的Looper实例，进而与Looper实例中的MessageQueue想关联。</p>
+<p> 4) Handler的sendMessage方法，会给msg的target赋值为handler自身，然后加入MessageQueue中。</p>
+<p> 5) 在构造Handler实例时，我们会重写handleMessage方法，也就是msg.target.dispatchMessage(msg)最终调用的方法。</p>
+</li>
+</ol>
+<hr>
+<h1 id="Handler的原理"><br>Handler的原理<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h3><p>ThreadLocal是一个<strong>线程内部的数据存储类</strong> ，实质上是一个泛型类，定义为：public class ThreadLocal<t>。通过它可以在某个指定线程中存储数据，数据存储以后，只有在<strong>指定线程(存储数据的线程)</strong> 中可以获取到它存储的数据，对于其他的线程来说无法获取到它的数据。</t></p>
+<p>通过使用ThreadLocal，能够让同一个数据对象在不同的线程中存在多个副本，而这些副本互不影响。Looper的实现中便使用到了ThreadLocal。通过使用ThreadLocal，每个线程都有自己的Looper，它们是同一个数据对象的不同副本，并且不会相互影响。</p>
+<p>ThreadLocal中有一个内部类ThreadLocalMap，ThreadLocal中有一个内部类Entry，Entry中的<code>Object value</code>这个value实际上就是每一个线程中的数据副本。ThreadLocalMap中有一个存放Entry的数组：<code>Entry[] table</code>。 ThreadLocal类的部分代码如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-db1a4ebe6460dbe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>ThreadLocal的<code>set</code> 方法：实际上就是往ThreadLocalMap对象(map)维护的对象数组table中插入数据。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-35ad6771977585e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>ThreadLocal的<code>get</code> 方法，调用了ThreadLocalMap的getEntry()方法：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-5e5d85fe37f8571f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>ThreadLocalMap的<code>getEntry()</code> 方法:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-e2d84bb835c90205.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>i的值是由线程的哈希码和（table的长度-1）进行“按位与”运算，所有每个线程得到的i是不一样的，因此最终数据副本在table中的位置也不一样。</p>
+<h3 id="MessageQueue"><a href="#MessageQueue" class="headerlink" title="MessageQueue"></a>MessageQueue</h3><p>MessageQueue主要包含两个操作，插入和读取。读取操作的函数是<code>next()</code> ，该操作同时也会伴随着删除操作(相当于出队列)，插入操作对应的函数是<code>enqueueMessage()</code> ，<code>enqueueMessage()</code> 实际上就是单链表的插入操作。<code>next()</code> 方法是一个无限循环的方法，如果消息队列中没有消息，那么next()方法会一直阻塞。当有新消息到来时，next()方法会返回这条消息并将其从单链表中移除。</p>
+<h3 id="Looper"><a href="#Looper" class="headerlink" title="Looper"></a>Looper</h3><p>Looper在Android的消息机制中扮演着消息循环的角色，它会不停地从MessageQueue中查看是否有新的Message到来，如果有新消息就会立刻处理，否则就一直阻塞在那里。一个线程只能有一个Looper对象，从而也只有一个MessageQueue(在Looper的构造方法初始化)。</p>
+<p>Looper中的几个重要的成员变量：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-5c261017b760ee4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Looper的构造方法，在构造方法中，创建了一个<strong>MessageQueue</strong> 实例：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-77da9ca8a0784b14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>当需要为一个线程创建Looper对象时，需要调用Looper的<code>prepare()</code> 方法（该方法在一个线程中只能调用一次，否则会抛出异常）：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-ef2fa558dea89459.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>在<code>loop()</code> 的消息循环中，实际上是调用了MessageQueue的<strong>next()</strong> 方法。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-1cc5887a85ec0902.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-25d050169cc47b9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Looper主要作用：<br>1、    与当前线程绑定，保证一个线程只会有一个Looper实例，同时一个Looper实例也只有一个MessageQueue。<br>2、    loop()方法，不断从MessageQueue中去取消息，交给消息的target属性的dispatchMessage去处理。</p>
+<h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>Handler的工作主要是消息的发送和消息接收处理。消息的发送可以通过Handler的<code>post()</code> 方法或者<code>sendMessage()</code> 方法来实现，消息的处理，需要我们重写handleMessage()函数来进行处理。</p>
+<p>Handler的sendMessage()函数：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-96245925d6a7f74a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-30c0909c09a9e66b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-28afde61566ded9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>最后调用了MessageQueue的<code>enqueueMessage()</code> 函数：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-26b87b7548a39bfd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-3b7d2c3b782f8645.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Message 的callback成员变量实际上是一个<strong>Runnable对象</strong> ：</p>
+<p><code>Runnable callback;</code></p>
+<p>经常使用的Handler的<code>post(Runnable r)</code> 方法，源码是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">post</span><span class="params">(Runnable r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">return</span>  sendMessageDelayed(getPostMessage(r), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>getPostMessage(r)</code> 为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Message <span class="title">getPostMessage</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">        Message m = Message.obtain();</span><br><span class="line">        m.callback = r;</span><br><span class="line">        <span class="keyword">return</span> m;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>原来，Handler的<code>post()</code>方法实际上是把这个Runnable对象封装到了一个Message中的。</p>
+<p>因此，Handler中的事件处理优先级顺序是：</p>
+<p>Message.callback(Runnable) – &gt;  mCallback(Callback接口实现类或Callback匿名内部类)  —&gt;  Handler或其子类的handleMessage()。</p>
+<hr>
+<h1 id="Android中为什么主线程不会因为Looper.loop()里的死循环卡死？"><br>Android中为什么主线程不会因为Looper.loop()里的死循环卡死？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://www.zhihu.com/question/34652589/answer/90344494" target="_blank" rel="noopener">来源链接</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>要完全彻底理解这个问题，需要准备以下4方面的知识：Process/Thread，Android Binder IPC，Handler/Looper/MessageQueue消息机制，Linux pipe/epoll机制。</p>
+<p><strong>总结一下主要有3个疑惑：</strong></p>
+<p>1.Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</p>
+<p>2.没看见哪里有相关代码为这个死循环准备了一个新线程去运转？</p>
+<p>3.Activity的生命周期这些方法这些都是在主线程里执行的吧，那这些生命周期方法是怎么实现在死循环体外能够执行起来的？</p>
+<p><strong>(1) Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</strong></p>
+<p>这里涉及线程，先说说说进程/线程，<strong>进程：</strong>每个app运行时前首先创建一个进程，该进程是由Zygote fork出来的，用于承载App上运行的各种Activity/Service等组件。进程对于上层应用来说是完全透明的，这也是google有意为之，让App程序都是运行在Android Runtime。大多数情况一个App就运行在一个进程中，除非在AndroidManifest.xml中配置Android:process属性，或通过native代码fork进程。</p>
+<p><strong>线程：</strong>线程对应用来说非常常见，比如每次new Thread().start都会创建一个新的线程。该线程与App所在进程之间资源共享，从Linux角度来说进程与线程除了是否共享资源外，并没有本质的区别，都是一个task_struct结构体<strong>，在CPU看来进程或线程无非就是一段可执行的代码，CPU采用CFS调度算法，保证每个task都尽可能公平的享有CPU时间片</strong>。</p>
+<p>有了这么准备，再说说死循环问题：</p>
+<p>对于线程既然是一段可执行的代码，当可执行代码执行完成后，线程生命周期便该终止了，线程退出。而对于主线程，我们是绝不希望会被运行一段时间，自己就退出，那么如何保证能一直存活呢？<strong>简单做法就是可执行代码是能一直执行下去的，死循环便能保证不会被退出，</strong>例如，binder线程也是采用死循环的方法，通过循环方式不同与Binder驱动进行读写操作，当然并非简单地死循环，无消息时会休眠。但这里可能又引发了另一个问题，既然是死循环又如何去处理其他事务呢？通过创建新线程的方式。</p>
+<p>真正会卡死主线程的操作是在回调方法onCreate/onStart/onResume等操作时间过长，会导致掉帧，甚至发生ANR，looper.loop本身不会导致应用卡死。</p>
+<p><strong>(2) 没看见哪里有相关代码为这个死循环准备了一个新线程去运转？</strong></p>
+<p>事实上，会在进入死循环之前便创建了新binder线程，在代码ActivityThread.main()中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        //创建Looper和MessageQueue对象，用于处理主线程的消息</span><br><span class="line">        Looper.prepareMainLooper();</span><br><span class="line"></span><br><span class="line">        //创建ActivityThread对象</span><br><span class="line">        ActivityThread thread = new ActivityThread();</span><br><span class="line"></span><br><span class="line">        //建立Binder通道 (创建新线程)</span><br><span class="line">        thread.attach(false);</span><br><span class="line"></span><br><span class="line">        Looper.loop(); //消息循环运行</span><br><span class="line">        throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>thread.attach(false)；便会创建一个Binder线程（具体是指ApplicationThread，Binder的服务端，用于接收系统服务AMS发送来的事件），该Binder线程通过Handler将Message发送给主线程</strong>，具体过程可查看 <a href="https://link.zhihu.com/?target=http%3A//gityuan.com/2016/03/06/start-service/" target="_blank" rel="noopener">startService流程分析</a>，这里不展开说，简单说Binder用于进程间通信，采用C/S架构。关于binder感兴趣的朋友，可查看我回答的另一个知乎问题：<br><a href="https://www.zhihu.com/question/39440766/answer/89210950" target="_blank" rel="noopener">为什么Android要采用Binder作为IPC机制？ - Gityuan的回答</a></p>
+<p>另外，<strong>ActivityThread实际上并非线程</strong>，不像HandlerThread类，ActivityThread并没有真正继承Thread类，只是往往运行在主线程，该人以线程的感觉，其实承载ActivityThread的主线程就是由Zygote fork而创建的进程。</p>
+<p><strong>主线程的死循环一直运行是不是特别消耗CPU资源呢？</strong> 其实不然，这里就涉及到<strong>Linux pipe/e**</strong>poll机制<strong>，简单说就是在主线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，详情见<a href="https://link.zhihu.com/?target=http%3A//www.yuanhh.com/2015/12/26/handler-message-framework/%23next" target="_blank" rel="noopener">Android消息机制1-Handler(Java层)</a>，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。这里采用的epoll机制，是一种IO多路复用机制，可以同时监控多个描述符，当某个描述符就绪(读或写就绪)，则立刻通知相应程序进行读或写操作，本质同步I/O，即读写是阻塞的。 </strong>所以说，主线程大多数时候都是处于休眠状态，并不会消耗大量CPU资源。**</p>
+<p><strong>(3) Activity的生命周期是怎么实现在死循环体外能够执行起来的？</strong></p>
+<p>ActivityThread的内部类H继承于Handler，通过handler消息机制，简单说Handler机制用于同一个进程的线程间通信。</p>
+<p><strong>Activity的生命周期都是依靠主线程的Looper.loop，当收到不同Message时则采用相应措施：</strong><br>在H.handleMessage(msg)方法中，根据接收到不同的msg，执行相应的生命周期。</p>
+<p>比如收到msg=H.LAUNCH_ACTIVITY，则调用ActivityThread.handleLaunchActivity()方法，最终会通过反射机制，创建Activity实例，然后再执行Activity.onCreate()等方法；<br>再比如收到msg=H.PAUSE_ACTIVITY，则调用ActivityThread.handlePauseActivity()方法，最终会执行Activity.onPause()等方法。 上述过程，我只挑核心逻辑讲，真正该过程远比这复杂。</p>
+<p><strong>主线程的消息又是哪来的呢？</strong>当然是App进程中的其他线程通过Handler发送给主线程，请看接下来的内容：</p>
+<p><strong>最后，从进程与线程间通信的角度，**</strong>通过一张图<strong>**加深大家对App运行过程的理解：</strong><br><img src="http://upload-images.jianshu.io/upload_images/4143664-00f75a0764ed6282.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>system_server进程是系统进程，java framework框架的核心载体，里面运行了大量的系统服务，比如这里提供ApplicationThreadProxy（简称ATP），ActivityManagerService（简称AMS），这个两个服务都运行在system_server进程的不同线程中，由于ATP和AMS都是基于IBinder接口，都是binder线程，binder线程的创建与销毁都是由binder驱动来决定的。App进程则是我们常说的应用程序，主线程主要负责Activity/Service等组件的生命周期以及UI相关操作都运行在这个线程； 另外，每个App进程中至少会有两个binder线程 ApplicationThread(简称AT)和ActivityManagerProxy（简称AMP），除了图中画的线程，其中还有很多线程，比如signal catcher线程等，这里就不一一列举。Binder用于不同进程之间通信，由一个进程的Binder客户端向另一个进程的服务端发送事务，比如图中线程2向线程4发送事务；而handler用于同一个进程中不同线程的通信，比如图中线程4向主线程发送消息。结合图说说Activity生命周期，比如暂停Activity，流程如下：线程1的AMS中调用线程2的ATP；（由于同一个进程的线程间资源共享，可以相互直接调用，但需要注意多线程并发问题）线程2通过binder传输到App进程的线程4；线程4通过handler消息机制，将暂停Activity的消息发送给主线程；主线程在looper.loop()中循环遍历消息，当收到暂停Activity的消息时，便将消息分发给ActivityThread.H.handleMessage()方法，再经过方法的调用，最后便会调用到Activity.onPause()，当onPause()处理完后，继续循环loop下去。</p>
+<hr>
+<h1 id="说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？"><br>说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html" target="_blank" rel="noopener">MVC，MVP 和 MVVM 的图示</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/wo_ha/article/details/55519224" target="_blank" rel="noopener"> Android开发模式之MVC，MVP和MVVM的简单介绍与区别</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mvc是model,view,controller的缩写，mvc包含三个部分：</span><br><span class="line"></span><br><span class="line">　　模型（model）对象：是应用程序的主体部分，所有的业务逻辑都应该写在该层。</span><br><span class="line"></span><br><span class="line">　　视图（view）对象：是应用程序中负责生成用户界面的部分。也是在整个mvc架构中用户唯一可以看到的一层，接收用户的输入，显示处理结果。</span><br><span class="line"></span><br><span class="line">　　控制器（control）对象：是根据用户的输入，控制用户界面数据显示及更新model对象状态的部分，控制器更重要的一种导航功能，响应用户出发的相关事件，交给m层处理。</span><br><span class="line"></span><br><span class="line">　　android鼓励弱耦合和组件的重用，在android中mvc的具体体现如下：</span><br><span class="line"></span><br><span class="line">　　1)视图层（view）：一般采用xml文件进行界面的描述，使用的时候可以非常方便的引入，当然，如果你对android了解的比较的多了话，就一定可以想到在android中也可以使用JavaScript+html等的方式作为view层，当然这里需要进行java和javascript之间的通信，幸运的是，android提供了它们之间非常方便的通信实现。</span><br><span class="line"></span><br><span class="line">　　2)控制层（controller）：android的控制层的重任通常落在了众多的acitvity的肩上，这句话也就暗含了不要在acitivity中写代码，要通过activity交割model业务逻辑层处理，这样做的另外一个原因是android中的acitivity的响应时间是5s，如果耗时的操作放在这里，程序就很容易被回收掉。</span><br><span class="line"></span><br><span class="line">　　3)模型层（model）：对数据库的操作、对网络等的操作都应该在model里面处理，当然对业务计算等操作也是必须放在的该层的。</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="什么是ANR，如何避免它？"><br>什么是ANR，如何避免它？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>ANR：Application Not Responding。在Android中，活动管理器和窗口管理器这两个系统服务负责监视应用程序的响应，当用户操作的在5s内应用程序没能做出反应，BroadcastReceiver在10秒内没有执行完毕，就会出现应用程序无响应对话框，这既是ANR。</li>
+<li>避免方法：Activity应该在它的关键生命周期方法（如onCreate()和onResume()）里尽可能少的去做创建操作。潜在的耗时操作，例如网络或数据库操作，或者高耗时的计算如改变位图尺寸，应该在子线程里（或者异步方式）来完成。主线程应该为子线程提供一个Handler，以便完成时能够提交给主线程。</li>
+</ul>
+<hr>
+<h1 id="什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？"><br>什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>forceclose，意为强行关闭，当前应用程序发生了冲突。NullPointExection（空指针），IndexOutOfBoundsException（下标越界），就连Android API使用的顺序错误也可能导致（比如setContentView()之前进行了findViewById()操作）等等一系列未捕获异常</li>
+<li>避免：编写程序时逻辑连贯，思维缜密。能捕获异常，在logcat中能看到异常信息</li>
+<li>捕获异常：可以实现Thread.UncaughtExceptionHandler接口的uncaughtException方法,想要哪个线程可以处理未捕获异常，Thread.setDefaultUncaughtExceptionHandler( this); 这句代码就要在那个线程中执行一次，不仅可以在主线程中这么做，还可以在子线程中进行，在uncaughtException方法中，第一个参数是发生异常的线程，第二个参数是异常。</li>
+</ul>
+<hr>
+<h1 id="描述一下android的系统架构"><br>描述一下android的系统架构<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-badb8423ded73944.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>android系统架构分从下往上为linux 内核层、运行库、应用程序框架层、和应用程序层。</p>
+<ul>
+<li>1、linuxkernel：负责硬件的驱动程序、网络、电源、系统安全以及内存管理等功能。</li>
+<li>2、libraries和 android runtime：libraries：即c/c++函数库部分，大多数都是开放源代码的函数库，例如webkit（引擎），该函数库负责 android网页浏览器的运行，例如标准的c函数库libc、openssl、sqlite等，当然也包括支持游戏开发2dsgl和 3dopengles，在多媒体方面有mediaframework框架来支持各种影音和图形文件的播放与显示，例如mpeg4、h.264、mp3、 aac、amr、jpg和png等众多的多媒体文件格式。android的runtime负责解释和执行生成的dalvik格式的字节码。</li>
+<li>3、applicationframework（应用软件架构），java应用程序开发人员主要是使用该层封装好的api进行快速开发。</li>
+<li>4、applications:该层是java的应用程序层，android内置的googlemaps、e-mail、即时通信工具、浏览器、mp3播放器等处于该层，java开发人员开发的程序也处于该层，而且和内置的应用程序具有平等的位置，可以调用内置的应用程序，也可以替换内置的应用程序。</li>
+</ul>
+<p>上面的四个层次，下层为上层服务，上层需要下层的支持，调用下层的服务，这种严格分层的方式带来的极大的稳定性、灵活性和可扩展性，使得不同层的开发人员可以按照规范专心特定层的开发。android应用程序使用框架的api并在框架下运行，这就带来了程序开发的高度一致性，另一方面也告诉我们，要想写出优质高效的程序就必须对整个 applicationframework进行非常深入的理解。精通applicationframework，你就可以真正的理解android的设计和运行机制，也就更能够驾驭整个应用层的开发。</p>
+<hr>
+<h1 id="AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><br>AIDL的全称是什么？如何工作？能处理哪些类型的数据？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>全称是：Android Interface Define Language<br>在Android中, 每个应用程序都可以有自己的进程. 在写UI应用的时候, 经常要用到Service. 在不同的进程中, 怎样传递对象呢?显然, Java中不允许跨进程内存共享. 因此传递对象, 只能把对象拆分成操作系统能理解的简单形式, 以达到跨界对象访问的目的. 在J2EE中,采用RMI的方式, 可以通过序列化传递对象. 在Android中, 则采用AIDL的方式. 理论上AIDL可以传递Bundle,实际上做起来却比较麻烦。<br>AIDL(AndRoid接口描述语言)是一种借口描述语言; 编译器可以通过aidl文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程的目的. 如果需要在一个Activity中, 访问另一个Service中的某个对象, 需要先将对象转化成AIDL可识别的参数(可能是多个参数), 然后使用AIDL来传递这些参数, 在消息的接收端, 使用这些参数组装成自己需要的对象.<br>AIDL的IPC的机制和COM或CORBA类似, 是基于接口的，但它是轻量级的。它使用代理类在客户端和实现层间传递值. 如果要使用AIDL, 需要完成2件事情: 1. 引入AIDL的相关类.; 2. 调用aidl产生的class.<br>AIDL的创建方法:<br>AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，也可以传递参数和返回值。 由于远程调用的需要, 这些参数和返回值并不是任何类型.下面是些AIDL支持的数据类型:</p>
+<ol>
+<li>不需要import声明的简单Java编程语言类型(int,boolean等)</li>
+<li>String, CharSequence不需要特殊声明</li>
+<li>List, Map和Parcelables类型, 这些类型内所包含的数据成员也只能是简单数据类型, String等其他比支持的类型.<br>(另外: 我没尝试Parcelables, 在Eclipse+ADT下编译不过, 或许以后会有所支持)</li>
+</ol>
+<hr>
+<h1 id="请解释下Android程序运行时权限与文件系统权限的区别。"><br>请解释下Android程序运行时权限与文件系统权限的区别。<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>运行时权限Dalvik( android授权) ,文件系统 linux 内核授权</p>
+<hr>
+<h1 id="Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念"><br>Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。</p>
+<hr>
+<h1 id="谈谈Android的IPC（进程间通信）机制"><br>谈谈Android的IPC（进程间通信）机制<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/wo_ha/article/details/78655896" target="_blank" rel="noopener">AIDL的入门使用(一)</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/wo_ha/article/details/78684695" target="_blank" rel="noopener">AIDL的入门使用(二)</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/wo_ha/article/details/78698458" target="_blank" rel="noopener">AIDL的入门使用(三)</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/wo_ha/article/details/78674323" target="_blank" rel="noopener">Messenger的入门使用</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="noopener">Android 基于Message的进程间通信 Messenger完全解析</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>IPC是内部进程通信的简称， 是共享”命名管道”的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。</p>
+<h3 id="选用的合适的IPC方式"><a href="#选用的合适的IPC方式" class="headerlink" title="选用的合适的IPC方式"></a>选用的合适的IPC方式</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th style="text-align:left">优点</th>
+<th style="text-align:left">缺点</th>
+<th style="text-align:left">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Bundle</td>
+<td style="text-align:left">简单易用</td>
+<td style="text-align:left">只能传输Bundle支持的数据</td>
+<td style="text-align:left">四大组件的进程间通信</td>
+</tr>
+<tr>
+<td style="text-align:left">文件共享</td>
+<td style="text-align:left">简单易用</td>
+<td style="text-align:left">不适合高并发场景，并且无法做到进程间即时通信</td>
+<td style="text-align:left">无并发访问情形，交换简单的数据实时性不高的场景</td>
+</tr>
+<tr>
+<td style="text-align:left">AIDL</td>
+<td style="text-align:left">功能强大，支持一对多并发通信，支持RPC</td>
+<td style="text-align:left">使用稍复杂，需要处理好线程同步</td>
+<td style="text-align:left">一对多通信有RPC需求</td>
+</tr>
+<tr>
+<td style="text-align:left">Messenger</td>
+<td style="text-align:left">功能一般，支持一对多串行通信，支持实时通信</td>
+<td style="text-align:left">不能很好处理高并发情形，不支持RPC，数据通过Messenger传输因此只能传输Bundle支持的数据类型</td>
+<td style="text-align:left">低并发的一对多即时通信，无RPC需求，或无需返回结果的RPC需求</td>
+</tr>
+<tr>
+<td style="text-align:left">ContentProvider</td>
+<td style="text-align:left">在数据源访问方面功能强大，支持一对多并发数据共享，可通过Call方法扩展其他操作</td>
+<td style="text-align:left">可以理解为受约束的AIDL，主要提供数据源的CRUD操作</td>
+<td style="text-align:left">一对多的进程间数据共享</td>
+</tr>
+<tr>
+<td style="text-align:left">Socket</td>
+<td style="text-align:left">功能强大，可以通过网络传输字节流，支持一对多并发实时通信</td>
+<td style="text-align:left">实现细节稍微有点繁琐，不支持直接的RPC</td>
+<td style="text-align:left">网络数据交换</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="Binder机制"><br>Binder机制<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="www.gityuan.com">小米工程师带你看源码</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://lib.csdn.net/base/linux" target="_blank" rel="noopener">Linux</a>已经拥有的进程间通信IPC手段包括(Internet Process Connection)： 管道（Pipe）、信号（Signal）和跟踪（Trace）、插口（Socket）、报文队列（Message）、共享内存（Share Memory）和信号量（Semaphore）。</p>
+<p>而Android采用的是Binder。<strong>Binder基于Client-Server通信模式，传输过程只需一次拷贝，为发送发添加UID/PID身份，既支持实名Binder也支持匿名Binder，安全性高。</strong></p>
+<h3 id="1-从进程角度看IPC机制："><a href="#1-从进程角度看IPC机制：" class="headerlink" title="1.从进程角度看IPC机制："></a>1.从进程角度看IPC机制：</h3><p><img src="http://upload-images.jianshu.io/upload_images/4143664-5c1a75aaead4bae9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Linux中，为了保证内核安全，用户空间不能直接操作内核，从而将进程分为<strong>用户空间和内核空间</strong> 。对于用户空间，不同进程之间是不能彼此共享的，而对于内核空间，不同进程是可以共享的。在Binder机制中，Client进程向Server进程通信，本质上就是利用<strong>内核空间可共享的原理</strong> 。</p>
+<h3 id="2-Binder原理："><a href="#2-Binder原理：" class="headerlink" title="2.Binder原理："></a>2.Binder原理：</h3><p>Binder通信采用客户端/服务端的架构，Binder定义了四个角色：Server，Client，ServiceManager（简称SMgr）以及Binder驱动。其中Server，Client，SMgr运行于用户空间，驱动运行于内核空间。</p>
+<h3 id="Binder机制包括以下五个部分："><a href="#Binder机制包括以下五个部分：" class="headerlink" title="Binder机制包括以下五个部分："></a>Binder机制包括以下五个部分：</h3><ul>
+<li><p>Binder驱动</p>
+<p>Binder驱动的核心是<strong>维护一个binder_proc类型的链表</strong> 。里面记录了包括ServiceManager在内的所有Client信息，当Client去请求得到某个Service时，Binder驱动就去binder_proc中查找相应的Service返回给Client，同时增加当前Service的引用个数。</p>
+</li>
+<li><p>Service Manager</p>
+<p>​    Service Manager主要<strong>负责管理Android系统中所有的服务</strong> ，当客户端要与服务端进行通信时，首先就会通过Service Manager来查询和取得所需要交互的服务。每个服务需要向Service Manager注册自己提供的服务。</p>
+</li>
+<li><p>服务端</p>
+<p>​    通常是Android的系统服务，通过Service Manager可以查询和获取到某个Server。</p>
+</li>
+<li><p>客户端</p>
+<p>​    一般指Android系统上的应用程序，它可以向ServiceManager请求Server中的服务，常见的客户端是Activity。</p>
+</li>
+<li><p>服务代理</p>
+<p>​    服务代理是指<strong>在客户端应用程序中生成的Server代理</strong> (Proxy)，从应用程序的角度看，代理对象和本地对象没有差别，都可以调用其方法，方法都是同步的，并且返回相应的结果。服务代理也是Binder机制的核心模块。</p>
+</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-99a8f18c1cc572da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Binder是Android中的一个类，它实现了IBinder接口，从Android应用层来说，Binder是<strong>客户端与服务端进行通信的媒介</strong>(代理)，当bindService的时候，服务端就返回一个包含服务端业务的Binder对象， 通过这个Binder对象，客户端就可以获取<strong>服务端提供的服务或者数据</strong>，这里的服务包括普通服务和基于AIDL的服务。</p>
+<h3 id="3-Binder通讯流程"><a href="#3-Binder通讯流程" class="headerlink" title="3.Binder通讯流程"></a>3.Binder通讯流程</h3><p><img src="http://upload-images.jianshu.io/upload_images/4143664-03f10a3be4e9fcc0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p>Binder工作机制</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-0eb3b50ec14f27b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="Binder实例分析"><a href="#Binder实例分析" class="headerlink" title="Binder实例分析"></a>Binder实例分析</h3><p>一个跨进程调用系统服务的简单例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取WindowManager服务</span></span><br><span class="line">WindowManager wm = (WindowManager)getSystemService(getApplicationContext().WINDOW_SERVICE);</span><br><span class="line"><span class="comment">//使用LayoutInflater生成一个View对象</span></span><br><span class="line">View view = LayoutInflater.from(getApplicaiton()).inflate(R.layout.view,<span class="keyword">null</span>);</span><br><span class="line"><span class="comment">//添加iew</span></span><br><span class="line">wm.addView(view,layoutParams);</span><br></pre></td></tr></table></figure>
+<p>这个过程分为三个步骤：</p>
+<ul>
+<li>注册服务：在Android开机启动的过程中，Android会初始化系统地各种Service，并将这些Service向ServiceManager注册（即让ServiceManager管理）。这一步是系统自动完成的。</li>
+<li>获取服务：客户端想要得到具体的Service直接向ServiceManager要即可。客户端首先向ServiceManager查询得到具体的Service引用，通常是Service引用的代理对象，对数据进行一些处理操作。在<code>getSystemService()</code> 过程中得到的wm是WindowManager对象的引用。</li>
+<li>使用服务：通过这个引用向具体的服务端发送请求，服务端执行完成后就返回。对于WindowManager的<code>addView</code>函数，将触发远程调用，调用的是运行在systemServer进程中的WindowManager的addView函数。</li>
+</ul>
+<p><strong>Binder系统架构图</strong>:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-c549f10128eeedb0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<p><strong>Binder各组件之间的关系：</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-663e10e0f1425df3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<hr>
+<h1 id="NDK是什么"><br>NDK是什么<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>NDK是一些列工具的集合，NDK提供了一系列的工具，帮助开发者迅速的开发C/C++的动态库，并能自动将so和java 应用打成apk包。NDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需简单的修改mk文件就可以创建出so</p>
+<hr>
+<h1 id="StringBuilder与StringBuffer的区别"><br>StringBuilder与StringBuffer的区别<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>1.StringBuilder：线程非安全的</li>
+<li>2.StringBuffer：线程安全的</li>
+<li>3.当我们在字符串缓冲去被多个线程使用是，JVM不能保证StringBuilder的操作是安全的，虽然他的速度最快，但是可以保证StringBuffer是可以正确操作的。当然大多数情况下就是我们是在单线程下进行的操作，所以大多数情况下是建议用StringBuilder而不用StringBuffer的，就是速度的原因。</li>
+</ul>
+<hr>
+<h1 id="如何理解Activity，View，Window三者之间的关系？"><br>如何理解Activity，View，Window三者之间的关系？<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>Activity像一个工匠（控制单元），Window像窗户（承载模型），View像窗花（显示视图）LayoutInflater像剪刀，Xml配置像窗花图纸。</p>
+<ul>
+<li>1：Activity构造的时候会初始化一个Window，准确的说是PhoneWindow。</li>
+<li>2：这个PhoneWindow有一个“ViewRoot”，这个“ViewRoot”是一个View或者说ViewGroup，是最初始的根视图。</li>
+<li>3：“ViewRoot”通过addView方法来一个个的添加View。比如TextView，Button等</li>
+<li>4：这些View的事件监听，是由WindowManagerService来接受消息，并且回调Activity函数。比如onClickListener，onKeyDown等。</li>
+</ul>
+<hr>
+<h1 id="View的绘制流程"><br>View的绘制流程<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/yanbober/article/details/46128379/" target="_blank" rel="noopener">Android应用层View绘制流程与源码分析</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/carter_yu/article/details/52517475" target="_blank" rel="noopener">Android知识架构 · 电话面试 · View的绘制流程</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>View的绘制流程：OnMeasure()——&gt;OnLayout()——&gt;OnDraw()</strong>,各步骤的主要工作：</p>
+<ul>
+<li><strong>onMeasure(int widthMeasureSpec, int heightMeasureSpec)：</strong> 测量视图大小。从顶层父View到子View递归调用measure方法，measure方法又回调OnMeasure。</li>
+<li><strong>onLayout(boolean changed, int left, int top, int right, int bottom)：</strong> 确定View位置，进行页面布局。从顶层父View向子View的递归调用view.layout方法的过程，即父View根据上一步measure子View所得到的布局大小和布局参数，将子View放在合适的位置上。</li>
+<li><strong>onDraw(Canvas canvas)：</strong> 绘制视图。ViewRoot创建一个Canvas对象，然后调用OnDraw()。六个步骤：①、绘制视图的背景；②、保存画布的图层（Layer）；③、绘制View的内容；④、绘制View子视图，如果没有就不用；⑤、还原图层（Layer）；⑥、绘制滚动条。</li>
+</ul>
+<hr>
+<h1 id="Touch事件的传递机制"><br>Touch事件的传递机制<br></h1>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">更多的参考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://blog.csdn.net/morgan_xww/article/details/9372285" target="_blank" rel="noopener">Android TouchEvent事件传递机制</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://www.jianshu.com/p/328ab7c84ca0" target="_blank" rel="noopener">android基本功 - touch事件传递机制总结</a></td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="#目录">回到目录</a></td>
+</tr>
+</tbody>
+</table>
+<p>跟touch事件相关的3个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public boolean dispatchTouchEvent(MotionEvent ev);    //用来分派event</span><br><span class="line">public boolean onInterceptTouchEvent(MotionEvent ev); //用来拦截event</span><br><span class="line">public boolean onTouchEvent(MotionEvent ev);          //用来处理event</span><br></pre></td></tr></table></figure></p>
+<p>拥有这三个方法的类：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Activity类：</th>
+<th style="text-align:left">Activity</th>
+<th style="text-align:left">dispatchTouchEvent();onTouchEvent();</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">View容器（ViewGroup的子类）</td>
+<td style="text-align:left">FrameLayout、LinearLayout、ListView、ScrollVIew……</td>
+<td style="text-align:left">dispatchTouchEvent();onInterceptTouchEvent();onTouchEvent();</td>
+</tr>
+<tr>
+<td style="text-align:left">View控件（非ViewGroup子类）</td>
+<td style="text-align:left">Button、TextView、EditText……</td>
+<td style="text-align:left">dispatchTouchEvent();onTouchEvent();</td>
+</tr>
+</tbody>
+</table>
+<p><strong>三个方法的用法：</strong></p>
+<p>dispatchTouchEvent()</p>
+<blockquote>
+<p>用来分派事件。其中调用了onInterceptTouchEvent()和onTouchEvent()，一般不重写该方法</p>
+</blockquote>
+<p>onInterceptTouchEvent()</p>
+<blockquote>
+<p>用来拦截事件。ViewGroup类中的源码实现就是{return false;}表示不拦截该事件，事件将向下传递（传递给其子View）；若手动重写该方法，使其返回true则表示拦截，事件将终止向下传递，事件由当前ViewGroup类来处理，就是调用该类的onTouchEvent()方法</p>
+</blockquote>
+<p>onTouchEvent()</p>
+<blockquote>
+<p>用来处理事件。返回true则表示该View能处理该事件，事件将终止向上传递（传递给其父View）；返回false表示不能处理，则把事件传递给其父View的onTouchEvent()方法来处理</p>
+</blockquote>
+<ul>
+<li>ViewGroup的某些子类（GridView、ScrollView…）重写了onInterceptTouchEvent()方法，当发生ACTION_MOVE事件时，返回true进行拦截。</li>
+<li>隧道式传递，冒泡式消费，DOWN事件是可以传递到最小的接受者那里，而UP事件只有里面的接受者要消费事件才会传递到那里，否则不会向里传递</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/2018面试/" rel="tag"># 2018面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/项目中的Html和JS使用的随便总结/" rel="next" title="项目中的Html和JS使用的随便总结">
+                <i class="fa fa-chevron-left"></i> 项目中的Html和JS使用的随便总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/12/Android的性能优化/" rel="prev" title="Android的性能优化">
+                Android的性能优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ListView优化方案"><span class="nav-number">2.</span> <span class="nav-text">ListView优化方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#android中的动画有哪几类，它们的特点和区别是什么"><span class="nav-number">3.</span> <span class="nav-text">android中的动画有哪几类，它们的特点和区别是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图"><span class="nav-number">3.0.0.0.1.</span> <span class="nav-text">1、FrameAnimation（逐帧动画）：将多张图片组合起来进行播放，类似于早期电影的工作原理，很多静态图片不断切换的效果类似gif图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。"><span class="nav-number">3.0.0.0.2.</span> <span class="nav-text">2、TweenAnimation（补间动画）：知道开始和结束，将中间的过程给补充起来，组件从初始状态变成结束状态，为了让改变看起来更平滑【平移动画：TranslateAnimation、缩放动画：ScaleAnimation、透明动画：AlphaAnimation、旋转动画：RotateAnimation】。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android-3-0（API-11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。"><span class="nav-number">3.0.0.0.3.</span> <span class="nav-text">3、PropertyAnimation（属性动画）：属性动画不再仅仅是一种视觉效果了，而是一种不断地对值进行操作的机制，并将值赋到指定对象的指定属性上，可以是任意对象的任意属性。控件位置也发生了改变，属性动画只对Android 3.0（API 11）以上版本的Android系统才有效，这种动画可以设置给任何Object，包括那些还没有渲染到屏幕上的对象。这种动画是可扩展的，可以让你自定义任何类型和属性的动画。</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别"><span class="nav-number">4.</span> <span class="nav-text">android中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android的数据存储方式"><span class="nav-number">5.</span> <span class="nav-text">Android的数据存储方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#activity的启动模式有哪些？是什么含义？"><span class="nav-number">6.</span> <span class="nav-text">activity的启动模式有哪些？是什么含义？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity的生命周期"><span class="nav-number">7.</span> <span class="nav-text">Activity的生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#activity在屏幕旋转时的生命周期"><span class="nav-number">8.</span> <span class="nav-text">activity在屏幕旋转时的生命周期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Service的介绍"><span class="nav-number">9.</span> <span class="nav-text">Service的介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注册广播有几种方式，这些方式有何优缺点？"><span class="nav-number">10.</span> <span class="nav-text">注册广播有几种方式，这些方式有何优缺点？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请解释下在单线程模型中Message、Handler、MessageQueue、Looper之间的关系"><span class="nav-number">11.</span> <span class="nav-text">请解释下在单线程模型中Message、Handler、MessageQueue、Looper之间的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Handler的总结归纳"><span class="nav-number">12.</span> <span class="nav-text">Handler的总结归纳</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Handler的作用：将一个任务切换到某个指定的线程中去执行"><span class="nav-number">12.0.1.</span> <span class="nav-text">Handler的作用：将一个任务切换到某个指定的线程中去执行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Handler的原理"><span class="nav-number">13.</span> <span class="nav-text">Handler的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">13.0.1.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MessageQueue"><span class="nav-number">13.0.2.</span> <span class="nav-text">MessageQueue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Looper"><span class="nav-number">13.0.3.</span> <span class="nav-text">Looper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handler"><span class="nav-number">13.0.4.</span> <span class="nav-text">Handler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android中为什么主线程不会因为Looper.loop()里的死循环卡死？"><span class="nav-number">14.</span> <span class="nav-text">Android中为什么主线程不会因为Looper.loop()里的死循环卡死？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？"><span class="nav-number">15.</span> <span class="nav-text">说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是ANR，如何避免它？"><span class="nav-number">16.</span> <span class="nav-text">什么是ANR，如何避免它？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？"><span class="nav-number">17.</span> <span class="nav-text">什么情况会导致ForceClose？如何避免？能否捕获导致其的异常？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#描述一下android的系统架构"><span class="nav-number">18.</span> <span class="nav-text">描述一下android的系统架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AIDL的全称是什么？如何工作？能处理哪些类型的数据？"><span class="nav-number">19.</span> <span class="nav-text">AIDL的全称是什么？如何工作？能处理哪些类型的数据？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请解释下Android程序运行时权限与文件系统权限的区别。"><span class="nav-number">20.</span> <span class="nav-text">请解释下Android程序运行时权限与文件系统权限的区别。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念"><span class="nav-number">21.</span> <span class="nav-text">Android的dvm中进程和Linux的进程,应用程序的进程是否为同一个概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#谈谈Android的IPC（进程间通信）机制"><span class="nav-number">22.</span> <span class="nav-text">谈谈Android的IPC（进程间通信）机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选用的合适的IPC方式"><span class="nav-number">22.0.1.</span> <span class="nav-text">选用的合适的IPC方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binder机制"><span class="nav-number">23.</span> <span class="nav-text">Binder机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-从进程角度看IPC机制："><span class="nav-number">23.0.1.</span> <span class="nav-text">1.从进程角度看IPC机制：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Binder原理："><span class="nav-number">23.0.2.</span> <span class="nav-text">2.Binder原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binder机制包括以下五个部分："><span class="nav-number">23.0.3.</span> <span class="nav-text">Binder机制包括以下五个部分：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Binder通讯流程"><span class="nav-number">23.0.4.</span> <span class="nav-text">3.Binder通讯流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binder实例分析"><span class="nav-number">23.0.5.</span> <span class="nav-text">Binder实例分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NDK是什么"><span class="nav-number">24.</span> <span class="nav-text">NDK是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#StringBuilder与StringBuffer的区别"><span class="nav-number">25.</span> <span class="nav-text">StringBuilder与StringBuffer的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何理解Activity，View，Window三者之间的关系？"><span class="nav-number">26.</span> <span class="nav-text">如何理解Activity，View，Window三者之间的关系？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#View的绘制流程"><span class="nav-number">27.</span> <span class="nav-text">View的绘制流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Touch事件的传递机制"><span class="nav-number">28.</span> <span class="nav-text">Touch事件的传递机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

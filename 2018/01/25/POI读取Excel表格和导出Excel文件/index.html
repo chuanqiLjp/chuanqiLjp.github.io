@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="读取Excel表格,导出Excel文件" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处###序言：  这两天在弄一个股票数据分析，而Choice中导">
+<meta name="keywords" content="读取Excel表格,导出Excel文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="POI读取Excel表格和导出Excel文件">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/POI读取Excel表格和导出Excel文件/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处###序言：  这两天在弄一个股票数据分析，而Choice中导">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4143664-79a2fb8ddc804170.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="POI读取Excel表格和导出Excel文件">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处###序言：  这两天在弄一个股票数据分析，而Choice中导">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4143664-79a2fb8ddc804170.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/POI读取Excel表格和导出Excel文件/"/>
+
+
+
+
+
+  <title>POI读取Excel表格和导出Excel文件 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/POI读取Excel表格和导出Excel文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">POI读取Excel表格和导出Excel文件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T14:31:58+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/文档操作/" itemprop="url" rel="index">
+                    <span itemprop="name">文档操作</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/文档操作/Excel/" itemprop="url" rel="index">
+                    <span itemprop="name">Excel</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：转载需要在醒目注明出处"><a href="#版权声明：转载需要在醒目注明出处" class="headerlink" title="版权声明：转载需要在醒目注明出处"></a>版权声明：转载需要在醒目注明出处</h1><p>###序言：</p>
+<ul>
+<li>这两天在弄一个股票数据分析，而Choice中导出的数据是Excel的表格，数据多达上百个，如果要手动的去操作的话，操作量非常大，所以就想着怎么用代码去实现，主要需求是：读取100多个相同格式的excel文件然后进行合并。翻译下就是Excel文件的读写。因此本篇就讲Excel读取和Excel的导出，一些常见的格式设置，增加单元格的边框，设置单元格的字体等，都是非常简单的使用，更详细的请参阅<a href="http://poi.apache.org/spreadsheet/quick-guide.html#NewWorkbook" target="_blank" rel="noopener">官方文档</a><h1 id="1、下载需要的Jar包，点击立即下载"><a href="#1、下载需要的Jar包，点击立即下载" class="headerlink" title="1、下载需要的Jar包，点击立即下载"></a>1、下载需要的Jar包，<a href="http://download.csdn.net/download/wo_ha/10222029" target="_blank" rel="noopener">点击立即下载</a></h1><blockquote>
+<p>里面包含了五个POI操作的jar包，用于操作excel，支持2003、2007版本，有poi-3.14、poi-ooxml-3.14、poi-ooxml-schemas-3.14、poi-scratchpad-3.8、xmlbeans-2.6.0，由于CSDN最低分的限制，所以需要少许积分，没有积分的同学可以在文末留下你的邮箱，有空我会发给你</p>
+</blockquote>
+</li>
+</ul>
+<p>#2、导出Excel文件，代码中有大量注释，就不一一讲解了，读写流程：Workbook(工作簿)——&gt;Sheet(工作表)——&gt;Row(行)——&gt;Cell(单元格)</p>
+<ul>
+<li>2003-2007 版本的 工作簿，文件的后缀名为xls的文件可以单独使用 HSSFWorkbook workbook = new HSSFWorkbook()</li>
+<li>2007 以上版本的 工作簿，文件的后缀名为Xlsx的文件可以单独使用  XSSFWorkbook workbook=new XSSFWorkbook();</li>
+<li>下面对应的类加上对应的前缀HSSF或XSSF，而没有前缀的可以通用xls和xlsx的文件， 需要加前缀的类如：HSSFWorkbook、HSSFSheet、HSSFRow、HSSFCell、HSSFFont、HSSFCellStyle、HSSFDataFormat、</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 导出Excel</span><br><span class="line"> * @param sheetName	表名</span><br><span class="line"> * @param sheetHeads	表头</span><br><span class="line"> * @param listContent	数据集合</span><br><span class="line"> * @param os	输出流，可输出到文件、网络</span><br><span class="line"> */</span><br><span class="line">public static void writeExcel(String sheetName, String[] sheetHeads,</span><br><span class="line">		List&lt;Student&gt; listContent, OutputStream os) &#123;</span><br><span class="line">	try &#123;</span><br><span class="line">		/**</span><br><span class="line">		 * 2003-2007 版本的 工作簿，文件的后缀名为xls的文件可以单独使用 HSSFWorkbook workbook = new HSSFWorkbook()</span><br><span class="line">		 * 2007 以上版本的 工作簿，文件的后缀名为Xlsx的文件可以单独使用  XSSFWorkbook workbook=new XSSFWorkbook();</span><br><span class="line">		 * 下面对应的类加上对应的前缀HSSF或XSSF，而没有前缀的可以通用xls和xlsx的文件， 需要加前缀的类如：HSSFWorkbook、HSSFSheet、HSSFRow、HSSFCell、HSSFFont、HSSFCellStyle、HSSFDataFormat、</span><br><span class="line">		 * 读写流程：Workbook(工作簿)——&gt;Sheet(工作表)——&gt;Row(行)——&gt;Cell(单元格)</span><br><span class="line">		 */</span><br><span class="line">		Workbook workbook= new HSSFWorkbook();// 创建一个2007以上版本的工作簿，创建需要指定具体的版本，读取可以不用</span><br><span class="line">		Sheet sheet = workbook.createSheet(sheetName);// 创建一个工作表</span><br><span class="line"></span><br><span class="line">		sheet.setDefaultRowHeight((short) (1 * 256));// 设置默认行高，表示1个字符的高度</span><br><span class="line"></span><br><span class="line">		Font font = workbook.createFont();// 创建一个字体对象，</span><br><span class="line">		font.setBold(true);// 是否加粗</span><br><span class="line">		font.setFontName(&quot;宋体&quot;);// 设置字体</span><br><span class="line">		font.setFontHeightInPoints((short) 16);// 设置字体大小</span><br><span class="line"></span><br><span class="line">		CellStyle cellStyle = workbook.createCellStyle();// 创建一个单元格的样式</span><br><span class="line">		cellStyle.setAlignment(CellStyle.ALIGN_CENTER);// 居中对齐</span><br><span class="line">		cellStyle.setWrapText(true);// 设置自动换行</span><br><span class="line">		cellStyle.setFont(font);// 将字体设置到样式中</span><br><span class="line">		cellStyle.setFillForegroundColor(HSSFColor.RED.index);// 设置背景色</span><br><span class="line"></span><br><span class="line">		int rowCount=0;//用于计数已有多少行的数据，其真实有的数据为rowCount条，访问时下标需要减1</span><br><span class="line"></span><br><span class="line">		// 填充表头数据</span><br><span class="line">		Cell cell = null;</span><br><span class="line">		String head;</span><br><span class="line">		Row headRow = sheet.createRow(rowCount++);// 创建第一行，下标从0 开始</span><br><span class="line">		for (int i = 0; i &lt; sheetHeads.length; i++) &#123;</span><br><span class="line">			head = sheetHeads[i];</span><br><span class="line">			sheet.setColumnWidth(i, (head.length() + 20) * 256);// 设置第i列的列宽，第一个参数代表列下标(从0开始),第2个参数代表宽度值需要乘256表示多少个字符宽度</span><br><span class="line">			cell = headRow.createCell(i);// 创建一个单元格</span><br><span class="line">			cell.setCellValue(head);// 为单元格设置一个值</span><br><span class="line">			cell.setCellStyle(cellStyle);// 设置单元格的样式</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// 填充内容数据</span><br><span class="line">		cellStyle.setFillForegroundColor(HSSFColor.WHITE.index);// 设置背景色</span><br><span class="line">		Student student = null;</span><br><span class="line">		Row row = null;</span><br><span class="line">		// 为日期单独设置单元格的格式</span><br><span class="line">		DataFormat dataFormat = workbook.createDataFormat();</span><br><span class="line">		CellStyle cellStyleData = workbook.createCellStyle();</span><br><span class="line">		cellStyleData.setDataFormat(dataFormat.getFormat(&quot;yyyy年MM月dd日 hh:mm&quot;));</span><br><span class="line"></span><br><span class="line">		for (int i = 0; i &lt; listContent.size(); i++) &#123;</span><br><span class="line">			student = listContent.get(i);</span><br><span class="line">			row = sheet.createRow(rowCount++);// 创建第i+1行d</span><br><span class="line">			cell = row.createCell(0);// 创建第i+1行是第1个单元格</span><br><span class="line">			cell.setCellStyle(cellStyle);</span><br><span class="line">			cell.setCellValue(student.getId());</span><br><span class="line"></span><br><span class="line">			cell = row.createCell(1);// 创建第i+1行是第2个单元格</span><br><span class="line">			cell.setCellStyle(cellStyle);</span><br><span class="line">			cell.setCellValue(student.getName());</span><br><span class="line"></span><br><span class="line">			cell = row.createCell(2);// 创建第i+1行是第3个单元格</span><br><span class="line">			cell.setCellStyle(cellStyle);</span><br><span class="line">			cell.setCellValue(student.isSex());</span><br><span class="line"></span><br><span class="line">			cell = row.createCell(3);// 创建第i+1行是第4个单元格</span><br><span class="line">			cell.setCellStyle(cellStyle);</span><br><span class="line">			cell.setCellValue(student.getAge());</span><br><span class="line"></span><br><span class="line">			cell = row.createCell(4);// 创建第i+1行是第5个单元格</span><br><span class="line">			cell.setCellStyle(cellStyle);</span><br><span class="line">			cell.setCellValue(student.getScore());</span><br><span class="line"></span><br><span class="line">			cell = row.createCell(5);// 创建第i+1行是第6个单元格</span><br><span class="line">			/**</span><br><span class="line">			 * 读取出来就是一个字符串</span><br><span class="line">			 * 读取代码：formatSS.parse(cell.getStringCellValue())</span><br><span class="line">			 */</span><br><span class="line">			//cell.setCellValue(formatSS.format(student.getDate()));</span><br><span class="line">			/**</span><br><span class="line">			 *  读取出来的是一个double类型的数据,读取代码：</span><br><span class="line">			 *  if (DateUtil.isCellDateFormatted(cell)||cell.getCellStyle().getDataFormat() == 164) &#123;</span><br><span class="line">			 *  System.out.println(formatSS.format(cell.getDateCellValue()));&#125;</span><br><span class="line">			 *</span><br><span class="line">			 */</span><br><span class="line">			cell.setCellValue(student.getDate());</span><br><span class="line">			cell.setCellStyle(cellStyleData);</span><br><span class="line">		&#125;</span><br><span class="line">		//为单个的单元格增加边框</span><br><span class="line">		row = sheet.createRow(rowCount++);</span><br><span class="line">		cell=row.createCell(0);</span><br><span class="line">		cell.setCellValue(&quot;为该单元格加上边框&quot;);</span><br><span class="line">		CellStyle borderCellStyle = workbook.createCellStyle();</span><br><span class="line">		borderCellStyle.setAlignment(CellStyle.ALIGN_CENTER);</span><br><span class="line">		borderCellStyle.setBorderBottom(CellStyle.BORDER_THIN);</span><br><span class="line">		borderCellStyle.setBorderTop(CellStyle.BORDER_THIN);</span><br><span class="line">		borderCellStyle.setBorderLeft(CellStyle.BORDER_THIN);</span><br><span class="line">		borderCellStyle.setBorderRight(CellStyle.BORDER_THIN);</span><br><span class="line">		cell.setCellStyle(borderCellStyle);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		//增加最后一行数据</span><br><span class="line">		row = sheet.createRow(rowCount++);</span><br><span class="line">		row.createCell(0).setCellValue(&quot;@版权归LJP所有，该文件仅供学习参考使用&quot;);</span><br><span class="line">        // 合并单元格</span><br><span class="line">        CellRangeAddress rangeAddress =new CellRangeAddress(rowCount-1, rowCount-1, 0, 3); // 起始行, 终止行, 起始列, 终止列</span><br><span class="line">        sheet.addMergedRegion(rangeAddress);</span><br><span class="line">        // 使用RegionUtil类为合并后的单元格添加边框</span><br><span class="line">        RegionUtil.setBorderBottom(1, rangeAddress, sheet, workbook); // 下边框</span><br><span class="line">        RegionUtil.setBorderLeft(1, rangeAddress, sheet, workbook); // 左边框</span><br><span class="line">        RegionUtil.setBorderRight(1, rangeAddress, sheet, workbook); // 有边框</span><br><span class="line">        RegionUtil.setBorderTop(1, rangeAddress, sheet, workbook); // 上边框</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		workbook.write(os);</span><br><span class="line">		os.close();</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/4143664-79a2fb8ddc804170.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="写入的Excel文件"></p>
+<p>##3、读取Excel，通常来说是需要区分excel版本的，如2003-2007的版本文件后缀为xls，需要使用HSSFWorkbook，而2007+的版本文件后缀为xlsx，需要使用XSSFWorkbook，但是读取可以使用WorkbookFactory.create(file)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">	public static void readExcel2(File excelFile) &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			Workbook workbook=WorkbookFactory.create(excelFile);</span><br><span class="line">			Sheet sheet = workbook.getSheetAt(0);//或者根据表名称读取：sheet=workbook.getSheet(&quot;表1&quot;);</span><br><span class="line"></span><br><span class="line">			/**</span><br><span class="line">			 * 遍历数据时可以使用迭代器Iterator,forEach,也可以使用for循环，</span><br><span class="line">			 * sheet.getFirstRowNum();//获取第一行的行号下标</span><br><span class="line">			 * sheet.getLastRowNum();//获取最后一行的行号下标,遍历时需要加1</span><br><span class="line">			 * row.getFirstCellNum();//获取某行的第一个单元格的下标</span><br><span class="line">			 * row.getLastCellNum();//获取某行的最后一个单元格数量</span><br><span class="line">			 */</span><br><span class="line">//			for(int i=sheet.getFirstRowNum();i&lt;sheet.getLastRowNum()+1;i++)&#123;</span><br><span class="line">//				Row row = sheet.getRow(i);</span><br><span class="line">//				for(int j=row.getFirstCellNum();j&lt;row.getLastCellNum();j++)&#123;</span><br><span class="line">//					Cell cell = row.getCell(j);</span><br><span class="line">//				&#125;</span><br><span class="line">//			&#125;</span><br><span class="line"></span><br><span class="line">			Iterator&lt;Row&gt; iterator = sheet.iterator();</span><br><span class="line">			while (iterator.hasNext()) &#123;//遍历每一行的数据</span><br><span class="line">				Row row = iterator.next();</span><br><span class="line">				System.out.println(&quot;FirstRow=&quot;+sheet.getFirstRowNum()</span><br><span class="line">						+&quot;,LastRow=&quot;+sheet.getLastRowNum()</span><br><span class="line">						+&quot;,FirstCell=&quot;+row.getFirstCellNum()</span><br><span class="line">						+&quot;,LastCell=&quot;+row.getLastCellNum()</span><br><span class="line">						+&quot;,RowNum=&quot;+row.getRowNum());</span><br><span class="line">				Iterator&lt;Cell&gt; cellIterator = row.cellIterator();</span><br><span class="line">				while (cellIterator.hasNext()) &#123;//遍历某行的所有单元格</span><br><span class="line">					Cell cell =  cellIterator.next();</span><br><span class="line">					switch (cell.getCellType()) &#123;</span><br><span class="line">					case Cell.CELL_TYPE_STRING://String类型</span><br><span class="line">						System.out.println(&quot;String：&quot;+cell.getStringCellValue());</span><br><span class="line">						try &#123;</span><br><span class="line">							System.out.println(formatSS.parse(cell.getStringCellValue()));//读取字符串格式的日期</span><br><span class="line">						&#125; catch (Exception e) &#123;</span><br><span class="line">						&#125;</span><br><span class="line">						break;</span><br><span class="line">					case Cell.CELL_TYPE_BOOLEAN://Booble类型</span><br><span class="line">						System.out.println(&quot;Boolean:&quot;+cell.getBooleanCellValue());</span><br><span class="line">						break;</span><br><span class="line">					case Cell.CELL_TYPE_NUMERIC://Double类型</span><br><span class="line">	                    if (DateUtil.isCellDateFormatted(cell)||cell.getCellStyle().getDataFormat() == 164) &#123;//读取Double类型的日期</span><br><span class="line">	                    	System.out.println(&quot;Data:————————》&quot;+formatSS.format(cell.getDateCellValue()));</span><br><span class="line">	                    &#125; else &#123;</span><br><span class="line">	                        System.out.println(&quot;Double:&quot;+cell.getNumericCellValue());</span><br><span class="line">	                    &#125;</span><br><span class="line">						break;</span><br><span class="line">					case Cell.CELL_TYPE_FORMULA:</span><br><span class="line">						System.out.println(&quot;formula:&quot;+formatSS.format(cell.getDateCellValue()));</span><br><span class="line">						break;</span><br><span class="line">					case Cell.CELL_TYPE_BLANK://空白的单元格</span><br><span class="line">						System.out.println(&quot;Blank&quot;);</span><br><span class="line">						break;</span><br><span class="line">					default:</span><br><span class="line">						break;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>##4、读取Excel的数据并转换为Java Bean的集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public static List&lt;Student&gt; readExcel(File excelFile) &#123;</span><br><span class="line">	List&lt;Student&gt;list=new ArrayList&lt;&gt;();</span><br><span class="line">	try &#123;</span><br><span class="line">		Workbook workbook=WorkbookFactory.create(excelFile);</span><br><span class="line">		Sheet sheet = workbook.getSheetAt(0);</span><br><span class="line">		for (int i = 0; i &lt; sheet.getLastRowNum()+1; i++) &#123;//遍历所有的行</span><br><span class="line">			Row row = sheet.getRow(i);</span><br><span class="line">			if (row==null||i==0||i&gt;sheet.getLastRowNum()-2) &#123;//舍弃表头和末尾</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			Cell cell = row.getCell(0);</span><br><span class="line">			String id = null;</span><br><span class="line">			if (cell!=null) &#123;</span><br><span class="line">				id=cell.getStringCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			cell=row.getCell(1);</span><br><span class="line">			String name = null;</span><br><span class="line">			if (cell!=null) &#123;</span><br><span class="line">				name=cell.getStringCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			cell=row.getCell(2);</span><br><span class="line">			boolean sex = false;</span><br><span class="line">			if (cell!=null) &#123;</span><br><span class="line">				sex=cell.getBooleanCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			int age = 0;</span><br><span class="line">			cell=row.getCell(3);</span><br><span class="line">			if (cell!=null) &#123;</span><br><span class="line">				age=(int) cell.getNumericCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			double score = 0;</span><br><span class="line">			cell=row.getCell(4);</span><br><span class="line">			if (cell!=null) &#123;</span><br><span class="line">				score=cell.getNumericCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			Date date = null;</span><br><span class="line">			cell=row.getCell(5);</span><br><span class="line">			if (cell!=null&amp;&amp;(DateUtil.isCellDateFormatted(cell)||cell.getCellStyle().getDataFormat() == 164)) &#123;//读取Double类型的日期</span><br><span class="line">				date=cell.getDateCellValue();</span><br><span class="line">			&#125;</span><br><span class="line">			Student student=new Student(id, name, sex, age, score, date);</span><br><span class="line">			list.add(student);			&#125;</span><br><span class="line">	&#125; catch (Exception e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>读取结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Student [id=0000000, name=name0, sex=true, age=10, score=750.0, date=Thu Jan 25 14:25:07 CST 2018]</span><br><span class="line">  ...</span><br><span class="line">Student [id=00000029, name=name29, sex=false, age=39, score=721.0, date=Thu Jan 25 14:25:07 CST 2018]</span><br></pre></td></tr></table></figure></p>
+<p>Student类很简单字段有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private String id;</span><br><span class="line">private String name;</span><br><span class="line">private boolean sex;// true = 男，</span><br><span class="line">private int age;</span><br><span class="line">private double score;</span><br><span class="line">private Date date;</span><br></pre></td></tr></table></figure></p>
+<p>##5、测试代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">String sheetName=&quot;表1&quot;;</span><br><span class="line">String []sheetHeads=&#123;&quot;学号&quot;,&quot;姓名&quot;,&quot;性别&quot;,&quot;年龄&quot;,&quot;成绩&quot;,&quot;日期&quot;&#125;;</span><br><span class="line">List&lt;Student&gt; listContent=new  ArrayList&lt;Student&gt;();</span><br><span class="line">for (int i = 0; i &lt; 30; i++) &#123;</span><br><span class="line">	listContent.add(new Student(&quot;000000&quot;+i, &quot;name&quot;+i, i%2==0?true:false, i+10, 750-i,new Date() ));</span><br><span class="line">&#125;</span><br><span class="line">FileOutputStream fos = null;</span><br><span class="line">try &#123;</span><br><span class="line">	fos = new FileOutputStream(new File(&quot;C:\\Users\\yuxue\\Desktop&quot;,&quot;student.xls&quot;));</span><br><span class="line">&#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">Excel.writeExcel(sheetName, sheetHeads, listContent, fos);</span><br><span class="line">List&lt;Student&gt; list = Excel.readExcel(new File(&quot;C:\\Users\\yuxue\\Desktop&quot;,&quot;student.xls&quot;));</span><br><span class="line">for (Student student : list) &#123;</span><br><span class="line">	System.out.println(student);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我的CSDN博客：<a href="http://blog.csdn.net/wo_ha/article/details/79161616" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/79161616</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/读取Excel表格/" rel="tag"># 读取Excel表格</a>
+          
+            <a href="/tags/导出Excel文件/" rel="tag"># 导出Excel文件</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/18/HTML标签学习记录/" rel="next" title="HTML标签学习记录">
+                <i class="fa fa-chevron-left"></i> HTML标签学习记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/29/Android 自定义字体，更换系统默认显示的字体使用自定义字体/" rel="prev" title="Android 自定义字体，更换系统默认显示的字体使用自定义字体">
+                Android 自定义字体，更换系统默认显示的字体使用自定义字体 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：转载需要在醒目注明出处"><span class="nav-number">1.</span> <span class="nav-text">版权声明：转载需要在醒目注明出处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1、下载需要的Jar包，点击立即下载"><span class="nav-number">2.</span> <span class="nav-text">1、下载需要的Jar包，点击立即下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

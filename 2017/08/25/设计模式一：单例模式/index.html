@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式, 单列模式" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处#设计模式系列 1. 设计模式一：单例模式 2. 设计模式二：">
+<meta name="keywords" content="设计模式, 单列模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式一：单例模式">
+<meta property="og:url" content="http://yoursite.com/2017/08/25/设计模式一：单例模式/index.html">
+<meta property="og:site_name" content="ljp的博客">
+<meta property="og:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处#设计模式系列 1. 设计模式一：单例模式 2. 设计模式二：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-13T02:53:41.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式一：单例模式">
+<meta name="twitter:description" content="我的简书：https://www.jianshu.com/u/c91e642c4d90我的CSDN：http://blog.csdn.net/wo_ha我的GitHub：https://github.com/chuanqiLjp我的个人博客：https://chuanqiljp.github.io/  版权声明：转载需要在醒目注明出处#设计模式系列 1. 设计模式一：单例模式 2. 设计模式二：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/25/设计模式一：单例模式/"/>
+
+
+
+
+
+  <title>设计模式一：单例模式 | ljp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ljp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/25/设计模式一：单例模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chuanqiLjp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ljp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式一：单例模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-25T10:32:58+08:00">
+                2017-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我的简书：<a href="https://www.jianshu.com/u/c91e642c4d90" target="_blank" rel="noopener">https://www.jianshu.com/u/c91e642c4d90</a><br>我的CSDN：<a href="http://blog.csdn.net/wo_ha" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha</a><br>我的GitHub：<a href="https://github.com/chuanqiLjp" target="_blank" rel="noopener">https://github.com/chuanqiLjp</a><br>我的个人博客：<a href="https://chuanqiljp.github.io/" target="_blank" rel="noopener">https://chuanqiljp.github.io/</a></p>
+</blockquote>
+<h1 id="版权声明：转载需要在醒目注明出处"><a href="#版权声明：转载需要在醒目注明出处" class="headerlink" title="版权声明：转载需要在醒目注明出处"></a>版权声明：转载需要在醒目注明出处</h1><p>#设计模式系列</p>
+<p><a href="http://www.jianshu.com/p/fb3e4ea5be06" target="_blank" rel="noopener">1. 设计模式一：单例模式</a></p>
+<p><a href="http://www.jianshu.com/p/f88dca81c56b" target="_blank" rel="noopener">2. 设计模式二：观察者模式（发布订阅模式）</a></p>
+<h1 id="一-单例模式的诞生背景"><a href="#一-单例模式的诞生背景" class="headerlink" title="一.单例模式的诞生背景"></a>一.单例模式的诞生背景</h1><p>在一个项目中我们需要控制类的实例只能有一个，而且客户端只能从一个全局访问点访问到它就可以使用单例模式，单例模式的本质就是控制实例的数目（在这里就是一个）。单例模式分为懒汉模式和饿汉模式。</p>
+<h1 id="二-单例模式的使用场景"><a href="#二-单例模式的使用场景" class="headerlink" title="二.单例模式的使用场景"></a>二.单例模式的使用场景</h1><p>1.要求生成唯一的序列号的环境<br>2.在整个项目中需要有访问一个共享访问点或共享数据，如配置文件；<br>3.创建一个对象需要消耗的资源过多，如数据库的访问；<br>4.需要定义大量的静态常量或静态方法（如工具类）的环境。</p>
+<h1 id="三-单例模式的代码示例"><a href="#三-单例模式的代码示例" class="headerlink" title="三.单例模式的代码示例"></a>三.单例模式的代码示例</h1><h2 id="饿汉模式"><a href="#饿汉模式" class="headerlink" title="饿汉模式"></a>饿汉模式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    // 2.创建静态实例</span><br><span class="line">    private static final Singleton instance = new Singleton();</span><br><span class="line">    // 1.私有构造方法</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    // 3.提供静态的对象提供方法</span><br><span class="line">    public static Singleton getInstance() &#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="懒汉模式初级版"><a href="#懒汉模式初级版" class="headerlink" title="懒汉模式初级版"></a>懒汉模式初级版</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    // 2.创建静态变量</span><br><span class="line">    private static Singleton instance;</span><br><span class="line">    // 1.私有构造方法</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    // 3.提供静态的对象提供方法，先检查对象是否实例化，若为null则实例化</span><br><span class="line">    public static Singleton getInstance() &#123;</span><br><span class="line">        if (instance == null) &#123;</span><br><span class="line">            instance = new Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>饿汉模式自带线程安全的属性，但是懒汉模式上面的这种写法，是线程不安全的，当多线程环境中有可能创建多个实例，因此我们可以对getInstance( )方法进行加锁，出现懒汉模式升级版一。</p>
+<h2 id="懒汉模式升级版一"><a href="#懒汉模式升级版一" class="headerlink" title="懒汉模式升级版一"></a>懒汉模式升级版一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public synchronized static Singleton getInstance() &#123;     //性能低</span><br><span class="line">    if (instance == null) &#123;</span><br><span class="line">        instance = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>升级版一虽然解决了线程安全问题，但是由于每次获取对象实例时都需要同步，这样性能会明显下降，其实我们可以增加判断，当对象为null时，才需要同步进行创建对象，如果不为null则可以直接返回，出现懒汉模式升级版二。</p>
+<h2 id="懒汉模式升级版二（双重检验加锁）"><a href="#懒汉模式升级版二（双重检验加锁）" class="headerlink" title="懒汉模式升级版二（双重检验加锁）"></a>懒汉模式升级版二（双重检验加锁）</h2><p>当获取实例时先判断对象是否实例化，若存在直接返回，若不存在进行同步操作，同步操作再次判断对象是否为null，是则实例化对象，代码入下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;         //适用JDK1.5及以后</span><br><span class="line">    private volatile static Singleton instance;</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Singleton getInstance() &#123;</span><br><span class="line">        if (instance == null) &#123;</span><br><span class="line">            synchronized (Singleton.class) &#123;</span><br><span class="line">                if (instance == null) &#123;</span><br><span class="line">                    instance = new Singleton();//由于不是原子操作，禁止指令重排序优化，因此instance需要 volatile关键字修饰</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>双重检验加锁机制分析<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">这段代码看起来很完美，很可惜，它是有问题。主要在于instance = new Singleton()这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。</span><br><span class="line">1.给 instance 分配内存</span><br><span class="line">2.调用 Singleton 的构造函数来初始化成员变量</span><br><span class="line">3.将instance对象指向分配的内存空间（执行完这步 instance 就为非 null 了）</span><br><span class="line">但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。我们只需要将 instance 变量声明成 volatile 就可以了，volatile禁止指令重排序优化。但是特别注意在 Java 5 以前的版本使用了 volatile 的双检锁还是有问题的。其原因是 Java 5 以前的 JMM （Java 内存模型）是存在缺陷的，即时将变量声明成 volatile 也不能完全避免重排序，主要是 volatile 变量前后的代码仍然存在重排序问题。这个 volatile 屏蔽重排序的问题在 Java 5 中才得以修复，所以在这之后才可以放心使用 volatile。</span><br></pre></td></tr></table></figure></p>
+<h2 id="懒汉模式升级版三（静态内部类）"><a href="#懒汉模式升级版三（静态内部类）" class="headerlink" title="懒汉模式升级版三（静态内部类）"></a>懒汉模式升级版三（静态内部类）</h2><p>这里采用静态初始化的方式，它由JVM来保证线程安全性，当类装载的时候不去初始化对象，在这个内部类中去实例化对象，因此只要不使用内部类就不会创建对象，这样能解决线程安全的问题还可以实现延迟加载且不会增加任何访问开销，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;        //推荐，但只能在无参构造的时候使用</span><br><span class="line">    private  Singleton ()&#123;&#125;</span><br><span class="line">    private static  class SigletonHolder&#123;</span><br><span class="line">        private  static  Singleton instance=new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    public  static  Singleton getInstance()&#123;</span><br><span class="line">        return SigletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="四-单例模式的总结（优缺点，比较）"><a href="#四-单例模式的总结（优缺点，比较）" class="headerlink" title="四.单例模式的总结（优缺点，比较）"></a>四.单例模式的总结（优缺点，比较）</h1><h4 id="比较："><a href="#比较：" class="headerlink" title="比较："></a>比较：</h4><p>饿汉模式：类加载速度比较满，获取对象使用时比较快，适用无参构造的，线程安全的；<br>懒汉模式：类加载速度比较快，第一次获取对象使用时比较慢，线程不安全的（可以通过加锁解决），体现了延迟加载的思想，</p>
+<h4 id="解决懒汉模式的线程安全问题："><a href="#解决懒汉模式的线程安全问题：" class="headerlink" title="解决懒汉模式的线程安全问题："></a>解决懒汉模式的线程安全问题：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、由于懒汉是线程不安全的，因此可以采用双重检查加锁机制，即进入获取实例的方法后先检查实例是否存在，若不存在进入同步代码块，再次检查实例是否存在，如果不存在才真正创建实例，但是需要属性定义时需要volatile 关键字修饰（适用JDK1.5及以后）</span><br><span class="line">2、对getInstance方法进行加锁（性能底）；</span><br><span class="line">3、静态内部类的静态属性；</span><br></pre></td></tr></table></figure>
+<h4 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h4><p>如果单件模式实例在系统中经常会被用到，饿汉式是一个不错的选择。反之如果单件模式在系统中会很少用到或者几乎不会用到，那么懒汉式是一个不错的选择。</p>
+<h4 id="单例模式的本质"><a href="#单例模式的本质" class="headerlink" title="单例模式的本质"></a>单例模式的本质</h4><p>控制实例的数目，当需要控制类的实例只能有一个，而且客户端只能从一个全局访问点访问到它就可以使用单例模式。</p>
+<h4 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h4><p>只能保证在一个JVM中保持单例，高并发的服务器中需要其他的控制来实现；</p>
+<h4 id="相关知识或概念"><a href="#相关知识或概念" class="headerlink" title="相关知识或概念"></a>相关知识或概念</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">延迟加载（lazy  load）： 一开始不要加载资源或者数据，一直等到马上要使用的这个资源或者数据时，实在躲不过去了才去加载；</span><br><span class="line">缓存的思想： 每次操作的时候，先到内存中找，看有没有这些数据，如果有那么直接使用，如果没有那么就去获取他并设置到缓存中，下次访问的时候就可以直接从内存中读取了，从而节省大量的时间，是一种典型以空间换时间的方案</span><br></pre></td></tr></table></figure>
+<p>#参考链接<br><a href="http://www.cnblogs.com/dolphin0520/p/3920373.html" target="_blank" rel="noopener">http://www.cnblogs.com/dolphin0520/p/3920373.html</a><br><a href="http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/" target="_blank" rel="noopener">http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/</a></p>
+<p>我的CSDN博客地址：<a href="http://blog.csdn.net/wo_ha/article/details/77567446" target="_blank" rel="noopener">http://blog.csdn.net/wo_ha/article/details/77567446</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+            <a href="/tags/单列模式/" rel="tag"># 单列模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/01/Android进阶——MVP从入门到进阶/" rel="next" title="Android进阶——MVP从入门到进阶">
+                <i class="fa fa-chevron-left"></i> Android进阶——MVP从入门到进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/30/设计模式二：观察者模式（发布订阅模式）/" rel="prev" title="设计模式二：观察者模式（发布订阅模式）">
+                设计模式二：观察者模式（发布订阅模式） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">chuanqiLjp</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版权声明：转载需要在醒目注明出处"><span class="nav-number">1.</span> <span class="nav-text">版权声明：转载需要在醒目注明出处</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一-单例模式的诞生背景"><span class="nav-number">2.</span> <span class="nav-text">一.单例模式的诞生背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-单例模式的使用场景"><span class="nav-number">3.</span> <span class="nav-text">二.单例模式的使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-单例模式的代码示例"><span class="nav-number">4.</span> <span class="nav-text">三.单例模式的代码示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#饿汉模式"><span class="nav-number">4.1.</span> <span class="nav-text">饿汉模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉模式初级版"><span class="nav-number">4.2.</span> <span class="nav-text">懒汉模式初级版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉模式升级版一"><span class="nav-number">4.3.</span> <span class="nav-text">懒汉模式升级版一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉模式升级版二（双重检验加锁）"><span class="nav-number">4.4.</span> <span class="nav-text">懒汉模式升级版二（双重检验加锁）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉模式升级版三（静态内部类）"><span class="nav-number">4.5.</span> <span class="nav-text">懒汉模式升级版三（静态内部类）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-单例模式的总结（优缺点，比较）"><span class="nav-number">5.</span> <span class="nav-text">四.单例模式的总结（优缺点，比较）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#比较："><span class="nav-number">5.0.0.1.</span> <span class="nav-text">比较：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决懒汉模式的线程安全问题："><span class="nav-number">5.0.0.2.</span> <span class="nav-text">解决懒汉模式的线程安全问题：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何选择"><span class="nav-number">5.0.0.3.</span> <span class="nav-text">如何选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单例模式的本质"><span class="nav-number">5.0.0.4.</span> <span class="nav-text">单例模式的本质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局限性"><span class="nav-number">5.0.0.5.</span> <span class="nav-text">局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关知识或概念"><span class="nav-number">5.0.0.6.</span> <span class="nav-text">相关知识或概念</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chuanqiLjp</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <div class="powered-by">欢迎您再次访问</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">ljp的博客 &mdash;  v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
